@@ -2,6 +2,37 @@
 
 一个面向具身智能转型作品集的本地原型项目：把用户的语音或文本指令转化为可执行的物理世界任务流，并展示澄清、安全确认、动作规划、异常兜底和指标评估。
 
+## GitHub Showcase
+
+这是一个面向 Agent PM、语音交互 PM 和具身智能 PM 转型的作品集项目。它重点展示“自然语言意图 -> Agent 编排 -> 物理任务计划 -> 安全执行 -> 评估复盘”的完整产品链路。
+
+推荐第一次打开时按这个顺序阅读：
+
+1. `portfolio-hub.html`：作品集统一入口。
+2. `portfolio-brief.html`：一页式作品集 Brief，可打印或导出 PDF。
+3. `reviewer-brief.html`：面试官 90 秒评审摘要。
+4. `interview-demo.html`：四条黄金演示路径。
+5. `real-voice-eval.html`：真实语音评估一期。
+6. `tool-calling-lab.html`：LLM Tool Calling 原型。
+7. `agent-architecture.html`：Agent 模块边界和指标。
+8. `test-plan.html`：回归测试和 PM Review。
+
+## Screenshots
+
+![作品集首页](docs/screenshots/portfolio-hub.png)
+
+![一页式作品集 Brief](docs/screenshots/portfolio-brief.png)
+
+![主 Demo 评估视图](docs/screenshots/main-demo-eval.png)
+
+![面试演示模式](docs/screenshots/interview-demo.png)
+
+![真实语音评估](docs/screenshots/real-voice-eval.png)
+
+![LLM Tool Calling 原型](docs/screenshots/tool-calling-lab.png)
+
+![Agent 架构说明](docs/screenshots/agent-architecture.png)
+
 ## Why This Project
 
 这个项目服务于“语音/多模态 Agent PM -> 机器人/具身智能交互 PM”的职业路线。它不是普通聊天助手，而是强调：
@@ -31,10 +62,28 @@ http://localhost:8765
 http://localhost:8765/portfolio-hub.html
 ```
 
+一页式作品集 Brief：
+
+```text
+http://localhost:8765/portfolio-brief.html
+```
+
 作品集 Case Study 页面：
 
 ```text
 http://localhost:8765/portfolio.html
+```
+
+真实语音评估页面：
+
+```text
+http://localhost:8765/real-voice-eval.html
+```
+
+LLM Tool Calling 原型页面：
+
+```text
+http://localhost:8765/tool-calling-lab.html
 ```
 
 ## Project Structure
@@ -50,6 +99,7 @@ D:\voice-to-action-agent
 ├── voice-lab.html
 ├── agent-architecture.html
 ├── portfolio-hub.html
+├── portfolio-brief.html
 ├── delivery-kit.html
 ├── interview-script.html
 ├── resume-pack.html
@@ -57,6 +107,8 @@ D:\voice-to-action-agent
 ├── reviewer-brief.html
 ├── demo-runbook.html
 ├── project-health.html
+├── real-voice-eval.html
+├── tool-calling-lab.html
 ├── role-positioning.html
 ├── decision-log.html
 ├── evidence-dashboard.html
@@ -64,6 +116,9 @@ D:\voice-to-action-agent
 │   ├── agent-orchestrator.js
 │   ├── app.js
 │   ├── interview-demo.js
+│   ├── real-voice-eval.js
+│   ├── tool-calling-prototype.js
+│   ├── tool-calling-lab.js
 │   ├── portfolio.css
 │   ├── test-plan.css
 │   ├── test-plan.js
@@ -77,16 +132,22 @@ D:\voice-to-action-agent
 │   ├── evaluation-set.json
 │   ├── interruption-evaluation-set.json
 │   ├── voice-feedback-evaluation-set.json
-│   └── route-evaluation-set.json
+│   ├── route-evaluation-set.json
+│   ├── real-voice-evaluation-set.json
+│   └── tool-calling-evaluation-set.json
 └── docs
     ├── agent-orchestration.md
     ├── case-study.md
     ├── demo-links.md
     ├── github-readme.md
+    ├── github-publish-checklist.md
     ├── video-outline.md
     ├── reviewer-brief.md
     ├── demo-runbook.md
     ├── project-health.md
+    ├── real-voice-evaluation.md
+    ├── tool-calling-prototype.md
+    ├── portfolio-one-page-brief.md
     ├── interview-guide.md
     ├── product-decisions.md
     ├── resume-project.md
@@ -127,6 +188,9 @@ D:\voice-to-action-agent
 - 动态环境感知：模拟目标被挪走、路径被挡住、老人位置变化，并触发重定位、重规划或恢复流程
 - 语音交互控制台：展示听取、识别确认、理解、澄清、确认、执行、恢复、完成等语音状态机
 - 语音识别确认区：语音结果先进入可编辑确认区，用户确认后再执行，降低误识别直接触发任务的风险
+- 真实语音评估：记录 ASR 文本、置信度、人工修正、误触发阻止和确认后 Agent 解析结果
+- LLM Tool Calling 原型：把 Intent、Grounding、Safety、Route、Gate 和 Evaluation 包成可替换工具接口
+- 一页式作品集 Brief：把项目定位、能力证据、演示路径和面试讲法压缩成可打印材料
 - 语音 PM Demo 模式：一键串联歧义澄清、高风险确认、中途改口和动态环境恢复四段面试演示
 - 分步任务计划和执行时间线
 - 任务完成率、澄清率、确认率、接管率、异常率等指标
@@ -144,6 +208,9 @@ http://localhost:8765/?eval=1
 http://localhost:8765/?interrupteval=1
 http://localhost:8765/?voiceeval=1
 http://localhost:8765/?routeeval=1
+http://localhost:8765/portfolio-brief.html
+http://localhost:8765/real-voice-eval.html
+http://localhost:8765/tool-calling-lab.html
 http://localhost:8765/test-plan.html?sandbox=grounding_wrong_object
 http://localhost:8765/test-plan.html?sandbox=route_score_regression
 http://localhost:8765/test-plan.html?sandbox=safety_gate_missing
@@ -266,6 +333,28 @@ http://localhost:8765/?voicedemo=1
 - V8.1 新增 `demo-runbook.html` 和 `docs/demo-runbook.md`，沉淀现场演示顺序、每一步观察点和兜底方案。
 - V8.2 新增 `project-health.html` 和 `docs/project-health.md`，展示作品集成熟度、当前风险和 V9 候选方向。
 - V8.3 更新作品集首页、投递包和主 Demo 顶部导航，把评审摘要、演示 Runbook 和项目健康度接入主阅读路径。
+
+## V9.0-V9.1 Update
+
+- V9.0 新增 GitHub 展示包：README 首屏补齐项目定位、推荐阅读路径和截图展示，`docs/github-publish-checklist.md` 沉淀提交、验收和分享清单。
+- V9.0 将 `docs/screenshots` 中的作品集首页、主 Demo、面试演示和 Agent 架构截图纳入 GitHub 展示资产，便于异步评审。
+- V9.1 新增 `real-voice-eval.html`、`src/real-voice-eval.js`、`data/real-voice-evaluation-set.json` 和 `docs/real-voice-evaluation.md`。
+- V9.1 把真实语音链路拆成 ASR 文本、置信度、人工确认/修正、误触发阻止和 Agent 解析结果五层，覆盖清晰执行、歧义澄清、误识别修正、高风险确认、闲聊误触发和无物体导航六类用例。
+- 这一步让项目从“可运行作品集”继续升级为“可在 GitHub 异步展示、可讨论真实语音风险和评估指标”的投递资产。
+
+## V9.2 Update
+
+- 新增 `tool-calling-lab.html`，展示本地 mock LLM planner 如何把用户指令拆成可审计工具调用链。
+- 新增 `src/tool-calling-prototype.js` 和 `src/tool-calling-lab.js`，把现有 Agent 编排包装成 `classify_user_instruction`、`parse_task_intent`、`ground_scene_reference`、`assess_safety_gate`、`plan_physical_route`、`decide_execution_gate` 和 `evaluate_tool_trace` 等稳定接口。
+- 新增 `data/tool-calling-evaluation-set.json` 和 `docs/tool-calling-prototype.md`，覆盖普通递送、歧义澄清、高风险确认、绕行路线、闲聊误触发和自主导航六类工具调用用例。
+- 这一步让项目从“规则 Agent 可运行”推进到“可以解释未来如何接真实 LLM function calling”的架构阶段。
+
+## V9.3 Update
+
+- 新增 `portfolio-brief.html`，把项目压缩成一页式作品集 Brief，支持浏览器打印或导出 PDF。
+- 新增 `docs/portfolio-one-page-brief.md`，提供可复制到投递材料、飞书文档或 GitHub README 的 Markdown 版本。
+- 一页式 Brief 集中展示项目定位、产品问题、解决方案、核心机制、证据指标、PM 能力证据、推荐演示路径和面试讲法。
+- 这一步让项目从“可浏览作品集系统”继续升级为“可直接发给 HR / 面试官的浓缩投递材料”。
 
 ## Portfolio Narrative
 

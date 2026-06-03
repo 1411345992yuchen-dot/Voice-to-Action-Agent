@@ -10,7 +10,7 @@
     <main class="page-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">V8.2 Project Health</p>
+          <p class="eyebrow">V9.3 Project Health</p>
           <h1>项目健康度和下一步路线图</h1>
           <p class="subtitle">这页把“做到哪了、还能补什么、当前风险是什么”讲清楚，避免项目看起来只有过去成果、没有后续判断。</p>
         </div>
@@ -46,9 +46,9 @@
             <p>主 Demo、面试演示、架构、证据、投递包、脚本、简历素材都能独立打开。</p>
           </article>
           <article class="score-card">
-            <span class="score-value">V8</span>
+            <span class="score-value">V9.3</span>
             <strong>投递阶段</strong>
-            <p>项目已从功能验证进入投递包装和面试官阅读路径优化阶段。</p>
+            <p>项目已补齐 GitHub 展示、真实语音评估、Tool Calling 原型和一页式 Brief。</p>
           </article>
         </div>
       </section>
@@ -62,20 +62,20 @@
         </div>
         <div class="risk-grid">
           <article class="risk-item">
-            <strong>真实语音链路仍是模拟</strong>
-            <p>下一步可接入更稳定的 ASR 或录音文件评测，把语音识别置信度、纠错率、拒识率做成真实数据。</p>
+            <strong>真实语音评估仍是一期</strong>
+            <p>当前已支持浏览器 ASR、模拟识别和人工修正记录，下一步可加入录音样本库和更稳定的云端 ASR。</p>
           </article>
           <article class="risk-item">
             <strong>Grounding 仍偏规则</strong>
-            <p>下一步可引入 LLM function calling 或 VLM grounding，把规则原型升级为可替换模块。</p>
+            <p>当前已新增 Tool Calling 包装层，下一步可把 mock planner 替换为真实 LLM 或 VLM grounding。</p>
           </article>
           <article class="risk-item">
             <strong>场景仍是 2D 抽象</strong>
             <p>当前适合 PM 演示，后续可接机器人 SDK 或仿真环境，把路线规划和动作执行做成真实接口。</p>
           </article>
           <article class="risk-item">
-            <strong>外部分发还未完成</strong>
-            <p>下一步可初始化 GitHub 仓库、补项目截图到 README、部署静态站点，形成可分享链接。</p>
+            <strong>外部分发已具备基础包</strong>
+            <p>README、截图和发布清单已补齐，下一步可部署静态站点或录制 3 分钟项目视频。</p>
           </article>
         </div>
       </section>
@@ -90,19 +90,19 @@
         <div class="kit-grid">
           <article class="kit-card">
             <h3>V9.0 GitHub 发布包</h3>
-            <p>初始化仓库结构、截图资产、README 封面、提交说明和发布检查清单。</p>
+            <p>已完成：README 截图、展示路径和发布检查清单已接入。</p>
           </article>
           <article class="kit-card">
             <h3>V9.1 真实语音评测</h3>
-            <p>加入录音样例、识别结果、置信度、误触发和人工修正记录。</p>
+            <p>已完成一期：支持 ASR 文本、置信度、人工修正、误触发和 Agent 解析评估。</p>
           </article>
           <article class="kit-card">
             <h3>V9.2 LLM 工具调用原型</h3>
-            <p>把当前规则 Intent / Planner 抽象成可被 LLM function calling 替换的接口。</p>
+            <p>已完成：当前规则 Agent 已被包装成可审计工具调用链，可作为真实 LLM 接入前的接口契约。</p>
           </article>
           <article class="kit-card">
-            <h3>V9.3 面试材料导出</h3>
-            <p>生成一页 PDF / Markdown 投递包，方便发给面试官或放进简历链接。</p>
+            <h3>V9.3 一页式作品集 Brief</h3>
+            <p>已完成：新增可打印 HTML 和 Markdown 版本，方便发给 HR / 面试官或放进简历链接。</p>
           </article>
         </div>
       </section>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 真实语音评估</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260603-1">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V9.1 Real Voice Evaluation</p>
+          <h1>真实语音评估：从 ASR 文本到安全执行</h1>
+          <p class="subtitle">这页把浏览器语音识别、模拟 ASR 结果、置信度、人工修正和 Agent 解析放到同一个评估台里。它关注的不是“能不能听见”，而是听见之后能不能安全、可解释地进入物理任务执行。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/voice-lab.html">语音专项</a>
+          <a href="/tool-calling-lab.html">Tool Calling</a>
+          <a href="/test-plan.html">测试计划</a>
+          <a href="/">主 Demo</a>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Evaluation Thesis</p>
+          <h2>语音 Agent 的质量，不止看识别字准不准</h2>
+          <p class="subtitle">真实产品里，ASR 只是入口。更关键的是：低置信度是否进入确认、误识别是否允许修正、闲聊是否阻止误触发、高风险任务是否保留安全门控、确认后的文本是否仍能被 Agent 正确 grounding。</p>
+          <div class="hero-points">
+            <div class="point"><strong>ASR</strong><span>记录识别文本、置信度和人工修正成本。</span></div>
+            <div class="point"><strong>Gate</strong><span>低置信、闲聊、歧义和高风险进入不同门控。</span></div>
+            <div class="point"><strong>Agent</strong><span>确认后的文本继续进入 Intent / Grounding / Safety。</span></div>
+          </div>
+        </div>
+        <div class="resume-block">
+          <strong>面试讲法：</strong><br>
+          我没有只把语音输入接到 Demo，而是补了真实语音评估链路：识别文本先进入确认区，再用置信度、相似度、误触发和任务解析结果判断是否执行。这能体现语音 PM 对误触发、安全门控和执行风险的产品意识。
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Scoreboard</p>
+            <h2>评估总览</h2>
+          </div>
+          <p>点击左侧用例或直接使用麦克风识别，然后观察 ASR、门控和 Agent 解析三层结果。</p>
+        </div>
+        <div class="score-grid" id="summaryCards">
+          <article class="score-card">
+            <span class="score-value">-</span>
+            <strong>语音用例</strong>
+            <p>等待数据加载。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Evaluation Console</p>
+            <h2>语音评估控制台</h2>
+          </div>
+        </div>
+        <div class="voice-eval-grid">
+          <aside class="eval-case-list" id="caseList" aria-label="Real voice evaluation cases"></aside>
+
+          <section class="eval-console" aria-live="polite">
+            <div class="console-heading">
+              <div>
+                <p class="eyebrow" id="activeCaseId">Case</p>
+                <h3 id="activeCaseTitle">选择一个语音评估用例</h3>
+              </div>
+              <span class="pill" id="speechSupportPill">检测语音能力中</span>
+            </div>
+
+            <p class="subtitle" id="activeCaseScenario">用例会展示预期语音、模拟识别结果、确认策略和 Agent 解析结果。</p>
+
+            <div class="asr-panel">
+              <label for="transcriptInput">识别文本 / 人工确认文本</label>
+              <textarea id="transcriptInput" rows="4" placeholder="选择用例后会填入模拟 ASR 结果，也可以用浏览器麦克风识别。"></textarea>
+              <div class="asr-controls">
+                <label class="confidence-control">
+                  <span>识别置信度</span>
+                  <input id="confidenceInput" type="range" min="0" max="1" step="0.01" value="0.8">
+                  <strong id="confidenceValue">0.80</strong>
+                </label>
+                <button type="button" class="action-link primary" id="evaluateButton">评估当前文本</button>
+                <button type="button" class="action-link" id="sampleButton">使用模拟识别</button>
+                <button type="button" class="action-link" id="correctionButton">使用推荐修正</button>
+                <button type="button" class="action-link" id="speechButton">开始语音识别</button>
+              </div>
+            </div>
+
+            <div class="eval-result-grid" id="resultPanel">
+              <article class="eval-result-card">
+                <strong>ASR 层</strong>
+                <p>等待评估。</p>
+              </article>
+              <article class="eval-result-card">
+                <strong>门控层</strong>
+                <p>等待评估。</p>
+              </article>
+              <article class="eval-result-card">
+                <strong>Agent 层</strong>
+                <p>等待评估。</p>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Run Log</p>
+            <h2>本轮语音评估记录</h2>
+          </div>
+          <button type="button" class="action-link" id="clearLogButton">清空记录</button>
+        </div>
+        <div class="runbook-grid" id="voiceEvalLog">
+          <article class="runbook-step">
+            <strong>暂无记录</strong>
+            <p>每次评估会记录识别文本、是否进入确认、Agent 解析是否通过。</p>
+            <p>用于面试时说明你如何设计语音交互指标。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/agent-orchestrator.js?v=20260603-1"></script>
+    <script src="src/real-voice-eval.js?v=20260603-1"></script>
+  </body>
+</html>

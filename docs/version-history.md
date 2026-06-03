@@ -43,6 +43,10 @@ http://localhost:8765/version-history.html
 | V3.3 | 高级交互是否也能进入回归治理 | 多轮澄清、确认、队列和动态感知评测 |
 | V3.4 | 面试时如何把单条用例讲成产品判断 | PM Demo Guide、讲解口径和指标转译 |
 | V3.5 | 现场 Demo 如何直接展示评测证据 | Live Quality Evidence、Demo 与测试计划打通 |
+| V9.0 | GitHub 首次打开能否快速理解项目 | 展示包、截图资产、发布检查清单 |
+| V9.1 | 语音识别后如何避免误执行 | ASR 置信度、人工修正、误触发阻止和执行门控 |
+| V9.2 | 未来接入 LLM 时如何不打散安全边界 | Tool Calling 契约、mock planner 和工具链评估 |
+| V9.3 | 如何让项目能被快速转发和异步评审 | 一页式 Brief、打印导出和 Markdown 投递材料 |
 
 当前真实回归基线扩展为 37 条：基础 15/15、打断 7/7、语音 7/7、路线 4/4、高级交互 4/4，总通过率 100%。
 
@@ -50,4 +54,4 @@ http://localhost:8765/version-history.html
 
 可以这样讲：
 
-> 我没有把这个项目当成一个单次 demo，而是按产品问题逐步迭代。先验证 Voice-to-Action 闭环，再补 grounding、安全、恢复和打断，然后用评估集和测试计划页治理 Agent 行为质量，再把语音反馈沉淀成对话脚本，最后补齐 Grounding 证据、路径预览、路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 事故演练、多轮上下文管理、任务队列和动态环境感知。这条路线对应我从多 Agent 工作流工程能力，迁移到语音/多模态 Agent PM，再走向具身智能交互 PM 的转型路径。
+> 我没有把这个项目当成一个单次 demo，而是按产品问题逐步迭代。先验证 Voice-to-Action 闭环，再补 grounding、安全、恢复和打断，然后用评估集和测试计划页治理 Agent 行为质量，再把语音反馈沉淀成对话脚本，最后补齐 Grounding 证据、路径预览、路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 事故演练、多轮上下文管理、任务队列、动态环境感知、GitHub 展示包、真实语音评估、Tool Calling 契约和一页式 Brief。这条路线对应我从多 Agent 工作流工程能力，迁移到语音/多模态 Agent PM，再走向具身智能交互 PM 的转型路径。

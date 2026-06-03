@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 一页式作品集 Brief</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260603-3">
+  </head>
+  <body>
+    <main class="page-shell brief-shell">
+      <header class="topbar no-print">
+        <div>
+          <p class="eyebrow">V9.3 One-page Portfolio Brief</p>
+          <h1>一页式作品集 Brief</h1>
+          <p class="subtitle">给 HR、面试官或作品集评审的快速阅读页：不启动 Demo，也能在 1 分钟内理解项目定位、能力证据和推荐追问路径。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/tool-calling-lab.html">Tool Calling</a>
+          <a href="/real-voice-eval.html">真实语音评估</a>
+          <a href="/">主 Demo</a>
+          <button class="action-link primary print-button" type="button" onclick="window.print()">打印 / 导出 PDF</button>
+        </nav>
+      </header>
+
+      <article class="brief-page" aria-label="One page portfolio brief">
+        <section class="brief-hero">
+          <div>
+            <p class="eyebrow">Voice-to-Action Agent</p>
+            <h2>从自然语言到可执行物理任务流的具身智能 Agent 原型</h2>
+            <p>面向家庭 / 服务机器人场景，将语音或文本指令转化为可执行、安全、可恢复、可评估的任务流，覆盖意图解析、场景 grounding、安全确认、路线规划、执行中打断、真实语音评估和 Tool Calling 工具契约。</p>
+          </div>
+          <div class="brief-position">
+            <strong>转型定位</strong>
+            <span>华为 AI 工程师 / 多 Agent 工作流实现 -> Agent / 语音交互 PM -> 具身智能交互 PM</span>
+          </div>
+        </section>
+
+        <section class="brief-section">
+          <h3>1. 产品问题</h3>
+          <p>真实物理世界里，用户不会只说结构化命令。他可能说“把杯子拿到厨房”“老人旁边那个东西递给老人”“别放厨房了放门口”。系统必须先理解指令、定位对象、判断风险、规划动作，并在执行中处理改口和异常，而不是像聊天助手一样只生成一句回答。</p>
+        </section>
+
+        <section class="brief-grid">
+          <div class="brief-card">
+            <h3>2. 解决方案</h3>
+            <p>构建一个本地可运行的 Voice-to-Action Agent 原型，把用户输入拆成 Intent、Grounding、Safety、Planner、Execution / Interruption、Evaluator 等模块，并用可视化家庭场景展示机器人任务执行过程。</p>
+          </div>
+          <div class="brief-card">
+            <h3>3. 核心机制</h3>
+            <p>支持歧义澄清、高风险确认、路线预览、绕行规划、执行中改口、多轮上下文、任务队列、动态环境感知、真实语音评估和 mock LLM Tool Calling 工具链。</p>
+          </div>
+        </section>
+
+        <section class="brief-metrics">
+          <div>
+            <strong>15/15</strong>
+            <span>核心任务回归</span>
+          </div>
+          <div>
+            <strong>37</strong>
+            <span>测试计划用例</span>
+          </div>
+          <div>
+            <strong>6/6</strong>
+            <span>真实语音评估</span>
+          </div>
+          <div>
+            <strong>6/6</strong>
+            <span>Tool Calling 评估</span>
+          </div>
+        </section>
+
+        <section class="brief-grid">
+          <div class="brief-card">
+            <h3>4. PM 能力证据</h3>
+            <ul>
+              <li>能把模糊用户意图拆成可执行任务流。</li>
+              <li>能定义 grounding、安全门控、误触发、确认成本和恢复成功率等指标。</li>
+              <li>能用评估集、Review Sandbox 和 PM Review 归因治理 Agent 行为质量。</li>
+              <li>能把规则原型升级为可替换 Tool Calling 架构。</li>
+            </ul>
+          </div>
+          <div class="brief-card">
+            <h3>5. 推荐演示路径</h3>
+            <ol>
+              <li>打开主 Demo，跑“把红色杯子拿到厨房台面”。</li>
+              <li>跑“把杯子拿到厨房”，展示歧义澄清。</li>
+              <li>打开真实语音评估，看 ASR 到执行门控。</li>
+              <li>打开 Tool Calling Lab，看 LLM 接入前的工具契约。</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="brief-section">
+          <h3>6. 面试讲法</h3>
+          <p>这个项目和我在华为做的多 Agent 告警工作流是一条能力主线：都是把人的模糊意图和业务 SOP 转成可执行、可解释、可评估的任务流。区别在于，这个项目把能力迁移到了语音和具身智能场景，补齐了物理执行中的 grounding、安全、路线、异常和工具调用边界。</p>
+        </section>
+
+        <section class="brief-links no-print">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/reviewer-brief.html">评审摘要</a>
+          <a href="/real-voice-eval.html">真实语音评估</a>
+          <a href="/tool-calling-lab.html">Tool Calling Lab</a>
+          <a href="/agent-architecture.html">Agent 架构</a>
+          <a href="/test-plan.html">测试计划</a>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

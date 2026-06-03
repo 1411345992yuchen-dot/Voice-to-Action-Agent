@@ -10,13 +10,16 @@
     <main class="page-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">V8.0 Portfolio Hub</p>
+          <p class="eyebrow">V9.1 Portfolio Hub</p>
           <h1>Voice-to-Action Agent 作品集系统</h1>
           <p class="subtitle">一个面向语音 / 多模态 Agent PM 与具身智能 PM 转型的本地作品集：把自然语言指令转化为可执行、安全、可恢复、可评估的机器人任务流。</p>
         </div>
         <nav class="nav-links" aria-label="Project navigation">
           <a href="/reviewer-brief.html">评审摘要</a>
+          <a href="/portfolio-brief.html">一页 Brief</a>
           <a href="/delivery-kit.html">投递包</a>
+          <a href="/real-voice-eval.html">真实语音评估</a>
+          <a href="/tool-calling-lab.html">Tool Calling</a>
           <a href="/demo-runbook.html">Runbook</a>
           <a href="/">主 Demo</a>
         </nav>
@@ -43,25 +46,35 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Fast Review Path</p>
-            <h2>第一次打开项目时先看这 3 页</h2>
+            <h2>第一次打开项目时先看这 5 页</h2>
           </div>
-          <p>面试官或招聘方没有上下文时，用这条路径最快理解价值、证据和可演示性。</p>
+          <p>面试官或招聘方没有上下文时，用这条路径最快理解价值、证据、真实语音风险和可演示性。</p>
         </div>
         <div class="reviewer-strip">
           <article class="reviewer-card">
-            <strong>1. 评审摘要</strong>
+            <strong>1. 一页式 Brief</strong>
+            <p>1 分钟扫完项目定位、核心证据、演示路径和面试讲法。</p>
+            <a class="action-link primary" href="/portfolio-brief.html">打开</a>
+          </article>
+          <article class="reviewer-card">
+            <strong>2. 评审摘要</strong>
             <p>90 秒看懂项目解决什么、为什么匹配转型、有哪些证据。</p>
             <a class="action-link primary" href="/reviewer-brief.html">打开</a>
           </article>
           <article class="reviewer-card">
-            <strong>2. 演示 Runbook</strong>
+            <strong>3. 演示 Runbook</strong>
             <p>现场按步骤演示，输入什么、观察什么、怎么解释都有兜底。</p>
             <a class="action-link primary" href="/demo-runbook.html">打开</a>
           </article>
           <article class="reviewer-card">
-            <strong>3. 项目健康度</strong>
+            <strong>4. 项目健康度</strong>
             <p>看当前成熟度、风险、下一阶段路线，不只停留在过去成果。</p>
             <a class="action-link primary" href="/project-health.html">打开</a>
+          </article>
+          <article class="reviewer-card">
+            <strong>5. 真实语音评估</strong>
+            <p>看 ASR 置信度、人工修正、误触发阻止和确认后 Agent 解析。</p>
+            <a class="action-link primary" href="/real-voice-eval.html">打开</a>
           </article>
         </div>
       </section>
@@ -70,11 +83,16 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Application Package</p>
-            <h2>投递和面试最该打开的 8 个入口</h2>
+            <h2>投递和面试最该打开的 12 个入口</h2>
           </div>
           <p>从“能看懂”到“能追问”，按面试官阅读路径排列。</p>
         </div>
         <div class="asset-grid">
+          <article class="asset-card">
+            <h3>一页式 Brief</h3>
+            <p>可打印、可导出 PDF、可复制到投递文档的项目浓缩版。</p>
+            <a class="action-link primary" href="/portfolio-brief.html">打开</a>
+          </article>
           <article class="asset-card">
             <h3>投递包</h3>
             <p>面试前 5 分钟打开的总控台：链接、讲法、检查清单和材料顺序。</p>
@@ -89,6 +107,16 @@
             <h3>主 Demo</h3>
             <p>可运行的本地原型，展示指令输入、家庭场景、任务状态和执行过程。</p>
             <a class="action-link primary" href="/">打开</a>
+          </article>
+          <article class="asset-card">
+            <h3>真实语音评估</h3>
+            <p>评估识别文本、置信度、人工修正、误触发阻止和 Agent 解析。</p>
+            <a class="action-link primary" href="/real-voice-eval.html">打开</a>
+          </article>
+          <article class="asset-card">
+            <h3>Tool Calling Lab</h3>
+            <p>把 Intent、Grounding、Safety、Route 和 Gate 包成可替换工具接口。</p>
+            <a class="action-link primary" href="/tool-calling-lab.html">打开</a>
           </article>
           <article class="asset-card">
             <h3>面试演示模式</h3>
@@ -115,6 +143,11 @@
             <p>如果要录作品集展示视频，这里给出镜头、旁白和字幕结构。</p>
             <a class="action-link primary" href="/demo-video-script.html">打开</a>
           </article>
+          <article class="asset-card">
+            <h3>GitHub 发布清单</h3>
+            <p>提交前验收、截图路径、分享顺序和推荐项目介绍文案。</p>
+            <a class="action-link primary" href="/docs/github-publish-checklist.md">打开</a>
+          </article>
         </div>
       </section>
 
@@ -127,12 +160,15 @@
         </div>
         <div class="architecture-flow">
           <span>1. 作品集首页</span>
-          <span>2. 评审摘要</span>
-          <span>3. 演示 Runbook</span>
-          <span>4. 面试演示</span>
-          <span>5. 主 Demo</span>
-          <span>6. Agent 架构</span>
-          <span>7. 项目健康度</span>
+          <span>2. 一页式 Brief</span>
+          <span>3. 评审摘要</span>
+          <span>4. 演示 Runbook</span>
+          <span>5. 面试演示</span>
+          <span>6. 主 Demo</span>
+          <span>7. 真实语音评估</span>
+          <span>8. Tool Calling Lab</span>
+          <span>9. Agent 架构</span>
+          <span>10. 项目健康度</span>
         </div>
       </section>
     </main>

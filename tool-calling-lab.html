@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent LLM Tool Calling Lab</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260603-2">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V9.2 LLM Tool Calling Prototype</p>
+          <h1>LLM Tool Calling Lab：把 Agent 能力包成可替换工具接口</h1>
+          <p class="subtitle">这一页不直接接真实大模型，而是先用本地 mock LLM planner 把现有 Intent、Grounding、Safety、Route、Gate 和 Evaluation 包成工具调用链。这样后续接入真实 LLM 时，产品边界、验收标准和安全门控不会被打散。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/real-voice-eval.html">真实语音评估</a>
+          <a href="/agent-architecture.html">Agent 架构</a>
+          <a href="/">主 Demo</a>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Architecture Thesis</p>
+          <h2>先固定工具契约，再替换模型能力</h2>
+          <p class="subtitle">真实 Agent 产品不能把所有判断都塞进一段 prompt。V9.2 的重点是建立稳定工具契约：LLM 可以负责选择工具和组织计划，但物理执行前必须经过 grounding、安全门控、路线规划和评估检查。</p>
+          <div class="hero-points">
+            <div class="point"><strong>Contract</strong><span>每个工具都有输入、输出和失败边界。</span></div>
+            <div class="point"><strong>Gate</strong><span>澄清、确认、阻止执行都是显式工具结果。</span></div>
+            <div class="point"><strong>Swap</strong><span>后续可把 mock planner 替换成真实 LLM。</span></div>
+          </div>
+        </div>
+        <div class="resume-block">
+          <strong>面试讲法：</strong><br>
+          我没有直接说“接入 LLM 就行”，而是先定义工具调用边界。LLM 只负责把用户输入组织成可审计的工具调用链，最终执行仍由 grounding、安全、路线和门控模块约束。这更接近真实 Agent 产品的工程化落地方式。
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tool Contract</p>
+            <h2>工具契约</h2>
+          </div>
+          <p>这些工具是 V9.2 的稳定接口，后续可以让真实 LLM 选择和调用它们。</p>
+        </div>
+        <div class="tool-contract-grid" id="toolSpecGrid"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Evaluation Console</p>
+            <h2>工具调用评估台</h2>
+          </div>
+          <button class="action-link primary" type="button" id="runAllButton">运行全部用例</button>
+        </div>
+        <div class="tool-lab-grid">
+          <aside class="eval-case-list" id="caseList" aria-label="Tool calling evaluation cases"></aside>
+          <section class="eval-console">
+            <div class="console-heading">
+              <div>
+                <p class="eyebrow" id="activeCaseId">Case</p>
+                <h3 id="activeCaseTitle">选择一个工具调用用例</h3>
+              </div>
+              <span class="pill" id="caseStatusPill">等待运行</span>
+            </div>
+            <p class="subtitle" id="activeCaseScenario">用例会展示 mock LLM planner 如何调用工具，以及每一步输入输出。</p>
+
+            <div class="asr-panel">
+              <label for="commandInput">用户指令</label>
+              <textarea id="commandInput" rows="3" placeholder="选择用例后会自动填入，也可以手动改写。"></textarea>
+              <div class="asr-controls">
+                <button type="button" class="action-link primary" id="runCaseButton">运行工具调用链</button>
+                <button type="button" class="action-link" id="resetCaseButton">恢复用例指令</button>
+              </div>
+            </div>
+
+            <div class="eval-result-grid" id="summaryPanel">
+              <article class="eval-result-card">
+                <strong>Instruction</strong>
+                <p>等待运行。</p>
+              </article>
+              <article class="eval-result-card">
+                <strong>Gate</strong>
+                <p>等待运行。</p>
+              </article>
+              <article class="eval-result-card">
+                <strong>Evaluation</strong>
+                <p>等待运行。</p>
+              </article>
+            </div>
+
+            <div class="tool-trace" id="toolTrace"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Batch Result</p>
+            <h2>批量评估结果</h2>
+          </div>
+        </div>
+        <div class="runbook-grid" id="batchResult">
+          <article class="runbook-step">
+            <strong>暂无结果</strong>
+            <p>点击“运行全部用例”后，这里会显示每条工具调用用例的通过状态。</p>
+            <p>用于证明 LLM 接入前，工具接口和门控规则已经可验收。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/agent-orchestrator.js?v=20260603-2"></script>
+    <script src="src/tool-calling-prototype.js?v=20260603-2"></script>
+    <script src="src/tool-calling-lab.js?v=20260603-2"></script>
+  </body>
+</html>

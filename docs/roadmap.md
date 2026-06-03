@@ -177,6 +177,36 @@
 - 展示当前任务的产品问题、观察证据、决策口径、下一步指标和面试讲解词。
 - 目标是把现场 Demo 和质量治理页面打通，让演示本身就能说明“这个行为如何被评测和指标约束”。
 
+## V9.0: GitHub Showcase Package
+
+- README 首屏新增项目定位、推荐阅读路径和四张核心截图。
+- 新增 `docs/github-publish-checklist.md`，沉淀提交前检查、截图路径、分享顺序和推荐介绍文案。
+- `docs/screenshots` 纳入 GitHub 展示资产，支持异步评审。
+- 目标是让项目从“本地可运行”升级为“外部打开也能快速理解价值”。
+
+## V9.1: Real Voice Evaluation
+
+- 新增 `real-voice-eval.html`。
+- 新增 `src/real-voice-eval.js` 和 `data/real-voice-evaluation-set.json`。
+- 支持浏览器 Web Speech API 识别、模拟 ASR 文本、置信度、人工修正和本轮评估日志。
+- 评估覆盖清晰执行、歧义澄清、误识别修正、高风险确认、闲聊误触发和无物体导航。
+- 目标是把语音链路从“输入方式”提升为“ASR 到物理执行门控的产品质量评估”。
+
+## V9.2: LLM Tool Calling Prototype
+
+- 新增 `tool-calling-lab.html`。
+- 新增 `src/tool-calling-prototype.js`、`src/tool-calling-lab.js` 和 `data/tool-calling-evaluation-set.json`。
+- 把现有 Agent 编排包装成工具调用链：指令分类、意图解析、场景 grounding、安全门控、路线规划、执行门控和工具链评估。
+- 批量评估覆盖普通递送、歧义澄清、高风险确认、绕行路线、闲聊误触发和无物体导航。
+- 目标是先固定工具契约和验收边界，再把 mock planner 替换成真实 LLM function calling。
+
+## V9.3: One-page Portfolio Brief
+
+- 新增 `portfolio-brief.html`，把项目定位、问题、方案、核心机制、证据指标、演示路径和面试讲法收敛为一页。
+- 新增 `docs/portfolio-one-page-brief.md`，提供可复制到投递材料或 GitHub 的 Markdown 版本。
+- 页面支持浏览器打印和导出 PDF。
+- 目标是让项目不仅能被浏览和运行，也能被快速转发给 HR、面试官或作品集评审。
+
 ## V2: Multimodal Reference
 
 - 加入场景图上传或静态图片

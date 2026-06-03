@@ -833,6 +833,66 @@
               <a href="/portfolio-hub.html">查看 V8.3 作品集入口</a>
             </div>
           </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V9.0</div>
+            <div class="version-body">
+              <h3>GitHub 展示包</h3>
+              <p class="problem">产品问题：项目从本地作品集走向外部分享时，第一次打开 GitHub 的人能否快速理解价值？</p>
+              <ul>
+                <li>README 首屏新增项目定位、推荐阅读路径和四张核心截图。</li>
+                <li>新增 `docs/github-publish-checklist.md`，沉淀提交前验收、截图路径、分享顺序和推荐介绍文案。</li>
+                <li>把 `docs/screenshots` 纳入展示资产，让异步评审不必先启动项目。</li>
+              </ul>
+              <p class="capability">体现能力：作品集外部分发、信息架构和评审路径设计。</p>
+              <a href="/docs/github-publish-checklist.md">查看 V9.0 发布清单</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V9.1</div>
+            <div class="version-body">
+              <h3>真实语音评估一期</h3>
+              <p class="problem">产品问题：语音输入接入后，如何避免误识别、闲聊或高风险指令直接触发物理动作？</p>
+              <ul>
+                <li>新增 `real-voice-eval.html`，把浏览器 ASR、模拟识别、置信度、人工修正和 Agent 解析串成评估台。</li>
+                <li>新增 `data/real-voice-evaluation-set.json`，覆盖清晰执行、歧义澄清、误识别修正、高风险确认、闲聊误触发和无物体导航六类用例。</li>
+                <li>新增 `docs/real-voice-evaluation.md`，沉淀语音到执行门控的评估指标和面试讲法。</li>
+              </ul>
+              <p class="capability">体现能力：真实语音链路、误触发治理、安全门控和语音 PM 指标意识。</p>
+              <a href="/real-voice-eval.html">查看 V9.1 真实语音评估</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V9.2</div>
+            <div class="version-body">
+              <h3>LLM Tool Calling 原型</h3>
+              <p class="problem">产品问题：未来接入 LLM 时，如何避免 prompt 直接绕过 grounding、安全和执行门控？</p>
+              <ul>
+                <li>新增 `tool-calling-lab.html`，展示 mock LLM planner 如何生成可审计工具调用链。</li>
+                <li>新增 `src/tool-calling-prototype.js`，把现有 Agent 编排包装成指令分类、意图解析、场景 grounding、安全门控、路线规划、执行门控和工具链评估。</li>
+                <li>新增 `data/tool-calling-evaluation-set.json` 和 `docs/tool-calling-prototype.md`，覆盖普通递送、歧义澄清、高风险确认、绕行路线、闲聊误触发和自主导航。</li>
+              </ul>
+              <p class="capability">体现能力：LLM 产品化接口设计、工具契约、安全边界和可评估 Agent 架构。</p>
+              <a href="/tool-calling-lab.html">查看 V9.2 Tool Calling Lab</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V9.3</div>
+            <div class="version-body">
+              <h3>一页式作品集 Brief</h3>
+              <p class="problem">产品问题：项目材料越来越完整后，如何让 HR 或面试官在不启动 Demo 的情况下快速理解核心价值？</p>
+              <ul>
+                <li>新增 `portfolio-brief.html`，把项目定位、产品问题、解决方案、核心机制、证据指标、推荐演示路径和面试讲法压缩成一页。</li>
+                <li>新增 `docs/portfolio-one-page-brief.md`，提供可复制到投递材料、飞书文档或 GitHub 的 Markdown 版本。</li>
+                <li>页面支持浏览器打印和导出 PDF，适合放进简历链接或投递材料包。</li>
+              </ul>
+              <p class="capability">体现能力：作品集信息压缩、异步评审材料设计和投递资产产品化。</p>
+              <a href="/portfolio-brief.html">查看 V9.3 一页式 Brief</a>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -843,7 +903,7 @@
         </div>
         <div class="talk-track">
           <p>
-            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。然后我按真实机器人产品会遇到的问题逐步迭代：先解决对象指代，再解决安全确认和失败恢复，接着补执行中的用户改口，再用评估集和测试计划页把 Agent 行为质量固定下来，最后补齐语音反馈、Grounding 证据、路径预览、执行中路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 失败注入、多轮上下文管理、任务队列、动态环境感知、高级交互评测、PM Demo Guide、Live Quality Evidence、语音交互状态机、主界面产品化、参考户型图的家庭场景表达、面试演示模式、产品证据卡、语音交互专项、Agent 架构说明、作品集首页、岗位讲法、产品决策日志、证据总览、投递文档包、评审摘要、演示 Runbook 和项目健康度。
+            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。然后我按真实机器人产品会遇到的问题逐步迭代：先解决对象指代，再解决安全确认和失败恢复，接着补执行中的用户改口，再用评估集和测试计划页把 Agent 行为质量固定下来，最后补齐语音反馈、Grounding 证据、路径预览、执行中路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 失败注入、多轮上下文管理、任务队列、动态环境感知、高级交互评测、PM Demo Guide、Live Quality Evidence、语音交互状态机、主界面产品化、参考户型图的家庭场景表达、面试演示模式、产品证据卡、语音交互专项、Agent 架构说明、作品集首页、岗位讲法、产品决策日志、证据总览、投递文档包、评审摘要、演示 Runbook、项目健康度、GitHub 展示包、真实语音评估、Tool Calling 契约和一页式 Brief。
           </p>
           <p>
             这条路线和我现在的多 Agent 工作流工程经验是连贯的：本质上都是把人的模糊意图转化为可执行、可解释、可评估的任务流。区别在于，这个项目把能力迁移到了具身智能场景。
