@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>V4.0 Case Study | Voice-to-Action Agent</title>
+    <link rel="stylesheet" href="src/portfolio.css">
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">V4.0 Portfolio Case Study</p>
+          <h1>Voice-to-Action Agent</h1>
+          <p class="subtitle">
+            面向家庭服务机器人的语音具身智能交互原型：把自然语言指令转成可确认、可执行、可恢复、可评估的物理任务流。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="/?voicedemo=1">运行语音 PM Demo</a>
+            <a class="secondary-link" href="/">打开主 Demo</a>
+            <a class="secondary-link" href="/test-plan.html">测试计划</a>
+            <a class="secondary-link" href="/version-history.html">版本演进</a>
+            <a class="secondary-link" href="/voice-script.html">语音脚本</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="V4.0 summary">
+          <div>
+            <strong>目标用户</strong>
+            <span>家庭服务机器人用户、老人照护场景、语音交互 PM 面试官</span>
+          </div>
+          <div>
+            <strong>核心闭环</strong>
+            <span>Voice -> Grounding -> Safety -> Planning -> Execution -> Recovery -> Evaluation</span>
+          </div>
+          <div>
+            <strong>作品集价值</strong>
+            <span>证明从华为多 Agent 工作流工程经验迁移到语音具身智能产品定义、评估和复盘能力</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Product Definition</p>
+          <h2>产品问题</h2>
+        </div>
+        <div class="two-col">
+          <p>真实家庭机器人不能把语音当成普通聊天。用户说“把杯子拿到厨房”“老人旁边那个东西递给老人”“别放厨房了，放门口”时，系统要同时处理对象指代、空间关系、安全门控、执行状态和用户改口。</p>
+          <p>因此这个项目的产品定义是：让语音成为具身任务入口，并且每一步都能被解释、确认、恢复和评估。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Architecture</p>
+          <h2>多 Agent 架构</h2>
+        </div>
+        <div class="agent-grid">
+          <article><span>01</span><h3>Intent</h3><p>识别拿取、递送、搬运、检查、自主导航等任务意图。</p></article>
+          <article><span>02</span><h3>Grounding</h3><p>把“红色的”“老人旁边”“这个”映射到场景对象和位置。</p></article>
+          <article><span>03</span><h3>Safety</h3><p>对药盒、重箱子、老人和门口风险触发确认或接管。</p></article>
+          <article><span>04</span><h3>Planner</h3><p>生成路径、动作步骤、风险标记和路线评分。</p></article>
+          <article><span>05</span><h3>Execution</h3><p>用状态机管理执行、暂停、恢复、完成和取消。</p></article>
+          <article><span>06</span><h3>Recovery</h3><p>对路径阻塞、目标变化和敏感递送给出恢复策略。</p></article>
+          <article><span>07</span><h3>Voice Interaction</h3><p>把听取、识别确认、澄清、确认和兜底转为可验证状态。</p></article>
+          <article><span>08</span><h3>Evaluator</h3><p>用回归用例和 PM Review 把行为质量固定下来。</p></article>
+        </div>
+      </section>
+
+      <section class="section highlight">
+        <div class="section-heading">
+          <p class="eyebrow">Demo Routes</p>
+          <h2>三条精选演示路线</h2>
+        </div>
+        <div class="moment-list">
+          <article>
+            <h3>A. 语音澄清</h3>
+            <p>用户说“把杯子拿到厨房”，系统进入澄清；用户短回复“红色的”，系统补全上下文并执行。</p>
+            <a href="/?demo=把杯子拿到厨房&interrupt=红色的">打开路线 A</a>
+          </article>
+          <article>
+            <h3>B. 安全确认</h3>
+            <p>用户说“把重箱子搬到门口”，系统识别高风险，进入确认门后再执行。</p>
+            <a href="/?confirm=1&demo=把重箱子搬到门口">打开路线 B</a>
+          </article>
+          <article>
+            <h3>C. 动态恢复</h3>
+            <p>执行中路径被挡住，系统暂停、解释原因，并提供绕行、等待或人工接管。</p>
+            <a href="/?demo=把重箱子搬到门口，绕开椅子走&confirm=1&perception=path_blocked">打开路线 C</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Quality System</p>
+          <h2>评估体系</h2>
+        </div>
+        <div class="metric-grid">
+          <div><strong>15/15</strong><span>基础任务</span></div>
+          <div><strong>7/7</strong><span>执行打断</span></div>
+          <div><strong>7/7</strong><span>语音反馈</span></div>
+          <div><strong>4/4</strong><span>路线质量</span></div>
+          <div><strong>4/4</strong><span>高级交互</span></div>
+          <div><strong>6/6</strong><span>语音状态机</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Interview Script</p>
+          <h2>面试讲法</h2>
+        </div>
+        <div class="two-col">
+          <p><strong>30 秒版：</strong>我做了一个语音具身智能任务原型，把用户自然语言转成可执行机器人任务，覆盖 grounding、安全确认、路径规划、异常恢复和回归评估。</p>
+          <p><strong>2 分钟版：</strong>我没有只做一个语音助手，而是把语音入口拆成状态机：识别后先确认，歧义时澄清，高风险时确认，执行中可改口，环境变化时恢复，并用测试计划保证行为不退化。</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

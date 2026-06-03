@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 架构说明</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260530-1">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V5.3 Agent Architecture</p>
+          <h1>把多 Agent 协同讲成产品架构</h1>
+          <p class="subtitle">这页用于面试解释：每个 Agent 不是技术名词堆砌，而是对应一个用户风险、一个产品决策和一个可评估输出。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/">主 Demo</a>
+          <a href="/interview-demo.html">面试演示</a>
+          <a href="/voice-lab.html">语音专项</a>
+          <a href="/case-study-v4.html">Case Study</a>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Architecture Thesis</p>
+          <h2>从“听懂一句话”到“安全执行一个任务”</h2>
+          <p class="subtitle">具身智能 Agent 的产品链路不能停在意图识别。它必须继续完成对象定位、安全门控、路线规划、执行状态管理、异常恢复和质量复盘。V5.3 把这些能力拆成可解释的模块边界。</p>
+          <div class="hero-points">
+            <div class="point"><strong>输入</strong><span>自然语言、场景状态、历史上下文和用户修正。</span></div>
+            <div class="point"><strong>输出</strong><span>结构化任务、路线、确认策略和反馈话术。</span></div>
+            <div class="point"><strong>评估</strong><span>通过测试计划和证据卡检查行为稳定性。</span></div>
+          </div>
+        </div>
+        <div class="section" style="margin:0; box-shadow:none;">
+          <h2>主链路</h2>
+          <div class="architecture-flow" aria-label="Agent flow">
+            <span>User Input</span>
+            <span>Intent</span>
+            <span>Grounding</span>
+            <span>Safety</span>
+            <span>Planner</span>
+            <span>Execution</span>
+            <span>Evaluator</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Module Boundary</p>
+            <h2>Agent 模块说明</h2>
+          </div>
+          <p>每个模块都按输入、输出、风险和指标组织，方便面试讲解。</p>
+        </div>
+        <div class="module-grid">
+          <article class="module-card">
+            <h3>Intent Agent</h3>
+            <p>识别用户是在移动物体、递送药盒、检查门口、机器人自主导航，还是对上一任务做修正。</p>
+            <div class="module-meta">
+              <div><strong>输入：</strong>自然语言指令、上一轮任务状态</div>
+              <div><strong>输出：</strong>intent、action、是否新任务</div>
+              <div><strong>风险：</strong>把新任务误判成打断，导致旧物体泄漏</div>
+            </div>
+          </article>
+          <article class="module-card">
+            <h3>Grounding Agent</h3>
+            <p>把“这个”“右边那个杯子”“老人旁边的东西”等表达绑定到场景对象和目标位置。</p>
+            <div class="module-meta">
+              <div><strong>输入：</strong>对象候选、坐标、颜色、区域、选中上下文</div>
+              <div><strong>输出：</strong>objectId、destinationId、候选分</div>
+              <div><strong>指标：</strong>错拿率、澄清触发准确率</div>
+            </div>
+          </article>
+          <article class="module-card">
+            <h3>Safety Agent</h3>
+            <p>判断药品、重物、老人照护、门口检查等任务是否需要确认、降级或人工接管。</p>
+            <div class="module-meta">
+              <div><strong>输入：</strong>任务类型、对象风险、目标区域</div>
+              <div><strong>输出：</strong>riskLevel、confirmation、handoff hint</div>
+              <div><strong>指标：</strong>安全漏检率、确认成本</div>
+            </div>
+          </article>
+          <article class="module-card">
+            <h3>Planner Agent</h3>
+            <p>生成从当前位置到对象、再到目标位置的路径，并处理“绕开椅子走”等空间约束。</p>
+            <div class="module-meta">
+              <div><strong>输入：</strong>对象坐标、目标坐标、障碍物、约束</div>
+              <div><strong>输出：</strong>waypoints、routeMode、risk markers</div>
+              <div><strong>指标：</strong>路线可行性、安全分、绕行成本</div>
+            </div>
+          </article>
+          <article class="module-card">
+            <h3>Execution / Interruption Agent</h3>
+            <p>管理执行状态，处理中途暂停、改目标、换对象、路径被挡和用户接管。</p>
+            <div class="module-meta">
+              <div><strong>输入：</strong>执行进度、用户中途指令、感知事件</div>
+              <div><strong>输出：</strong>暂停、重规划、继续、接管</div>
+              <div><strong>风险：</strong>旧任务未取消导致带错物体移动</div>
+            </div>
+          </article>
+          <article class="module-card">
+            <h3>Evaluator Agent</h3>
+            <p>把任务执行结果映射到评估集和 PM 证据卡，支撑复盘、回归和面试讲解。</p>
+            <div class="module-meta">
+              <div><strong>输入：</strong>任务结果、路径报告、话术触发</div>
+              <div><strong>输出：</strong>PASS/FAIL、证据、归因、下一步建议</div>
+              <div><strong>指标：</strong>回归通过率、未覆盖场景数</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Interview Translation</p>
+            <h2>怎么和你的华为经历接上</h2>
+          </div>
+        </div>
+        <div class="arch-layout">
+          <article class="voice-card">
+            <h3>工作经历对应点</h3>
+            <p>你在华为做的是把告警处理 SOP、规则和定界程序生成变成可复用的智能工作流；这个项目把同一套能力迁移到具身任务：把生活语言、对象、风险和动作变成可执行任务流。</p>
+          </article>
+          <article class="voice-card">
+            <h3>面试时的核心句</h3>
+            <p>我不是只做了一个可视化 Demo，而是在验证一个具身智能产品闭环：自然语言输入、场景 grounding、安全门控、路线规划、执行中打断和评估回归如何组成一个可交付的 Agent 任务系统。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

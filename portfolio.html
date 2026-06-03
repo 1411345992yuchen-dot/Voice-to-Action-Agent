@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Case Study | Voice-to-Action Agent</title>
+    <link rel="stylesheet" href="src/portfolio.css">
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Portfolio Case Study</p>
+          <h1>Voice-to-Action Agent</h1>
+          <p class="subtitle">
+            一个面向具身智能交互的产品原型：把用户自然语言指令转化为可执行、安全、可恢复、可评估的机器人任务流。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="/">打开 Demo</a>
+            <a class="secondary-link" href="/?eval=1">运行评估集</a>
+            <a class="secondary-link" href="/?interrupteval=1">打断评估</a>
+            <a class="secondary-link" href="/?voiceeval=1">语音评估</a>
+            <a class="secondary-link" href="/?routeeval=1">路线评估</a>
+            <a class="secondary-link" href="/test-plan.html">测试计划</a>
+            <a class="secondary-link" href="/case-study-v4.html">V4.0 Case Study</a>
+            <a class="secondary-link" href="/version-history.html">版本演进</a>
+            <a class="secondary-link" href="/voice-script.html">语音脚本</a>
+            <a class="secondary-link" href="/?confirm=1&demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3">异常恢复演示</a>
+            <a class="secondary-link" href="/?demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2&interrupt=%E5%88%AB%E6%94%BE%E5%8E%A8%E6%88%BF%E4%BA%86%EF%BC%8C%E6%94%BE%E9%97%A8%E5%8F%A3">中途改口演示</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="Project summary">
+          <div>
+            <strong>定位</strong>
+            <span>语音/多模态 Agent PM -> 具身智能交互 PM</span>
+          </div>
+          <div>
+            <strong>能力</strong>
+            <span>多 Agent 编排、场景 grounding、安全确认、路径预览、路线重规划、中途改口、语音反馈</span>
+          </div>
+          <div>
+            <strong>验证</strong>
+            <span>43 条回归用例，支持 expected vs actual 回放、版本演进、路线质量验收、语音状态机、PM Review 和 V4.0 Case Study</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Problem</p>
+          <h2>为什么不是再做一个语音助手</h2>
+        </div>
+        <div class="two-col">
+          <p>
+            具身智能机器人进入真实场景后，用户不会只给标准命令。更常见的是“右边那个杯子”“老人旁边那个东西”“先别撞到椅子”。这些指令同时包含意图、对象、空间关系、安全约束和上下文。
+          </p>
+          <p>
+            因此产品问题不是“机器人能不能聊天”，而是“机器人能否把模糊语言转成安全可执行的物理任务，并在失败时可控地恢复”。
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Solution</p>
+          <h2>用多 Agent 拆解具身交互任务</h2>
+        </div>
+        <div class="agent-grid">
+          <article>
+            <span>01</span>
+            <h3>Intent Agent</h3>
+            <p>识别检查、递送、搬运、拿取放置等任务意图。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Grounding Agent</h3>
+            <p>将“这个”“右边那个”“老人旁边”映射到场景对象。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Safety Agent</h3>
+            <p>识别药品、重物、门口、老人等高风险上下文。</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Recovery Agent</h3>
+            <p>预测路径阻塞、敏感递送、避障失败，并给恢复策略。</p>
+          </article>
+          <article>
+            <span>05</span>
+            <h3>Planner Agent</h3>
+            <p>把用户意图转成导航、拿取、放置、路线策略和反馈序列。</p>
+          </article>
+          <article>
+            <span>06</span>
+            <h3>Interruption Agent</h3>
+            <p>执行中识别暂停、改目标、换对象和人工接管。</p>
+          </article>
+          <article>
+            <span>07</span>
+            <h3>Evaluator Agent</h3>
+            <p>输出执行置信度，并通过评估集做行为回归。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section highlight">
+        <div class="section-heading">
+          <p class="eyebrow">Demo Moments</p>
+          <h2>三个最值得展示的瞬间</h2>
+        </div>
+        <div class="moment-list">
+          <article>
+            <h3>多模态指代</h3>
+            <p>点击蓝色杯子后输入“把这个拿到厨房台面”，系统使用当前选中对象作为短期上下文。</p>
+            <a href="/?select=blue_cup&demo=%E6%8A%8A%E8%BF%99%E4%B8%AA%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">打开演示</a>
+          </article>
+          <article>
+            <h3>安全确认</h3>
+            <p>药盒递给老人会触发高风险确认，系统不盲目追求自动化。</p>
+            <a href="/?demo=%E6%8A%8A%E8%8D%AF%E7%9B%92%E9%80%92%E7%BB%99%E8%80%81%E4%BA%BA">打开演示</a>
+          </article>
+          <article>
+            <h3>异常恢复</h3>
+            <p>重箱子搬到门口会暂停执行，提供重规划、改目标或人工接管。</p>
+            <a href="/?confirm=1&demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3">打开演示</a>
+          </article>
+          <article>
+            <h3>路径预览</h3>
+            <p>执行前展示路线、预计距离、耗时和路径风险点，让物理执行过程可预期。</p>
+            <a href="/?demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3%EF%BC%8C%E7%BB%95%E5%BC%80%E6%A4%85%E5%AD%90%E8%B5%B0">打开演示</a>
+          </article>
+          <article>
+            <h3>路线重规划</h3>
+            <p>执行中说“绕开椅子走”，系统取消旧路线并按新的绕行点继续执行。</p>
+            <a href="/?confirm=1&demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3&interrupt=%E7%BB%95%E5%BC%80%E6%A4%85%E5%AD%90%E8%B5%B0">打开演示</a>
+          </article>
+          <article>
+            <h3>中途改口</h3>
+            <p>任务执行中说“别放厨房了，放门口”，系统取消未完成动作并重建计划。</p>
+            <a href="/?demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2&interrupt=%E5%88%AB%E6%94%BE%E5%8E%A8%E6%88%BF%E4%BA%86%EF%BC%8C%E6%94%BE%E9%97%A8%E5%8F%A3">打开演示</a>
+          </article>
+          <article>
+            <h3>打断评估</h3>
+            <p>用 7 条专项用例验证暂停、改目标、换对象、路线重规划、接管和无效打断。</p>
+            <a href="/?interrupteval=1">打开评估</a>
+          </article>
+          <article>
+            <h3>语音评估</h3>
+            <p>用 7 条话术用例验证理解、澄清、确认、恢复、改口、绕行和接管反馈。</p>
+            <a href="/?voiceeval=1">打开评估</a>
+          </article>
+          <article>
+            <h3>路线质量评估</h3>
+            <p>用 4 条路线用例验证路径分段、绕行点、风险标记、策略标签、路线评分和推荐路线。</p>
+            <a href="/?routeeval=1">打开评估</a>
+          </article>
+          <article>
+            <h3>路线评分对比</h3>
+            <p>对默认路线和绕行路线进行安全、效率、可行性、风险暴露和绕行成本对比。</p>
+            <a href="/?demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3%EF%BC%8C%E7%BB%95%E5%BC%80%E6%A4%85%E5%AD%90%E8%B5%B0">打开演示</a>
+          </article>
+          <article>
+            <h3>测试计划</h3>
+            <p>用 expected vs actual 回放 33 条用例，展示 Agent 行为质量治理。</p>
+            <a href="/test-plan.html">打开测试计划</a>
+          </article>
+          <article>
+            <h3>版本演进</h3>
+            <p>把 V1.0 到 V2.5 串成产品问题、关键优化、PM 能力和证据链。</p>
+            <a href="/version-history.html">打开版本页</a>
+          </article>
+          <article>
+            <h3>语音反馈</h3>
+            <p>机器人在理解、确认、执行、恢复和接管时生成状态播报话术。</p>
+            <a href="/?speech=1&demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">打开演示</a>
+          </article>
+          <article>
+            <h3>语音脚本</h3>
+            <p>把低风险任务、歧义澄清、安全确认、异常恢复、改口和接管沉淀成对话设计资产。</p>
+            <a href="/voice-script.html">打开脚本页</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Metrics</p>
+          <h2>用产品指标约束 Agent 行为</h2>
+        </div>
+        <div class="metric-grid">
+          <div><strong>15/15</strong><span>评估用例通过</span></div>
+          <div><strong>7/7</strong><span>打断评估通过</span></div>
+          <div><strong>7/7</strong><span>语音评估通过</span></div>
+          <div><strong>4/4</strong><span>路线评估通过</span></div>
+          <div><strong>33</strong><span>可回放测试用例</span></div>
+          <div><strong>8</strong><span>子 Agent / 路径控制模块</span></div>
+          <div><strong>4</strong><span>恢复策略类型</span></div>
+          <div><strong>15</strong><span>小版本迭代节点</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Career Narrative</p>
+          <h2>这件作品怎么服务转型</h2>
+        </div>
+        <div class="two-col">
+          <p>
+            这个项目将 AI 工程、多 Agent 工作流、语音交互、车辆/机器人背景连接成一条产品叙事：我关注的不是普通聊天助手，而是自然语言如何成为具身智能任务入口。
+          </p>
+          <p>
+            它可以支撑“语音/多模态 Agent 产品经理 -> 机器人交互产品经理 -> 具身智能产品经理”的转型路径，并展示任务流设计、安全边界、失败态、动态改口和评估意识。
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>家庭场景设计方案对比</title>
+    <style>
+      :root {
+        --bg: #f6f3ed;
+        --surface: #fff;
+        --ink: #1f2722;
+        --muted: #66736c;
+        --line: #d8dfd8;
+        --green: #237a57;
+        --green-soft: #e3f1e9;
+        --blue: #2f68b7;
+        --blue-soft: #e6eef8;
+        --red: #b44343;
+        --amber: #b16b15;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      }
+
+      main {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      .eyebrow {
+        margin: 0 0 6px;
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      header p:last-child {
+        max-width: 520px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .option {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface);
+        box-shadow: 0 12px 28px rgba(31, 38, 33, 0.08);
+      }
+
+      .option-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .option-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .letter {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-weight: 850;
+      }
+
+      .tag {
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: #f4f7f5;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .caption {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .scene {
+        position: relative;
+        aspect-ratio: 16 / 10;
+        overflow: hidden;
+        border: 3px solid #46534b;
+        border-radius: 6px;
+        background: #f8f3e9;
+      }
+
+      .room-label {
+        position: absolute;
+        z-index: 4;
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        color: #3c4b42;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .robot {
+        position: absolute;
+        z-index: 8;
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #e9f3ee;
+        color: var(--green);
+        font-size: 23px;
+        box-shadow: 0 2px 8px rgba(35, 122, 87, 0.22);
+      }
+
+      .object {
+        position: absolute;
+        z-index: 6;
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+        background: #fff;
+        border: 1px solid #d7dfd8;
+        box-shadow: 0 2px 8px rgba(31, 38, 33, 0.12);
+        font-size: 19px;
+      }
+
+      .route {
+        position: absolute;
+        z-index: 3;
+        height: 3px;
+        transform-origin: left center;
+        background: rgba(35, 122, 87, 0.78);
+      }
+
+      .route::after {
+        content: "";
+        position: absolute;
+        right: -5px;
+        top: -4px;
+        width: 11px;
+        height: 11px;
+        border-radius: 999px;
+        background: var(--green);
+      }
+
+      .a {
+        background-image:
+          linear-gradient(#eee7da 1px, transparent 1px),
+          linear-gradient(90deg, #eee7da 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      .a .living {
+        position: absolute;
+        left: 5%;
+        top: 8%;
+        width: 47%;
+        height: 46%;
+        border: 2px solid #becabe;
+        background: repeating-linear-gradient(90deg, #fbf8f1, #fbf8f1 12px, #f2eddf 12px, #f2eddf 20px);
+      }
+
+      .a .kitchen {
+        position: absolute;
+        right: 5%;
+        top: 8%;
+        width: 38%;
+        height: 34%;
+        border: 2px solid #becabe;
+        background: #e9f4ed;
+      }
+
+      .a .elder {
+        position: absolute;
+        left: 8%;
+        bottom: 8%;
+        width: 32%;
+        height: 30%;
+        border: 2px solid #becabe;
+        background: #fff7e8;
+      }
+
+      .a .door {
+        position: absolute;
+        right: 8%;
+        bottom: 10%;
+        width: 30%;
+        height: 28%;
+        border: 2px solid #becabe;
+        background: #edf5f9;
+      }
+
+      .sofa {
+        position: absolute;
+        left: 11%;
+        top: 18%;
+        width: 22%;
+        height: 11%;
+        border-radius: 8px;
+        background: #c9dbcf;
+        box-shadow: inset 0 -8px 0 rgba(58, 91, 70, 0.12);
+      }
+
+      .table {
+        position: absolute;
+        left: 28%;
+        top: 36%;
+        width: 14%;
+        height: 12%;
+        border-radius: 50%;
+        background: #d7c8ac;
+      }
+
+      .counter {
+        position: absolute;
+        right: 8%;
+        top: 14%;
+        width: 29%;
+        height: 8%;
+        border-radius: 8px;
+        background: #d2e7dc;
+      }
+
+      .elder-chair {
+        position: absolute;
+        left: 11%;
+        bottom: 14%;
+        width: 18%;
+        height: 12%;
+        border-radius: 12px 12px 6px 6px;
+        background: #e5b879;
+      }
+
+      .b {
+        border-color: #48534d;
+        background: linear-gradient(140deg, #f8f2e8, #fbfaf7);
+      }
+
+      .b .zone {
+        position: absolute;
+        border-radius: 12px;
+        border: 1px solid #d6dfd7;
+        box-shadow: 0 10px 20px rgba(31, 38, 33, 0.08);
+      }
+
+      .b .living {
+        left: 6%;
+        top: 10%;
+        width: 48%;
+        height: 42%;
+        background: #fffaf1;
+      }
+
+      .b .kitchen {
+        right: 6%;
+        top: 10%;
+        width: 34%;
+        height: 36%;
+        background: #e7f3ed;
+      }
+
+      .b .elder {
+        left: 8%;
+        bottom: 8%;
+        width: 35%;
+        height: 30%;
+        background: #fff3df;
+      }
+
+      .b .door {
+        right: 8%;
+        bottom: 10%;
+        width: 28%;
+        height: 27%;
+        background: #eef5fa;
+      }
+
+      .b .fixture3d {
+        position: absolute;
+        transform: skewY(-8deg);
+        box-shadow: 8px 10px 0 rgba(77, 99, 85, 0.08);
+      }
+
+      .b .sofa3d {
+        left: 12%;
+        top: 19%;
+        width: 22%;
+        height: 12%;
+        border-radius: 10px;
+        background: #bcd5c5;
+      }
+
+      .b .table3d {
+        left: 31%;
+        top: 34%;
+        width: 13%;
+        height: 12%;
+        border-radius: 50%;
+        background: #d6c19b;
+      }
+
+      .b .counter3d {
+        right: 12%;
+        top: 18%;
+        width: 23%;
+        height: 9%;
+        border-radius: 9px;
+        background: #cfe8dc;
+      }
+
+      .c {
+        border-color: #e4ddd0;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.58)),
+          radial-gradient(circle at 23% 30%, #d7e2d8 0 10%, transparent 11%),
+          radial-gradient(circle at 70% 23%, #d5e7de 0 15%, transparent 16%),
+          radial-gradient(circle at 21% 76%, #edc489 0 12%, transparent 13%),
+          linear-gradient(135deg, #f4eddf, #fbfaf7);
+      }
+
+      .c .wall {
+        position: absolute;
+        background: rgba(62, 74, 67, 0.34);
+      }
+
+      .c .wall.h1 {
+        left: 8%;
+        top: 50%;
+        width: 84%;
+        height: 4px;
+      }
+
+      .c .wall.v1 {
+        left: 52%;
+        top: 8%;
+        width: 4px;
+        height: 82%;
+      }
+
+      .c .room-label {
+        background: rgba(255,255,255,0.78);
+      }
+
+      .d {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 16px;
+        border-color: #dbe3dc;
+        background: #f7faf8;
+      }
+
+      .d .tile {
+        position: relative;
+        border: 1px solid #dce5df;
+        border-radius: 14px;
+        background: #fff;
+      }
+
+      .d .tile:nth-child(2) {
+        background: #eef7f2;
+      }
+
+      .d .tile:nth-child(3) {
+        background: #fff6e9;
+      }
+
+      .d .tile:nth-child(4) {
+        background: #eef5fa;
+      }
+
+      .d .tile span {
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        color: #415047;
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .d .icon {
+        position: absolute;
+        right: 14px;
+        bottom: 12px;
+        font-size: 34px;
+        opacity: 0.82;
+      }
+
+      .d .robot {
+        left: 43%;
+        top: 42%;
+      }
+
+      .d .route {
+        left: 50%;
+        top: 50%;
+        width: 34%;
+        transform: rotate(-28deg);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Scene Design Options</p>
+          <h1>家庭场景视觉方案对比</h1>
+        </div>
+        <p>目标不是做炫酷插画，而是让“家中位置、机器人、目标物、行动路线”更真实、更清楚、更像产品 Demo。</p>
+      </header>
+
+      <section class="grid">
+        <article class="option">
+          <div class="option-head">
+            <div class="option-title"><span class="letter">A</span><h2>真实户型平面图</h2></div>
+            <span class="tag">最稳妥</span>
+          </div>
+          <div class="scene a">
+            <div class="living"></div><div class="kitchen"></div><div class="elder"></div><div class="door"></div>
+            <span class="room-label" style="left:8%;top:11%">客厅</span>
+            <span class="room-label" style="right:31%;top:11%">厨房</span>
+            <span class="room-label" style="left:11%;bottom:31%">老人座位</span>
+            <span class="room-label" style="right:31%;bottom:31%">门口</span>
+            <div class="sofa"></div><div class="table"></div><div class="counter"></div><div class="elder-chair"></div>
+            <div class="object" style="left:32%;top:30%">☕</div>
+            <div class="object" style="left:18%;bottom:20%">💊</div>
+            <div class="object" style="right:17%;bottom:21%">📦</div>
+            <div class="robot" style="left:46%;top:54%">🤖</div>
+            <div class="route" style="left:49%;top:58%;width:33%;transform:rotate(-35deg)"></div>
+          </div>
+          <p class="caption">像房地产一居室户型图，位置关系真实，最适合做主 Demo；缺点是视觉表达比较克制。</p>
+        </article>
+
+        <article class="option">
+          <div class="option-head">
+            <div class="option-title"><span class="letter">B</span><h2>2.5D 家居场景</h2></div>
+            <span class="tag">最有展示感</span>
+          </div>
+          <div class="scene b">
+            <div class="zone living"></div><div class="zone kitchen"></div><div class="zone elder"></div><div class="zone door"></div>
+            <span class="room-label" style="left:9%;top:13%">客厅</span>
+            <span class="room-label" style="right:29%;top:13%">厨房</span>
+            <span class="room-label" style="left:11%;bottom:31%">老人座位</span>
+            <span class="room-label" style="right:28%;bottom:31%">门口</span>
+            <div class="fixture3d sofa3d"></div><div class="fixture3d table3d"></div><div class="fixture3d counter3d"></div>
+            <div class="object" style="left:34%;top:31%">☕</div>
+            <div class="object" style="left:22%;bottom:21%">💊</div>
+            <div class="object" style="right:16%;bottom:20%">📦</div>
+            <div class="robot" style="left:45%;top:53%">🤖</div>
+            <div class="route" style="left:48%;top:57%;width:32%;transform:rotate(-32deg)"></div>
+          </div>
+          <p class="caption">更像产品发布会里的示意图，有空间感；缺点是实现成本略高，动态路线和物体定位要重新适配。</p>
+        </article>
+
+        <article class="option">
+          <div class="option-head">
+            <div class="option-title"><span class="letter">C</span><h2>真实家居底图风格</h2></div>
+            <span class="tag">最像生活场景</span>
+          </div>
+          <div class="scene c">
+            <div class="wall h1"></div><div class="wall v1"></div>
+            <span class="room-label" style="left:9%;top:12%">客厅</span>
+            <span class="room-label" style="right:23%;top:12%">厨房</span>
+            <span class="room-label" style="left:12%;bottom:29%">老人座位</span>
+            <span class="room-label" style="right:20%;bottom:27%">门口</span>
+            <div class="object" style="left:31%;top:32%">☕</div>
+            <div class="object" style="left:19%;bottom:20%">💊</div>
+            <div class="object" style="right:18%;bottom:21%">📦</div>
+            <div class="robot" style="left:46%;top:54%">🤖</div>
+            <div class="route" style="left:49%;top:58%;width:34%;transform:rotate(-30deg)"></div>
+          </div>
+          <p class="caption">更温暖，更像真实家庭；缺点是背景细节容易干扰任务信息，不如 A/B 清晰。</p>
+        </article>
+
+        <article class="option">
+          <div class="option-head">
+            <div class="option-title"><span class="letter">D</span><h2>极简产品地图</h2></div>
+            <span class="tag">最清楚</span>
+          </div>
+          <div class="scene d">
+            <div class="tile"><span>客厅</span><div class="icon">🛋</div></div>
+            <div class="tile"><span>厨房</span><div class="icon">🍽</div></div>
+            <div class="tile"><span>老人座位</span><div class="icon">💊</div></div>
+            <div class="tile"><span>门口</span><div class="icon">📦</div></div>
+            <div class="object" style="left:26%;top:28%">☕</div>
+            <div class="robot">🤖</div>
+            <div class="route"></div>
+          </div>
+          <p class="caption">信息最清楚，适合产品控制台；缺点是“真实家庭感”弱，不太像机器人真的在房间里移动。</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

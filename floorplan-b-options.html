@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>B 户型简化方案</title>
+    <style>
+      :root {
+        --bg: #f4f1eb;
+        --surface: #fffdf8;
+        --ink: #171917;
+        --muted: #6b746e;
+        --line: #111;
+        --soft-line: #d9ddd6;
+        --green: #237a57;
+        --green-soft: #e6f2eb;
+        --blue: #2f68b7;
+        --red: #b44343;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      }
+
+      main {
+        max-width: 1360px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+
+      header {
+        margin-bottom: 18px;
+      }
+
+      .eyebrow {
+        margin: 0 0 6px;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      header p:last-child {
+        max-width: 760px;
+        margin-top: 8px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .options {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .option-card {
+        padding: 16px;
+        border: 1px solid #d8ded6;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 12px 28px rgba(24, 28, 25, 0.07);
+      }
+
+      .option-card h2 {
+        margin-bottom: 6px;
+        font-size: 18px;
+      }
+
+      .option-card > p {
+        min-height: 48px;
+        margin-bottom: 14px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .plan {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1.08;
+        overflow: hidden;
+        border: 7px solid var(--line);
+        border-radius: 2px;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+          linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+          var(--surface);
+        background-size: 36px 36px;
+      }
+
+      .label {
+        position: absolute;
+        z-index: 8;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        color: #111;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .wall {
+        position: absolute;
+        z-index: 3;
+        background: var(--line);
+      }
+
+      .gap {
+        position: absolute;
+        z-index: 4;
+        background: var(--surface);
+      }
+
+      .thin {
+        position: absolute;
+        z-index: 4;
+        border: 2px solid var(--line);
+        background: transparent;
+      }
+
+      .soft {
+        border-color: #2c302d;
+      }
+
+      .door-arc {
+        position: absolute;
+        z-index: 5;
+        width: 64px;
+        height: 64px;
+        border: 2px solid rgba(17, 17, 17, 0.5);
+        border-right: 0;
+        border-bottom: 0;
+        border-radius: 64px 0 0 0;
+      }
+
+      .door-leaf {
+        position: absolute;
+        z-index: 6;
+        height: 4px;
+        background: #111;
+        transform-origin: right center;
+      }
+
+      .counter,
+      .island,
+      .sofa,
+      .bed,
+      .tv,
+      .table,
+      .chair,
+      .elder-seat,
+      .bath {
+        position: absolute;
+        z-index: 5;
+        border: 3px solid var(--line);
+        background: #fff;
+      }
+
+      .counter::before,
+      .counter::after,
+      .island::before,
+      .sofa::before,
+      .sofa::after,
+      .table::before,
+      .table::after,
+      .bed::before,
+      .bed::after,
+      .elder-seat::before {
+        content: "";
+        position: absolute;
+        border: 2px solid var(--line);
+        background: #fff;
+      }
+
+      .counter::before {
+        left: 12px;
+        top: 14px;
+        width: 30px;
+        height: 20px;
+      }
+
+      .counter::after {
+        left: 54px;
+        top: 10px;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+      }
+
+      .island::before {
+        left: 50%;
+        top: -22px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 118px 0 -1px #fff, 0 118px 0 1px #111;
+      }
+
+      .sofa {
+        border-radius: 0;
+        background:
+          linear-gradient(90deg, transparent 31%, #111 31% 34%, transparent 34% 66%, #111 66% 69%, transparent 69%),
+          #fff;
+      }
+
+      .sofa::before,
+      .sofa::after {
+        top: 0;
+        width: 18px;
+        height: 100%;
+      }
+
+      .sofa::before {
+        left: -21px;
+      }
+
+      .sofa::after {
+        right: -21px;
+      }
+
+      .tv::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 14%;
+        width: 3px;
+        height: 70%;
+        background: #111;
+        transform: rotate(-18deg);
+      }
+
+      .table {
+        border-radius: 50%;
+      }
+
+      .table::before,
+      .table::after {
+        width: 20px;
+        height: 18px;
+        border-radius: 50%;
+      }
+
+      .table::before {
+        left: 50%;
+        top: -25px;
+        transform: translateX(-50%);
+        box-shadow: 0 94px 0 -1px #fff, 0 94px 0 1px #111;
+      }
+
+      .table::after {
+        left: -28px;
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: 96px 0 0 -1px #fff, 96px 0 0 1px #111;
+      }
+
+      .bed::before,
+      .bed::after {
+        top: 8px;
+        width: 32px;
+        height: 24px;
+      }
+
+      .bed::before {
+        left: 10px;
+      }
+
+      .bed::after {
+        left: 48px;
+      }
+
+      .elder-seat {
+        border-radius: 0;
+      }
+
+      .elder-seat::before {
+        left: 50%;
+        top: -22px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        transform: translateX(-50%);
+      }
+
+      .robot,
+      .obj {
+        position: absolute;
+        z-index: 9;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
+        font-weight: 800;
+      }
+
+      .robot {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--green);
+        color: var(--green);
+        font-size: 18px;
+      }
+
+      .obj {
+        width: 32px;
+        height: 32px;
+        border: 2px solid var(--blue);
+        color: var(--blue);
+        font-size: 15px;
+      }
+
+      .obj.risk {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      .route {
+        position: absolute;
+        z-index: 2;
+        border-top: 2px dashed rgba(35, 122, 87, 0.4);
+        transform-origin: left center;
+      }
+
+      .option-real .entry-wall {
+        left: 0;
+        top: 47%;
+        width: 34%;
+        height: 6px;
+      }
+
+      .option-real .core-wall {
+        left: 31%;
+        top: 55%;
+        width: 50%;
+        height: 6px;
+      }
+
+      .option-real .bed-wall-v {
+        left: 45%;
+        top: 55%;
+        width: 6px;
+        height: 45%;
+      }
+
+      .option-real .bath-wall-v {
+        left: 27%;
+        top: 39%;
+        width: 6px;
+        height: 22%;
+      }
+
+      .option-real .label-kitchen { left: 8%; top: 8%; }
+      .option-real .label-living { right: 16%; top: 22%; }
+      .option-real .label-entry { left: 6%; top: 48%; }
+      .option-real .label-elder { left: 54%; bottom: 24%; }
+
+      .option-real .counter { left: 5%; top: 10%; width: 76px; height: 210px; }
+      .option-real .island { left: 22%; top: 15%; width: 66px; height: 125px; }
+      .option-real .sofa { right: 8%; top: 24%; width: 92px; height: 58px; }
+      .option-real .tv { right: 5%; top: 41%; width: 34px; height: 104px; }
+      .option-real .table { left: 52%; top: 40%; width: 58px; height: 58px; }
+      .option-real .bed { right: 10%; bottom: 9%; width: 140px; height: 88px; }
+      .option-real .elder-seat { left: 55%; bottom: 12%; width: 70px; height: 44px; }
+      .option-real .bath { left: 8%; bottom: 10%; width: 84px; height: 74px; }
+      .option-real .door-arc { left: 6%; top: 48%; transform: rotate(180deg); }
+      .option-real .door-leaf { left: 6%; top: 48%; width: 64px; transform: rotate(35deg); }
+      .option-real .robot { left: 46%; top: 42%; }
+      .option-real .obj.cup { left: 50%; top: 44%; }
+      .option-real .obj.parcel { left: 11%; top: 57%; }
+      .option-real .route { left: 48%; top: 46%; width: 230px; transform: rotate(-10deg); }
+
+      .option-demo .plan {
+        background: #fffdf9;
+      }
+
+      .option-demo .zone-fill {
+        position: absolute;
+        z-index: 1;
+        border-radius: 0;
+        background: rgba(35, 122, 87, 0.045);
+      }
+
+      .option-demo .zone-fill.living { right: 4%; top: 12%; width: 52%; height: 44%; }
+      .option-demo .zone-fill.care { right: 6%; bottom: 8%; width: 38%; height: 29%; }
+      .option-demo .zone-fill.kitchen { left: 4%; top: 8%; width: 33%; height: 38%; }
+
+      .option-demo .entry-wall {
+        left: 0;
+        top: 58%;
+        width: 38%;
+        height: 6px;
+      }
+
+      .option-demo .care-wall {
+        right: 5%;
+        top: 63%;
+        width: 48%;
+        height: 6px;
+      }
+
+      .option-demo .label-kitchen { left: 8%; top: 8%; }
+      .option-demo .label-living { right: 25%; top: 12%; }
+      .option-demo .label-entry { left: 7%; top: 58%; }
+      .option-demo .label-elder { right: 22%; bottom: 29%; }
+
+      .option-demo .counter { left: 5%; top: 12%; width: 70px; height: 170px; }
+      .option-demo .island { left: 24%; top: 19%; width: 76px; height: 104px; }
+      .option-demo .sofa { right: 13%; top: 25%; width: 104px; height: 62px; }
+      .option-demo .tv { right: 8%; top: 41%; width: 36px; height: 112px; }
+      .option-demo .table { left: 48%; top: 40%; width: 62px; height: 62px; }
+      .option-demo .elder-seat { right: 24%; bottom: 15%; width: 80px; height: 48px; }
+      .option-demo .bath { left: 8%; bottom: 9%; width: 74px; height: 68px; }
+      .option-demo .door-arc { left: 6%; top: 58%; transform: rotate(180deg); }
+      .option-demo .door-leaf { left: 7%; top: 58%; width: 62px; transform: rotate(34deg); }
+      .option-demo .robot { left: 42%; top: 51%; }
+      .option-demo .obj.cup { left: 52%; top: 46%; }
+      .option-demo .obj.medicine { right: 19%; bottom: 20%; }
+      .option-demo .obj.parcel { left: 12%; top: 68%; }
+      .option-demo .route { left: 44%; top: 54%; width: 270px; transform: rotate(-26deg); }
+
+      .option-minimal .plan {
+        border-width: 8px;
+        background:
+          radial-gradient(circle at 18% 19%, rgba(35, 122, 87, 0.05), transparent 20%),
+          #fffefa;
+      }
+
+      .option-minimal .open-band {
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        top: 8%;
+        height: 50%;
+        z-index: 1;
+        border: 2px solid rgba(17, 17, 17, 0.08);
+        background: rgba(0, 0, 0, 0.015);
+      }
+
+      .option-minimal .entry-wall {
+        left: 0;
+        top: 62%;
+        width: 31%;
+        height: 7px;
+      }
+
+      .option-minimal .private-wall {
+        right: 7%;
+        top: 63%;
+        width: 45%;
+        height: 7px;
+      }
+
+      .option-minimal .label-kitchen { left: 8%; top: 9%; }
+      .option-minimal .label-living { right: 25%; top: 13%; }
+      .option-minimal .label-entry { left: 7%; top: 62%; }
+      .option-minimal .label-elder { right: 21%; bottom: 26%; }
+
+      .option-minimal .counter { left: 6%; top: 13%; width: 66px; height: 158px; }
+      .option-minimal .island { left: 24%; top: 21%; width: 62px; height: 92px; }
+      .option-minimal .sofa { right: 14%; top: 26%; width: 106px; height: 56px; }
+      .option-minimal .tv { right: 8%; top: 39%; width: 30px; height: 102px; }
+      .option-minimal .table { left: 48%; top: 42%; width: 50px; height: 50px; }
+      .option-minimal .elder-seat { right: 22%; bottom: 13%; width: 80px; height: 42px; }
+      .option-minimal .door-arc { left: 6%; top: 62%; transform: rotate(180deg); }
+      .option-minimal .door-leaf { left: 7%; top: 62%; width: 56px; transform: rotate(34deg); }
+      .option-minimal .robot { left: 43%; top: 52%; }
+      .option-minimal .obj.cup { left: 52%; top: 47%; }
+      .option-minimal .obj.parcel { left: 12%; top: 72%; }
+      .option-minimal .route { left: 45%; top: 55%; width: 250px; transform: rotate(-27deg); }
+
+      body.single main {
+        max-width: 900px;
+      }
+
+      body.single header {
+        display: none;
+      }
+
+      body.single .options {
+        display: block;
+      }
+
+      body.single .option-card {
+        display: none;
+      }
+
+      body.single[data-option="real"] .option-real,
+      body.single[data-option="demo"] .option-demo,
+      body.single[data-option="minimal"] .option-minimal {
+        display: block;
+      }
+
+      body.single .option-card h2 {
+        font-size: 22px;
+      }
+
+      body.single .option-card > p {
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">Reference B Simplification</p>
+        <h1>B 户型开放式厨房 + 客厅布局方案</h1>
+        <p>去掉标尺线、英文注释和过密细节，只保留入口、开放式厨房、岛台、客厅、照护座位和任务物体，让它能服务 Voice-to-Action 主 Demo。</p>
+      </header>
+
+      <section class="options">
+        <article class="option-card option-real">
+          <h2>方案 1：偏真实户型</h2>
+          <p>最接近 B 的空间组织：左侧入口，左上开放厨房，中部岛台，右侧客厅，下方保留照护/卧室区。</p>
+          <div class="plan">
+            <div class="wall entry-wall"></div>
+            <div class="wall core-wall"></div>
+            <div class="wall bed-wall-v"></div>
+            <div class="wall bath-wall-v"></div>
+            <div class="label label-kitchen">厨房</div>
+            <div class="label label-living">客厅</div>
+            <div class="label label-entry">入口</div>
+            <div class="label label-elder">老人座位</div>
+            <div class="counter"></div>
+            <div class="island"></div>
+            <div class="sofa"></div>
+            <div class="tv"></div>
+            <div class="table"></div>
+            <div class="bed"></div>
+            <div class="elder-seat"></div>
+            <div class="bath"></div>
+            <div class="door-arc"></div>
+            <div class="door-leaf"></div>
+            <div class="route"></div>
+            <div class="robot">R</div>
+            <div class="obj cup">杯</div>
+            <div class="obj parcel">件</div>
+          </div>
+        </article>
+
+        <article class="option-card option-demo">
+          <h2>方案 2：产品 Demo 清晰</h2>
+          <p>牺牲一点真实户型细节，突出机器人任务：入口、厨房、客厅、老人座位和物体点位更清楚。</p>
+          <div class="plan">
+            <div class="zone-fill living"></div>
+            <div class="zone-fill kitchen"></div>
+            <div class="zone-fill care"></div>
+            <div class="wall entry-wall"></div>
+            <div class="wall care-wall"></div>
+            <div class="label label-kitchen">开放厨房</div>
+            <div class="label label-living">客厅</div>
+            <div class="label label-entry">门口</div>
+            <div class="label label-elder">老人座位</div>
+            <div class="counter"></div>
+            <div class="island"></div>
+            <div class="sofa"></div>
+            <div class="tv"></div>
+            <div class="table"></div>
+            <div class="elder-seat"></div>
+            <div class="bath"></div>
+            <div class="door-arc"></div>
+            <div class="door-leaf"></div>
+            <div class="route"></div>
+            <div class="robot">R</div>
+            <div class="obj cup">杯</div>
+            <div class="obj medicine risk">药</div>
+            <div class="obj parcel">件</div>
+          </div>
+        </article>
+
+        <article class="option-card option-minimal">
+          <h2>方案 3：极简高级感</h2>
+          <p>最少墙线和符号，保留 B 的开放客餐厨关系；适合做作品集截图，但需要靠交互高亮辅助说明。</p>
+          <div class="plan">
+            <div class="open-band"></div>
+            <div class="wall entry-wall"></div>
+            <div class="wall private-wall"></div>
+            <div class="label label-kitchen">厨房</div>
+            <div class="label label-living">客厅</div>
+            <div class="label label-entry">门口</div>
+            <div class="label label-elder">照护区</div>
+            <div class="counter"></div>
+            <div class="island"></div>
+            <div class="sofa"></div>
+            <div class="tv"></div>
+            <div class="table"></div>
+            <div class="elder-seat"></div>
+            <div class="door-arc"></div>
+            <div class="door-leaf"></div>
+            <div class="route"></div>
+            <div class="robot">R</div>
+            <div class="obj cup">杯</div>
+            <div class="obj parcel">件</div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const option = new URLSearchParams(location.search).get("option");
+      if (["real", "demo", "minimal"].includes(option)) {
+        document.body.classList.add("single");
+        document.body.dataset.option = option;
+      }
+    </script>
+  </body>
+</html>

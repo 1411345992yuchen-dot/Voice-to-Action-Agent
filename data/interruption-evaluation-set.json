@@ -1,0 +1,66 @@
+[
+  {
+    "id": "interrupt_destination_001",
+    "baseCommand": "把红色杯子拿到厨房台面",
+    "interruptionCommand": "别放厨房了，放门口",
+    "expectedType": "change_destination",
+    "expectedStatus": "replanned",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "door"
+  },
+  {
+    "id": "interrupt_pause_001",
+    "baseCommand": "把红色杯子拿到厨房台面",
+    "interruptionCommand": "停一下",
+    "expectedType": "pause",
+    "expectedStatus": "paused",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "kitchen_counter"
+  },
+  {
+    "id": "interrupt_object_001",
+    "baseCommand": "把红色杯子拿到厨房台面",
+    "interruptionCommand": "不是这个，换蓝色杯子",
+    "expectedType": "change_object",
+    "expectedStatus": "replanned",
+    "expectedObjectId": "blue_cup",
+    "expectedDestinationId": "kitchen_counter"
+  },
+  {
+    "id": "interrupt_handoff_001",
+    "baseCommand": "把药盒递给老人",
+    "interruptionCommand": "交给我，我来接管",
+    "expectedType": "handoff",
+    "expectedStatus": "handoff",
+    "expectedObjectId": "medicine_box",
+    "expectedDestinationId": "elder_seat"
+  },
+  {
+    "id": "interrupt_safe_zone_001",
+    "baseCommand": "把重箱子搬到门口",
+    "interruptionCommand": "改放客厅安全区",
+    "expectedType": "change_destination",
+    "expectedStatus": "replanned",
+    "expectedObjectId": "heavy_box",
+    "expectedDestinationId": "living_room"
+  },
+  {
+    "id": "interrupt_route_replan_001",
+    "baseCommand": "把重箱子搬到门口",
+    "interruptionCommand": "绕开椅子走",
+    "expectedType": "route_replan",
+    "expectedStatus": "replanned",
+    "expectedObjectId": "heavy_box",
+    "expectedDestinationId": "door",
+    "expectedRouteMode": "avoid_chair"
+  },
+  {
+    "id": "interrupt_ignored_001",
+    "baseCommand": "把蓝色杯子拿到厨房台面",
+    "interruptionCommand": "声音大一点",
+    "expectedType": null,
+    "expectedStatus": "ignored",
+    "expectedObjectId": "blue_cup",
+    "expectedDestinationId": "kitchen_counter"
+  }
+]

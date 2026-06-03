@@ -1,0 +1,117 @@
+{
+  "samples": [
+    "把桌上的红色杯子拿到厨房台面",
+    "先把红色杯子拿到厨房，再请你移动到客厅",
+    "请你移动到客厅",
+    "把右边那个杯子拿到厨房台面",
+    "把老人旁边那个东西递给老人",
+    "把这个拿到厨房台面",
+    "把桌上那个红色物体拿到厨房台面",
+    "把重箱子搬到门口",
+    "把重箱子搬到门口，绕开椅子走",
+    "帮我检查客厅有没有障碍物",
+    "把药盒递给老人，但先确认是不是蓝色那个",
+    "去门口看看快递到了没",
+    "把左边那个箱子搬到门口，小心别撞到椅子"
+  ],
+  "objects": [
+    {
+      "id": "red_cup",
+      "name": "红色杯子",
+      "type": "cup",
+      "color": "red",
+      "zone": "桌上",
+      "semanticZone": "table",
+      "aliases": ["红色杯子", "红杯", "红色物体", "桌上红色物体"],
+      "x": 51,
+      "y": 46,
+      "risk": "low"
+    },
+    {
+      "id": "blue_cup",
+      "name": "蓝色杯子",
+      "type": "cup",
+      "color": "blue",
+      "zone": "桌上",
+      "semanticZone": "table",
+      "aliases": ["蓝色杯子", "蓝杯", "蓝色物体", "右边杯子"],
+      "x": 57,
+      "y": 46,
+      "risk": "low"
+    },
+    {
+      "id": "medicine_box",
+      "name": "药盒",
+      "type": "medicine",
+      "color": "red",
+      "zone": "边桌",
+      "semanticZone": "elder_side_table",
+      "aliases": ["药盒", "药", "老人旁边的东西", "边桌物品"],
+      "x": 78,
+      "y": 78,
+      "risk": "high"
+    },
+    {
+      "id": "parcel",
+      "name": "快递",
+      "type": "parcel",
+      "color": "blue",
+      "zone": "门口",
+      "semanticZone": "door",
+      "aliases": ["快递", "包裹", "门口包裹"],
+      "x": 14,
+      "y": 69,
+      "risk": "medium"
+    },
+    {
+      "id": "chair",
+      "name": "椅子障碍",
+      "type": "obstacle",
+      "color": "blue",
+      "zone": "客厅",
+      "semanticZone": "living_room",
+      "aliases": ["椅子", "障碍", "椅子障碍"],
+      "x": 63,
+      "y": 55,
+      "risk": "medium"
+    },
+    {
+      "id": "heavy_box",
+      "name": "重箱子",
+      "type": "box",
+      "color": "red",
+      "zone": "客厅左侧",
+      "semanticZone": "living_left",
+      "aliases": ["箱子", "重箱子", "左边箱子", "客厅左侧箱子"],
+      "x": 18,
+      "y": 82,
+      "risk": "high"
+    }
+  ],
+  "destinations": [
+    {
+      "id": "kitchen_counter",
+      "name": "厨房台面",
+      "x": 18,
+      "y": 29
+    },
+    {
+      "id": "door",
+      "name": "门口",
+      "x": 14,
+      "y": 69
+    },
+    {
+      "id": "elder_seat",
+      "name": "老人座位",
+      "x": 74,
+      "y": 78
+    },
+    {
+      "id": "living_room",
+      "name": "客厅",
+      "x": 70,
+      "y": 38
+    }
+  ]
+}

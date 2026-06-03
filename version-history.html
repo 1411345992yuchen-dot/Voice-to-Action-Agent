@@ -1,0 +1,856 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Version History | Voice-to-Action Agent</title>
+    <link rel="stylesheet" href="src/version-history.css">
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Product Evolution Story</p>
+          <h1>Voice-to-Action Agent 版本演进</h1>
+          <p class="subtitle">
+            这不是功能清单，而是一条产品判断链：先验证自然语言到任务流，再补齐 grounding、安全、恢复、打断和评估治理，逐步靠近具身智能产品经理需要负责的真实问题。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="/">打开 Demo</a>
+            <a class="secondary-link" href="/portfolio.html">作品集页</a>
+            <a class="secondary-link" href="/test-plan.html">测试计划</a>
+            <a class="secondary-link" href="/voice-script.html">语音脚本</a>
+            <a class="secondary-link" href="/?voiceeval=1">语音评估</a>
+            <a class="secondary-link" href="/?routeeval=1">路线评估</a>
+          </div>
+        <aside class="hero-panel">
+          <div>
+            <strong>最终定位</strong>
+            <span>自然语言意图 -> 可执行、安全、可恢复、可评估的机器人任务流</span>
+          </div>
+          <div>
+            <strong>转型叙事</strong>
+            <span>华为多 Agent 工作流工程经验 -> 语音/多模态 Agent PM -> 具身智能交互 PM</span>
+          </div>
+          <div>
+            <strong>当前证据</strong>
+            <span>37 条真实回归用例保持 100%，并补齐 grounding 证据、路径预览、路线重规划、路线评分对比、PM Review、Review Sandbox、多轮上下文、任务队列、动态环境感知、高级交互评测、PM Demo Guide 和 Live Quality Evidence</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Sequencing Logic</p>
+          <h2>为什么按这个顺序迭代</h2>
+        </div>
+        <div class="logic-grid">
+          <article>
+            <span>01</span>
+            <h3>先闭环</h3>
+            <p>先证明用户一句自然语言可以变成结构化任务、计划、执行和指标，而不是一开始就追求复杂模型。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>再处理真实世界复杂性</h3>
+            <p>真实机器人会遇到指代不清、危险物品、路径阻塞、用户改口，所以逐步补 grounding、安全和恢复。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>最后建立治理体系</h3>
+            <p>Agent 产品不能只靠演示，要有评估集、打断专项测试和 expected vs actual 回放来保证行为稳定。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="timeline-section">
+        <div class="section-heading">
+          <p class="eyebrow">Milestones</p>
+          <h2>小版本演进</h2>
+        </div>
+
+        <div class="version-timeline">
+          <article class="version-card">
+            <div class="version-index">V1.0</div>
+            <div class="version-body">
+              <h3>基础 Voice-to-Action 工作台</h3>
+              <p class="problem">产品问题：如何证明语音/文本不是聊天入口，而是机器人任务入口？</p>
+              <ul>
+                <li>搭建本地 2D 家庭/服务机器人场景。</li>
+                <li>支持自然语言任务输入、结构化任务、动作计划、执行时间线和指标。</li>
+                <li>形成 PRD、架构、指标和 demo script 的作品集骨架。</li>
+              </ul>
+              <p class="capability">体现能力：把抽象职业目标落成可操作 MVP。</p>
+              <a href="/">查看 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.1</div>
+            <div class="version-body">
+              <h3>多 Agent 决策链</h3>
+              <p class="problem">产品问题：如何让面试官看见系统不是黑盒，而是可解释的任务编排？</p>
+              <ul>
+                <li>拆出 Intent、Grounding、Safety、Planner、Evaluator。</li>
+                <li>前端展示每个子 Agent 的判断依据。</li>
+                <li>加入一键基础评估入口。</li>
+              </ul>
+              <p class="capability">体现能力：复杂 Agent 产品模块化、可解释化。</p>
+              <a href="/?eval=1">运行基础评估</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.2</div>
+            <div class="version-body">
+              <h3>场景语义 Grounding</h3>
+              <p class="problem">产品问题：机器人听到“右边那个”“老人旁边那个东西”时，怎么绑定真实对象？</p>
+              <ul>
+                <li>为对象增加颜色、区域、类型、别名和坐标。</li>
+                <li>支持左右、桌上、老人旁边等空间语义。</li>
+                <li>支持点击对象后用“这个/那个”指代。</li>
+              </ul>
+              <p class="capability">体现能力：理解具身智能中的语言 + 场景上下文。</p>
+              <a href="/?select=blue_cup&demo=%E6%8A%8A%E8%BF%99%E4%B8%AA%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">查看指代 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.3</div>
+            <div class="version-body">
+              <h3>异常恢复 Recovery</h3>
+              <p class="problem">产品问题：机器人遇到路径阻塞、药品递送、避障失败时，如何安全恢复？</p>
+              <ul>
+                <li>新增 Recovery Agent。</li>
+                <li>支持重规划、改目标、暂停等待和人工接管。</li>
+                <li>修复暂停后旧任务继续完成的异步状态问题。</li>
+              </ul>
+              <p class="capability">体现能力：不是只设计理想路径，而是设计失败态和安全边界。</p>
+              <a href="/?confirm=1&demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3">查看恢复 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.4</div>
+            <div class="version-body">
+              <h3>执行中打断 / 改口</h3>
+              <p class="problem">产品问题：真实用户会在机器人执行中临时改变主意，系统如何响应？</p>
+              <ul>
+                <li>新增 Interruption Agent。</li>
+                <li>支持暂停、改目标、换对象和人工接管。</li>
+                <li>取消未完成动作，保留上下文并重建计划。</li>
+              </ul>
+              <p class="capability">体现能力：动态意图控制和人机协作边界。</p>
+              <a href="/?demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2&interrupt=%E5%88%AB%E6%94%BE%E5%8E%A8%E6%88%BF%E4%BA%86%EF%BC%8C%E6%94%BE%E9%97%A8%E5%8F%A3">查看改口 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.5</div>
+            <div class="version-body">
+              <h3>打断专项评估</h3>
+              <p class="problem">产品问题：中途改口不是一次性演示，怎么保证以后不退化？</p>
+              <ul>
+                <li>新增 6 条打断专项评估用例。</li>
+                <li>覆盖暂停、改目标、换对象、人工接管、改放安全区和无效打断。</li>
+                <li>首页新增“运行打断评估”和打断评估指标。</li>
+              </ul>
+              <p class="capability">体现能力：为 Agent 行为建立专项回归测试。</p>
+              <a href="/?interrupteval=1">运行打断评估</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.6</div>
+            <div class="version-body">
+              <h3>测试计划 / 行为回放</h3>
+              <p class="problem">产品问题：如何让评估结果对面试官可见、可解释、可复盘？</p>
+              <ul>
+                <li>新增测试计划页。</li>
+                <li>合并 11 条基础评估和 6 条打断评估。</li>
+                <li>展示 expected vs actual、PASS/FAIL、PM 复盘口径和 demo 链接。</li>
+              </ul>
+              <p class="capability">体现能力：Agent 行为质量治理和产品复盘意识。</p>
+              <a href="/test-plan.html">查看测试计划</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.7</div>
+            <div class="version-body">
+              <h3>版本演进 / 面试讲解页</h3>
+              <p class="problem">产品问题：如何把所有功能串成一条清晰的 PM 迭代故事？</p>
+              <ul>
+                <li>新增版本演进页。</li>
+                <li>将每个版本映射到产品问题、关键优化、体现能力和证据链接。</li>
+                <li>沉淀成面试开场、项目复盘和简历延展材料。</li>
+              </ul>
+              <p class="capability">体现能力：产品路线规划、优先级判断和叙事表达。</p>
+              <a href="/portfolio.html">回到作品集</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.8</div>
+            <div class="version-body">
+              <h3>语音反馈体验增强</h3>
+              <p class="problem">产品问题：机器人不只要听懂用户，还要如何主动反馈理解、风险、进度和异常？</p>
+              <ul>
+                <li>新增机器人语音反馈卡片。</li>
+                <li>支持话术日志、播报开关和重播最近一句。</li>
+                <li>覆盖理解、澄清、安全确认、执行、恢复、打断和接管话术。</li>
+              </ul>
+              <p class="capability">体现能力：语音交互闭环、状态反馈设计和用户信任建立。</p>
+              <a href="/?speech=1&demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">查看语音反馈 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card">
+            <div class="version-index">V1.9</div>
+            <div class="version-body">
+              <h3>语音交互脚本 / 对话设计</h3>
+              <p class="problem">产品问题：如何把机器人播报从功能点升级为可复盘、可评估、可面试讲解的语音交互设计？</p>
+              <ul>
+                <li>新增语音交互脚本页。</li>
+                <li>覆盖低风险任务、歧义澄清、安全确认、异常恢复、中途改口和人工接管。</li>
+                <li>将系统状态、用户风险、反馈策略和指标建立映射。</li>
+              </ul>
+              <p class="capability">体现能力：语音 Agent PM 的对话设计、状态管理、风险表达和指标意识。</p>
+              <a href="/voice-script.html">查看语音脚本</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.0</div>
+            <div class="version-body">
+              <h3>语音反馈评估 / 话术触发回归</h3>
+              <p class="problem">产品问题：机器人是否在正确状态说对话，而不是只把任务做完？</p>
+              <ul>
+                <li>新增语音反馈评估集。</li>
+                <li>覆盖理解、澄清、安全确认、异常恢复、中途改口和人工接管。</li>
+                <li>首页新增“运行语音反馈评估”和“语音评估”指标，测试计划页纳入第三类回归。</li>
+              </ul>
+              <p class="capability">体现能力：语音 Agent PM 的话术质量治理、状态机意识和交互回归评估。</p>
+              <a href="/?voiceeval=1">运行语音评估</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.1</div>
+            <div class="version-body">
+              <h3>Grounding 证据面板</h3>
+              <p class="problem">产品问题：机器人为什么认为“老人旁边那个东西”是药盒，而不是上一轮选中的物体？</p>
+              <ul>
+                <li>首页新增 Grounding 证据面板，展示候选对象、证据分、命中原因和最终选择。</li>
+                <li>支持无对象导航解释，例如“请你移动到客厅”不再强制询问移动什么。</li>
+                <li>把空间语义、指代上下文、颜色和对象类型暴露为可复盘信号。</li>
+              </ul>
+              <p class="capability">体现能力：把 Agent 黑盒判断转成 PM 可解释、可验收、可复盘的产品机制。</p>
+              <a href="/?demo=%E6%8A%8A%E8%80%81%E4%BA%BA%E6%97%81%E8%BE%B9%E9%82%A3%E4%B8%AA%E4%B8%9C%E8%A5%BF%E9%80%92%E7%BB%99%E8%80%81%E4%BA%BA">查看 Grounding Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.2</div>
+            <div class="version-body">
+              <h3>执行路径预览</h3>
+              <p class="problem">产品问题：用户确认前能否知道机器人会怎么走、哪里有风险、预计多久完成？</p>
+              <ul>
+                <li>首页新增路线 overlay 和路径预览卡片。</li>
+                <li>展示分段路线、预计距离/耗时、门口空间、老人座位、障碍附近等风险点。</li>
+                <li>执行时路线进度随机器人移动同步更新。</li>
+              </ul>
+              <p class="capability">体现能力：具身智能交互不是只做语音理解，还要让物理执行过程可预期。</p>
+              <a href="/?demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3">查看路径预览</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.3</div>
+            <div class="version-body">
+              <h3>路线重规划 / 绕行执行</h3>
+              <p class="problem">产品问题：用户执行中说“绕开椅子走”时，系统是否真的改变路线，而不是只改一句提示？</p>
+              <ul>
+                <li>新增主动绕行策略：识别“绕开椅子/别撞障碍”等语言约束并加入绕行点。</li>
+                <li>机器人按路线段逐段移动，携带物体跟随机器人，不再从取物点直接跳到终点。</li>
+                <li>恢复策略中的“重规划路径”和执行中打断“绕开椅子走”都生成真实新路线。</li>
+                <li>新增路线策略标签、绕行风险标记，以及基础/打断/语音三类回归用例。</li>
+              </ul>
+              <p class="capability">体现能力：把多轮空间语言、路径规划、异常恢复和执行层状态机连成闭环。</p>
+              <a href="/?confirm=1&demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3&interrupt=%E7%BB%95%E5%BC%80%E6%A4%85%E5%AD%90%E8%B5%B0">查看绕行打断 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.4</div>
+            <div class="version-body">
+              <h3>路线质量评估 / 物理执行验收</h3>
+              <p class="problem">产品问题：路线不是画出来就算完成，如何验收路径分段、绕行点、风险标记和策略标签是否符合物理执行预期？</p>
+              <ul>
+                <li>新增 `data/route-evaluation-set.json`，把 direct、avoid_chair、navigation、elder handoff 四类路线报告纳入回归。</li>
+                <li>首页新增“运行路线质量评估”和“路线评估”指标卡，直接验证路径分段、绕行点、风险标记和策略标签。</li>
+                <li>测试计划页新增路线筛选和 4 条路线用例，合并基础/打断/语音/路线四类回归，共 33 条可回放用例。</li>
+                <li>修正无物体导航路线验收口径：移动到客厅仍保留障碍接近风险标记，避免把物理路线风险误判为完全低风险。</li>
+              </ul>
+              <p class="capability">体现能力：把“机器人怎么走”从展示效果升级成可定义、可验收、可回归的产品质量标准。</p>
+              <a href="/?routeeval=1">运行路线质量评估</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.5</div>
+            <div class="version-body">
+              <h3>路线评分 / 默认与绕行对比</h3>
+              <p class="problem">产品问题：机器人不只要能生成路线，还要解释为什么推荐这条路线，以及安全与效率之间如何取舍。</p>
+              <ul>
+                <li>路线报告新增安全分、效率分、可行性分、总分、等级、风险暴露和绕行成本。</li>
+                <li>门口/障碍相关任务会对比默认路线和绕行路线，展示距离、耗时、安全差和推荐理由。</li>
+                <li>路线质量评估新增评分验收字段，验证最低分、等级、最低安全分、最低效率分和推荐路线。</li>
+              </ul>
+              <p class="capability">体现能力：把物理执行从“能走”提升到“能解释为什么这样走”，更接近具身智能任务决策产品。</p>
+              <a href="/?routeeval=1">查看路线评分</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.6</div>
+            <div class="version-body">
+              <h3>PM Review 复盘模式</h3>
+              <p class="problem">产品问题：评估通过率之外，PM 如何判断失败或高风险通过用例应该归因给哪个模块，并转化为下一步动作？</p>
+              <ul>
+                <li>测试计划页新增 PM Review 卡片，展示归因、责任模块、证据和下一步动作。</li>
+                <li>自动归因到产品定义、Grounding、安全门控、路线规划、路线评分、执行状态机和话术策略。</li>
+                <li>通过用例也会标记观察样本，例如高风险任务、低路线评分、重规划或接管场景。</li>
+              </ul>
+              <p class="capability">体现能力：把测试结果转成产品复盘和版本决策，而不是停留在 PASS/FAIL。</p>
+              <a href="/test-plan.html">查看 PM Review</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V2.7</div>
+            <div class="version-body">
+              <h3>Review Sandbox / 失败注入演练</h3>
+              <p class="problem">产品问题：真实回归全通过时，面试官如何看到我处理事故、定位模块和推进下一版优化的能力？</p>
+              <ul>
+                <li>测试计划页新增 Review Sandbox，可模拟错拿对象、路线低分、安全漏检和旧任务泄漏。</li>
+                <li>沙盒事故不影响真实 100% 回归基线，而是新增一条可控失败用例进入复盘。</li>
+                <li>每个事故自动进入 PM Review，展示严重级别、归因、责任模块、证据和下一步动作。</li>
+              </ul>
+              <p class="capability">体现能力：从“证明系统能跑”升级到“证明我能定义事故、定位问题并推动产品改进”。</p>
+              <a href="/test-plan.html?sandbox=grounding_wrong_object">查看失败注入</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.0</div>
+            <div class="version-body">
+              <h3>多轮上下文管理</h3>
+              <p class="problem">产品问题：真实语音交互里，用户经常不会一次说完整，系统如何判断补充、确认、取消、修正还是新任务？</p>
+              <ul>
+                <li>主 Demo 新增“多轮上下文”面板，展示每轮输入的语境判断、置信度和证据。</li>
+                <li>支持“把杯子拿到厨房”后接“红色的”，系统自动补全待澄清对象并继续执行。</li>
+                <li>支持安全确认的短回复确认/取消，并保留上一任务摘要，为后续任务队列打基础。</li>
+              </ul>
+              <p class="capability">体现能力：从单句指令解析升级到连续协作式语音交互设计。</p>
+              <a href="/?demo=把杯子拿到厨房&interrupt=红色的">查看多轮补全 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.1</div>
+            <div class="version-body">
+              <h3>任务队列与优先级管理</h3>
+              <p class="problem">产品问题：用户连续安排多个任务时，机器人如何决定当前做什么、哪些排队、哪些需要安全确认？</p>
+              <ul>
+                <li>主 Demo 新增“任务队列”面板，展示进行中、等待、完成、取消和安全门控状态。</li>
+                <li>支持“先 A，再 B”复合指令拆分，第一个任务立即执行，后续任务进入等待队列。</li>
+                <li>队列项展示优先级、风险提示、目标对象和目标位置，任务完成后自动推进下一个。</li>
+              </ul>
+              <p class="capability">体现能力：从多轮对话升级到多任务编排，开始接近家庭机器人助理的真实产品复杂度。</p>
+              <a href="/?demo=先把红色杯子拿到厨房，再请你移动到客厅">查看任务队列 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.2</div>
+            <div class="version-body">
+              <h3>动态环境 / 感知变化模拟</h3>
+              <p class="problem">产品问题：真实物理世界不会静止，目标物、路径和老人位置变化时，机器人如何感知并恢复？</p>
+              <ul>
+                <li>主 Demo 新增“环境感知”面板，可触发目标被挪走、路径被挡住、老人位置变化。</li>
+                <li>目标变化会刷新世界状态和路线预览；路径阻塞会暂停任务并进入异常恢复。</li>
+                <li>感知事件写入运行日志、时间线和感知 feed，用于复盘动态世界中的 Agent 决策。</li>
+              </ul>
+              <p class="capability">体现能力：从静态任务流升级到感知-决策-恢复闭环，更贴近具身智能产品。</p>
+              <a href="/?demo=把红色杯子拿到厨房&perception=path_blocked">查看感知变化 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.3</div>
+            <div class="version-body">
+              <h3>高级交互评测集</h3>
+              <p class="problem">产品问题：多轮澄清、确认、任务队列和动态感知这些高级交互，能否像基础指令一样进入可回归的质量治理？</p>
+              <ul>
+                <li>新增 data/advanced-interaction-evaluation-set.json。</li>
+                <li>测试计划页新增“高级交互”汇总卡和筛选项。</li>
+                <li>覆盖多轮澄清、多轮确认、顺序任务队列、执行中路径被挡 4 条高级用例。</li>
+              </ul>
+              <p class="capability">体现能力：把语音/具身智能里最容易失控的长链路交互，拆成可定义、可验收、可复盘的回归样本。</p>
+              <a href="/test-plan.html">查看高级交互评测</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.4</div>
+            <div class="version-body">
+              <h3>PM Demo Guide / 单用例讲解卡</h3>
+              <p class="problem">产品问题：面试时如何不只展示 PASS/FAIL，而是把每条用例讲成产品判断、证据和下一步指标？</p>
+              <ul>
+                <li>测试计划详情页新增 PM Demo Guide。</li>
+                <li>每条用例自动生成产品问题、观察证据、决策口径、下一步指标和 60 秒讲解词。</li>
+                <li>针对基础理解、执行中打断、语音反馈、路线规划、沙盒事故、多轮上下文、任务队列和动态感知输出不同口径。</li>
+              </ul>
+              <p class="capability">体现能力：把工程原型转译成 PM 面试表达资产，证明自己能定义问题、看证据、定指标、讲清楚产品取舍。</p>
+              <a href="/test-plan.html">查看 PM Demo Guide</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.5</div>
+            <div class="version-body">
+              <h3>Live Quality Evidence / 现场证据面板</h3>
+              <p class="problem">产品问题：现场演示时，如何直接说明当前任务被哪些评测用例和产品指标约束？</p>
+              <ul>
+                <li>主 Demo 右侧新增 `Quality Evidence / PM 讲解` 面板。</li>
+                <li>当前任务会自动匹配测试计划中的基础、语音、路线或高级交互用例。</li>
+                <li>面板输出产品问题、观察证据、决策口径、下一步指标和面试讲解词。</li>
+              </ul>
+              <p class="capability">体现能力：把 Demo 表现、评测治理和 PM 表达合并到一个现场讲解流里。</p>
+              <a href="/">查看现场证据面板</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.6</div>
+            <div class="version-body">
+              <h3>真实语音交互控制台 / Voice PM Demo</h3>
+              <p class="problem">产品问题：语音具身智能产品如何避免“听错就执行”，并把语音状态、确认和兜底讲清楚？</p>
+              <ul>
+                <li>主 Demo 左侧新增语音交互控制台，展示空闲、听取、确认识别、理解、澄清、确认、执行、恢复和完成状态。</li>
+                <li>语音识别结果先进入可编辑确认区，用户确认后再执行，避免误识别直接触发物理动作。</li>
+                <li>新增一键语音 PM Demo，串联歧义澄清、高风险确认、中途改口和动态环境恢复四段核心场景。</li>
+              </ul>
+              <p class="capability">体现能力：把语音交互从“能播报”推进到“有状态机、有确认门、有兜底指标、可面试演示”的产品设计。</p>
+              <a href="/?voicedemo=1">运行语音 PM Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.7</div>
+            <div class="version-body">
+              <h3>语音交互评测集</h3>
+              <p class="problem">产品问题：语音识别确认、文本修正和失败兜底如何被稳定验证？</p>
+              <ul>
+                <li>新增 `voice-interaction-evaluation-set.json`。</li>
+                <li>测试计划新增“语音交互”分组，覆盖识别确认、修正执行、兜底、短回复和 Demo 链路。</li>
+                <li>PM Review 新增语音交互归因，区分识别确认、状态机和兜底策略问题。</li>
+              </ul>
+              <p class="capability">体现能力：把语音体验设计转成质量标准，而不是只做入口控件。</p>
+              <a href="/test-plan.html">查看语音交互评测</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.8</div>
+            <div class="version-body">
+              <h3>执行状态机可视化</h3>
+              <p class="problem">产品问题：机器人什么时候能动、什么时候必须停，为什么进入恢复或接管？</p>
+              <ul>
+                <li>主 Demo 新增 `Execution State Machine` 面板。</li>
+                <li>展示 Idle、Parsing、Clarify、Confirm、Executing、Paused、Recovering、Handoff、Done 等迁移。</li>
+                <li>每次迁移记录原因和时间，用于复盘旧任务泄漏、确认门和恢复流。</li>
+              </ul>
+              <p class="capability">体现能力：把具身执行从动画变成可解释、可治理的产品状态机。</p>
+              <a href="/">查看状态机</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V3.9</div>
+            <div class="version-body">
+              <h3>Human-in-the-loop 接管机制</h3>
+              <p class="problem">产品问题：什么时候机器人不该继续自动化，而应把控制权交还给人？</p>
+              <ul>
+                <li>新增接管决策面板，展示风险原因、触发来源、建议动作和给人的操作提示。</li>
+                <li>高风险、路径阻塞、用户接管和恢复接管会生成不同策略。</li>
+                <li>接管决策进入运行日志和 PM 复盘证据链。</li>
+              </ul>
+              <p class="capability">体现能力：具身智能 PM 的安全边界、人机协作和失败态设计。</p>
+              <a href="/?confirm=1&demo=把重箱子搬到门口&perception=path_blocked">查看接管场景</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V4.0</div>
+            <div class="version-body">
+              <h3>作品集 Case Study 总装版</h3>
+              <p class="problem">产品问题：如何把所有能力包装成面试官能快速理解的完整作品？</p>
+              <ul>
+                <li>新增 `case-study-v4.html`，整合项目背景、架构、三条精选 Demo、评估体系和面试讲法。</li>
+                <li>把语音 PM Demo、测试计划、版本演进和作品集页串成投递路径。</li>
+                <li>沉淀 30 秒和 2 分钟面试讲解口径。</li>
+              </ul>
+              <p class="capability">体现能力：不仅能做原型，还能把原型产品化、证据化、故事化。</p>
+              <a href="/case-study-v4.html">查看 V4.0 Case Study</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V4.1</div>
+            <div class="version-body">
+              <h3>主 Demo 产品化重构</h3>
+              <p class="problem">产品问题：如何让主 Demo 第一眼更像产品演示，而不是研发调试台？</p>
+              <ul>
+                <li>主界面默认聚焦“输入指令 -> 场景执行 -> 任务理解/下一步决策”。</li>
+                <li>把日志、评测、状态机、接管、Grounding 和结构化任务收进“高级调试与证据”。</li>
+                <li>左侧示例指令改为场景卡片，语音控制台压缩为可确认的轻量输入区。</li>
+              </ul>
+              <p class="capability">体现能力：把复杂 Agent 能力做成面向面试和产品评审的清晰演示面。</p>
+              <a href="/">查看主 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V4.2</div>
+            <div class="version-body">
+              <h3>主界面产品语言与核心指标收敛</h3>
+              <p class="problem">产品问题：如何让用户不理解技术细节，也能马上知道怎么开始和怎么看结果？</p>
+              <ul>
+                <li>把主 Demo 文案改成更直观的产品语言：任务输入、家庭场景、任务状态、执行任务、高级证据。</li>
+                <li>底部指标从 15 个缩减为 5 个核心指标：任务、完成率、澄清、确认、接管。</li>
+                <li>进一步压缩左右栏宽度和卡片间距，把视觉中心还给家庭场景和执行结果。</li>
+              </ul>
+              <p class="capability">体现能力：从功能堆叠走向信息架构收敛，让 Demo 更适合产品评审和面试展示。</p>
+              <a href="/">查看 V4.2 主 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V4.3</div>
+            <div class="version-body">
+              <h3>家庭场景真实户型化</h3>
+              <p class="problem">产品问题：如何避免家庭场景像抽象框图，而更像真实居家机器人 Demo？</p>
+              <ul>
+                <li>取消客厅、厨房、门口等大面积框形区域，改用墙线和真实家具表达空间。</li>
+                <li>客厅增加电视/沙发/茶几，厨房增加灶台/台面/餐桌，门口只保留门和开门弧线。</li>
+                <li>墙线增加通行缺口，减少路线“穿墙”的违和感。</li>
+              </ul>
+              <p class="capability">体现能力：从功能地图升级为更像真实家居场景的产品 Demo 画布。</p>
+              <a href="/">查看 V4.3 主 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V4.4</div>
+            <div class="version-body">
+              <h3>参考户型图的黑白线稿场景</h3>
+              <p class="problem">产品问题：如何让用户一眼把场景理解成真实家庭平面图，而不是 UI 拼贴？</p>
+              <ul>
+                <li>主场景改成粗黑外墙、浅网格底、内部隔断和门洞缺口的黑白户型图表达。</li>
+                <li>入口门移到右侧外墙，门扇、开门弧线、快递和门口标签重新避让。</li>
+                <li>客厅按“沙发面对电视”重新布局，厨房和餐桌维持简约线稿锚点。</li>
+              </ul>
+              <p class="capability">体现能力：基于用户参考图快速迭代视觉模型，把 Demo 从“能运行”继续打磨到“好理解”。</p>
+              <a href="/">查看 V4.4 主 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V4.5</div>
+            <div class="version-body">
+              <h3>B 户型方案 2 落地主 Demo</h3>
+              <p class="problem">产品问题：如何用更自然的开放式客餐厨布局承载机器人任务演示？</p>
+              <ul>
+                <li>基于用户选择的 B 户型方案 2，重排主 Demo 为左侧门口、左上开放厨房、中部岛台、右侧客厅和右下老人座位。</li>
+                <li>删除参考图中的标尺线、英文注释和过密家具，只保留任务锚点和路线表达。</li>
+                <li>保留此前选定的机器人 SVG 图标，并同步更新物体与目标坐标。</li>
+              </ul>
+              <p class="capability">体现能力：从用户审美反馈出发，完成视觉方案选择、场景坐标重建和回归验证。</p>
+              <a href="/">查看 V4.5 主 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V5.0</div>
+            <div class="version-body">
+              <h3>面试演示模式</h3>
+              <p class="problem">产品问题：如何让面试官 3 分钟内看懂项目证明了什么能力？</p>
+              <ul>
+                <li>新增 `interview-demo.html`，把主 Demo 收敛为日常递送、歧义澄清、照护确认、执行中改口四条黄金演示路径。</li>
+                <li>每条路径提供可运行 Demo 链接、用户问题、Agent 决策链和面试讲解口径。</li>
+              </ul>
+              <p class="capability">体现能力：从功能堆叠转向面试可讲述的产品叙事。</p>
+              <a href="/interview-demo.html">查看 V5.0 面试演示</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V5.1</div>
+            <div class="version-body">
+              <h3>产品证据卡</h3>
+              <p class="problem">产品问题：如何把一次执行行为变成可复盘、可投递的 PM 证据？</p>
+              <ul>
+                <li>在面试演示页新增证据卡，展示意图、对象、目标、风险、门控、评估覆盖和 PM 能力。</li>
+                <li>把“能跑的原型”进一步转成“能证明产品判断和质量治理的作品集材料”。</li>
+              </ul>
+              <p class="capability">体现能力：用证据链讲产品闭环，而不是只展示交互效果。</p>
+              <a href="/interview-demo.html">查看 V5.1 证据卡</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V5.2</div>
+            <div class="version-body">
+              <h3>语音交互专项页</h3>
+              <p class="problem">产品问题：如何把语音交互作为转向具身智能 PM 的切入点讲清楚？</p>
+              <ul>
+                <li>新增 `voice-lab.html`，沉淀识别确认、短回复补槽、误触发控制、高风险播报和恢复指标。</li>
+                <li>把车载语音拒识/误响应经验迁移到家庭机器人任务执行场景。</li>
+              </ul>
+              <p class="capability">体现能力：从语音输入功能上升到语音交互产品机制。</p>
+              <a href="/voice-lab.html">查看 V5.2 语音专项</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V5.3</div>
+            <div class="version-body">
+              <h3>Agent 架构说明页</h3>
+              <p class="problem">产品问题：如何把多 Agent 协同从技术名词讲成清晰的产品架构？</p>
+              <ul>
+                <li>新增 `agent-architecture.html`，按输入、输出、失败风险和指标解释各 Agent 模块边界。</li>
+                <li>把 Huawei 多 Agent 工作流经验和 Voice-to-Action 具身任务系统建立对应关系。</li>
+              </ul>
+              <p class="capability">体现能力：把复杂系统抽象成可讲、可评估、可复用的产品架构。</p>
+              <a href="/agent-architecture.html">查看 V5.3 Agent 架构</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V6.0</div>
+            <div class="version-body">
+              <h3>作品集统一入口</h3>
+              <p class="problem">产品问题：如何让投递材料不再分散，而是形成一个面试官可浏览的作品集首页？</p>
+              <ul>
+                <li>新增 `portfolio-hub.html`，集中展示项目定位、简历一句话、核心入口和演示顺序。</li>
+                <li>把主 Demo、面试演示、岗位讲法、证据总览、Agent 架构和测试计划串成作品集路径。</li>
+              </ul>
+              <p class="capability">体现能力：把原型包装成可投递的产品作品集。</p>
+              <a href="/portfolio-hub.html">查看 V6.0 作品集首页</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V6.1</div>
+            <div class="version-body">
+              <h3>岗位匹配讲法</h3>
+              <p class="problem">产品问题：同一个项目投不同岗位时，应该如何调整叙事重点？</p>
+              <ul>
+                <li>新增 `role-positioning.html`，分别面向 Agent PM、语音交互 PM、具身智能 PM、AIOps / Workflow PM 输出讲法。</li>
+                <li>为每个岗位准备关键词、优先展示页面和 30 秒口径。</li>
+              </ul>
+              <p class="capability">体现能力：根据岗位需求重排项目证据，而不是一套话术打天下。</p>
+              <a href="/role-positioning.html">查看 V6.1 岗位讲法</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V6.2</div>
+            <div class="version-body">
+              <h3>产品决策日志</h3>
+              <p class="problem">产品问题：如何证明项目不是功能堆叠，而是有清晰取舍和推进顺序？</p>
+              <ul>
+                <li>新增 `decision-log.html`，解释 2D 原型、Grounding、安全门控、评估集、语音确认和作品集包装的决策理由。</li>
+                <li>把版本演进背后的约束、取舍和结果显性化。</li>
+              </ul>
+              <p class="capability">体现能力：产品判断、范围控制和阶段性验证。</p>
+              <a href="/decision-log.html">查看 V6.2 决策日志</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V6.3</div>
+            <div class="version-body">
+              <h3>作品集证据总览</h3>
+              <p class="problem">产品问题：如何让面试官快速看到功能、质量、PM 和面试四类证据？</p>
+              <ul>
+                <li>新增 `evidence-dashboard.html`，集中展示功能证据、质量证据、PM 证据和面试证据。</li>
+                <li>整理投递材料链接清单，方便从不同角度进入项目。</li>
+              </ul>
+              <p class="capability">体现能力：把分散产物转成可浏览、可追问的证据系统。</p>
+              <a href="/evidence-dashboard.html">查看 V6.3 证据总览</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V6.4</div>
+            <div class="version-body">
+              <h3>投递文档包</h3>
+              <p class="problem">产品问题：项目页面之外，如何给简历、面试和 GitHub 准备可复用文本资产？</p>
+              <ul>
+                <li>新增 `docs/interview-guide.md`、`docs/resume-project.md`、`docs/product-decisions.md`、`docs/demo-links.md`。</li>
+                <li>README 更新作品集入口和 V6 页面结构，主 Demo 顶部新增 Portfolio Hub。</li>
+              </ul>
+              <p class="capability">体现能力：从产品原型走向投递资产和项目沉淀。</p>
+              <a href="/portfolio-hub.html">查看 V6.4 投递入口</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V7.0</div>
+            <div class="version-body">
+              <h3>投递总入口升级</h3>
+              <p class="problem">产品问题：如何让作品集首页不只是链接集合，而是面试前可以直接打开的总控台？</p>
+              <ul>
+                <li>重写 `portfolio-hub.html`，新增投递包、面试脚本、简历素材和视频脚本入口。</li>
+                <li>把项目定位、简历一句话、投递路径和 Demo 路线统一放到首页。</li>
+              </ul>
+              <p class="capability">体现能力：从项目展示升级为求职转化路径设计。</p>
+              <a href="/portfolio-hub.html">查看 V7.0 作品集首页</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V7.1</div>
+            <div class="version-body">
+              <h3>投递包总控台</h3>
+              <p class="problem">产品问题：面试前如何快速知道先打开什么、先讲什么、怎么避免材料散乱？</p>
+              <ul>
+                <li>新增 `delivery-kit.html`，沉淀材料阅读顺序、推荐开场和面试前检查清单。</li>
+                <li>把作品集首页、主 Demo、Agent 架构、测试计划和岗位讲法整理成阅读路径。</li>
+              </ul>
+              <p class="capability">体现能力：用户旅程视角下的作品集交付设计。</p>
+              <a href="/delivery-kit.html">查看 V7.1 投递包</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V7.2</div>
+            <div class="version-body">
+              <h3>面试讲解脚本</h3>
+              <p class="problem">产品问题：如何让项目在 30 秒、3 分钟和深挖场景下都能讲清楚？</p>
+              <ul>
+                <li>新增 `interview-script.html`，提供三档讲法和高频追问回答骨架。</li>
+                <li>把“功能说明”转成“问题、取舍、方案、验证、下一步”的 PM 叙事。</li>
+              </ul>
+              <p class="capability">体现能力：面试表达、产品抽象和复杂项目压缩能力。</p>
+              <a href="/interview-script.html">查看 V7.2 面试脚本</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V7.3</div>
+            <div class="version-body">
+              <h3>简历素材包</h3>
+              <p class="problem">产品问题：同一个项目投不同岗位时，简历 bullet 是否应该一样？</p>
+              <ul>
+                <li>新增 `resume-pack.html`，按 Agent PM、语音 PM、具身智能 PM、华为经历衔接输出可复制版本。</li>
+                <li>避免把所有能力塞进一段，而是根据岗位重排证据。</li>
+              </ul>
+              <p class="capability">体现能力：岗位匹配和个人产品化包装。</p>
+              <a href="/resume-pack.html">查看 V7.3 简历素材</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V7.4</div>
+            <div class="version-body">
+              <h3>视频和 GitHub 展示素材</h3>
+              <p class="problem">产品问题：如果面试官没有时间现场跑 Demo，如何用更短路径理解项目？</p>
+              <ul>
+                <li>新增 `demo-video-script.html`、`docs/github-readme.md` 和 `docs/video-outline.md`。</li>
+                <li>把作品集视频的镜头、旁白、字幕和 GitHub README 草稿提前准备好。</li>
+              </ul>
+              <p class="capability">体现能力：作品集分发、异步阅读和演示资产沉淀。</p>
+              <a href="/demo-video-script.html">查看 V7.4 视频脚本</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V8.0</div>
+            <div class="version-body">
+              <h3>面试官快速评审摘要</h3>
+              <p class="problem">产品问题：如果对方第一次打开项目，如何在 90 秒内理解价值和证据？</p>
+              <ul>
+                <li>新增 `reviewer-brief.html`，先回答项目解决什么、为什么匹配转型、如何证明不是玩具 Demo。</li>
+                <li>整理评审路径和可追问问题，让项目更适合异步阅读。</li>
+              </ul>
+              <p class="capability">体现能力：面向不同读者设计信息架构。</p>
+              <a href="/reviewer-brief.html">查看 V8.0 评审摘要</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V8.1</div>
+            <div class="version-body">
+              <h3>现场演示 Runbook</h3>
+              <p class="problem">产品问题：面试现场如何避免演示顺序混乱、讲解遗漏或临场失误？</p>
+              <ul>
+                <li>新增 `demo-runbook.html`，按步骤说明打开页面、输入指令、观察点和讲解重点。</li>
+                <li>补充现场兜底方案：没有时间跑 Demo、被追问技术实现、被问真实机器人差距时如何回答。</li>
+              </ul>
+              <p class="capability">体现能力：把演示流程产品化，降低交付风险。</p>
+              <a href="/demo-runbook.html">查看 V8.1 演示 Runbook</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V8.2</div>
+            <div class="version-body">
+              <h3>项目健康度和下一步路线图</h3>
+              <p class="problem">产品问题：如何让作品集既展示当前成果，也暴露对短板和下一阶段的判断？</p>
+              <ul>
+                <li>新增 `project-health.html`，展示成熟度、当前风险和 V9 候选方向。</li>
+                <li>把真实 ASR、LLM 工具调用、VLM grounding、机器人 SDK 和 GitHub 发布作为后续路线。</li>
+              </ul>
+              <p class="capability">体现能力：能讲成果，也能讲风险、边界和路线图。</p>
+              <a href="/project-health.html">查看 V8.2 项目健康度</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V8.3</div>
+            <div class="version-body">
+              <h3>主阅读路径整合</h3>
+              <p class="problem">产品问题：新增页面如果不进入主路径，就会变成又一批分散材料。</p>
+              <ul>
+                <li>更新作品集首页、投递包和主 Demo 顶部导航，接入评审摘要、演示 Runbook 和项目健康度。</li>
+                <li>新增 `docs/reviewer-brief.md`、`docs/demo-runbook.md`、`docs/project-health.md`，页面和文档同步沉淀。</li>
+              </ul>
+              <p class="capability">体现能力：信息架构维护和材料一致性治理。</p>
+              <a href="/portfolio-hub.html">查看 V8.3 作品集入口</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Interview Talk Track</p>
+          <h2>面试时怎么讲</h2>
+        </div>
+        <div class="talk-track">
+          <p>
+            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。然后我按真实机器人产品会遇到的问题逐步迭代：先解决对象指代，再解决安全确认和失败恢复，接着补执行中的用户改口，再用评估集和测试计划页把 Agent 行为质量固定下来，最后补齐语音反馈、Grounding 证据、路径预览、执行中路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 失败注入、多轮上下文管理、任务队列、动态环境感知、高级交互评测、PM Demo Guide、Live Quality Evidence、语音交互状态机、主界面产品化、参考户型图的家庭场景表达、面试演示模式、产品证据卡、语音交互专项、Agent 架构说明、作品集首页、岗位讲法、产品决策日志、证据总览、投递文档包、评审摘要、演示 Runbook 和项目健康度。
+          </p>
+          <p>
+            这条路线和我现在的多 Agent 工作流工程经验是连贯的：本质上都是把人的模糊意图转化为可执行、可解释、可评估的任务流。区别在于，这个项目把能力迁移到了具身智能场景。
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+

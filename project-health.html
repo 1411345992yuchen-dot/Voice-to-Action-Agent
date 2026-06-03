@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 项目健康度</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260531-3">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V8.2 Project Health</p>
+          <h1>项目健康度和下一步路线图</h1>
+          <p class="subtitle">这页把“做到哪了、还能补什么、当前风险是什么”讲清楚，避免项目看起来只有过去成果、没有后续判断。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/reviewer-brief.html">评审摘要</a>
+          <a href="/demo-runbook.html">演示 Runbook</a>
+          <a href="/version-history.html">版本演进</a>
+          <a href="/portfolio-hub.html">作品集首页</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Readiness Scorecard</p>
+            <h2>当前作品集成熟度</h2>
+          </div>
+        </div>
+        <div class="score-grid">
+          <article class="score-card">
+            <span class="score-value">15/15</span>
+            <strong>核心任务回归</strong>
+            <p>主 Demo 基线任务仍保持通过，说明新增投递材料没有破坏核心执行链路。</p>
+          </article>
+          <article class="score-card">
+            <span class="score-value">4+</span>
+            <strong>岗位讲法</strong>
+            <p>覆盖 Agent PM、语音 PM、具身智能 PM、AIOps / Workflow PM。</p>
+          </article>
+          <article class="score-card">
+            <span class="score-value">10+</span>
+            <strong>可浏览入口</strong>
+            <p>主 Demo、面试演示、架构、证据、投递包、脚本、简历素材都能独立打开。</p>
+          </article>
+          <article class="score-card">
+            <span class="score-value">V8</span>
+            <strong>投递阶段</strong>
+            <p>项目已从功能验证进入投递包装和面试官阅读路径优化阶段。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Risk And Next Step</p>
+            <h2>当前短板和下一阶段</h2>
+          </div>
+        </div>
+        <div class="risk-grid">
+          <article class="risk-item">
+            <strong>真实语音链路仍是模拟</strong>
+            <p>下一步可接入更稳定的 ASR 或录音文件评测，把语音识别置信度、纠错率、拒识率做成真实数据。</p>
+          </article>
+          <article class="risk-item">
+            <strong>Grounding 仍偏规则</strong>
+            <p>下一步可引入 LLM function calling 或 VLM grounding，把规则原型升级为可替换模块。</p>
+          </article>
+          <article class="risk-item">
+            <strong>场景仍是 2D 抽象</strong>
+            <p>当前适合 PM 演示，后续可接机器人 SDK 或仿真环境，把路线规划和动作执行做成真实接口。</p>
+          </article>
+          <article class="risk-item">
+            <strong>外部分发还未完成</strong>
+            <p>下一步可初始化 GitHub 仓库、补项目截图到 README、部署静态站点，形成可分享链接。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">V9 Candidates</p>
+            <h2>下一轮可选优化方向</h2>
+          </div>
+        </div>
+        <div class="kit-grid">
+          <article class="kit-card">
+            <h3>V9.0 GitHub 发布包</h3>
+            <p>初始化仓库结构、截图资产、README 封面、提交说明和发布检查清单。</p>
+          </article>
+          <article class="kit-card">
+            <h3>V9.1 真实语音评测</h3>
+            <p>加入录音样例、识别结果、置信度、误触发和人工修正记录。</p>
+          </article>
+          <article class="kit-card">
+            <h3>V9.2 LLM 工具调用原型</h3>
+            <p>把当前规则 Intent / Planner 抽象成可被 LLM function calling 替换的接口。</p>
+          </article>
+          <article class="kit-card">
+            <h3>V9.3 面试材料导出</h3>
+            <p>生成一页 PDF / Markdown 投递包，方便发给面试官或放进简历链接。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

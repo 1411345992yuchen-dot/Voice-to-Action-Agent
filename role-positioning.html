@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 岗位讲法</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260531-1">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V6.1 Role Positioning</p>
+          <h1>同一个项目，面向不同岗位怎么讲</h1>
+          <p class="subtitle">这个页面解决投递时最容易混乱的问题：不是所有岗位都要讲同一套重点。项目不变，但证据排序、关键词和面试话术要根据岗位目标调整。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/interview-demo.html">面试演示</a>
+          <a href="/agent-architecture.html">Agent 架构</a>
+          <a href="/">主 Demo</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Role Scripts</p>
+            <h2>四类岗位讲法</h2>
+          </div>
+          <p>每张卡都包含重点、证据和 30 秒口径。</p>
+        </div>
+        <div class="role-grid">
+          <article class="role-card">
+            <h3>Agent 产品经理</h3>
+            <p>重点讲多 Agent 编排、任务流拆解、评估集和质量治理。少讲家庭场景美术，多讲模块边界和行为可靠性。</p>
+            <div class="pill-row">
+              <span class="pill safe">Intent</span>
+              <span class="pill safe">Grounding</span>
+              <span class="pill safe">Evaluator</span>
+              <span class="pill">测试计划</span>
+            </div>
+            <div class="script-box">我把自然语言任务拆成可执行的 Agent 工作流，每个模块都有输入、输出、失败风险和评估用例，不是只做一个聊天入口。</div>
+          </article>
+          <article class="role-card">
+            <h3>语音交互产品经理</h3>
+            <p>重点讲识别确认、短回复补槽、误触发控制、拒识/过拒识平衡和机器人反馈话术。</p>
+            <div class="pill-row">
+              <span class="pill safe">识别确认</span>
+              <span class="pill safe">短回复</span>
+              <span class="pill">语音状态机</span>
+              <span class="pill risk">误触发</span>
+            </div>
+            <div class="script-box">我没有把语音当成输入框，而是把它拆成识别可信度、语义补全、执行门控、反馈话术和异常兜底五层。</div>
+          </article>
+          <article class="role-card">
+            <h3>具身智能产品经理</h3>
+            <p>重点讲对象 grounding、物理动作安全、路线规划、执行中打断、人工接管和异常恢复。</p>
+            <div class="pill-row">
+              <span class="pill safe">对象定位</span>
+              <span class="pill safe">安全门控</span>
+              <span class="pill">路线规划</span>
+              <span class="pill risk">接管</span>
+            </div>
+            <div class="script-box">这个项目验证的是具身任务入口：用户给出模糊目标，系统必须先定位对象、判断风险，再决定能否执行和如何恢复。</div>
+          </article>
+          <article class="role-card">
+            <h3>AIOps / AI Workflow 产品经理</h3>
+            <p>重点讲和华为经历的连续性：SOP 抽象、工作流生成、任务状态、质量回归和可复用模式库。</p>
+            <div class="pill-row">
+              <span class="pill safe">SOP 抽象</span>
+              <span class="pill safe">工作流</span>
+              <span class="pill">回归评估</span>
+              <span class="pill">可复用模式</span>
+            </div>
+            <div class="script-box">我在华为做的是把运维 SOP 转成智能工作流，这个项目把同样的抽象能力迁移到了具身任务场景。</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Resume Mapping</p>
+            <h2>简历关键词映射</h2>
+          </div>
+        </div>
+        <table class="metric-table">
+          <thead>
+            <tr>
+              <th>目标岗位</th>
+              <th>简历关键词</th>
+              <th>优先展示页面</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Agent PM</td>
+              <td>多 Agent 编排、任务流、评估闭环、可解释决策</td>
+              <td>Agent 架构、测试计划、证据总览</td>
+            </tr>
+            <tr>
+              <td>语音 PM</td>
+              <td>语音确认、误触发控制、短回复、多轮对话、反馈话术</td>
+              <td>语音专项、面试演示、话术脚本</td>
+            </tr>
+            <tr>
+              <td>具身智能 PM</td>
+              <td>场景 grounding、安全门控、路线规划、人机协作、异常恢复</td>
+              <td>主 Demo、面试演示、Agent 架构</td>
+            </tr>
+            <tr>
+              <td>AIOps / Workflow PM</td>
+              <td>SOP 解析、工作流生成、状态机、质量治理、效率提升</td>
+              <td>Agent 架构、产品决策日志、README</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+[
+  {
+    "id": "voice_review_before_execute_001",
+    "category": "review_gate",
+    "command": "把红色杯子拿到厨房",
+    "recognizedText": "把红色杯子拿到厨房",
+    "expectedState": "reviewing",
+    "expectedRequiresUserAction": true,
+    "expectedAutoExecute": false,
+    "expectedMetric": "confirm_before_execute",
+    "note": "验证语音识别结果先进入确认区，而不是直接触发物理动作。"
+  },
+  {
+    "id": "voice_edit_transcript_001",
+    "category": "transcript_edit",
+    "command": "把蓝色杯子拿到厨房",
+    "recognizedText": "把红色杯子拿到厨房",
+    "editedText": "把蓝色杯子拿到厨房",
+    "expectedState": "understanding",
+    "expectedObjectId": "blue_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "expectedEdited": true,
+    "note": "验证用户修正识别文本后，系统按修正后的文本执行。"
+  },
+  {
+    "id": "voice_empty_fallback_001",
+    "category": "fallback",
+    "recognizedText": "",
+    "expectedState": "idle",
+    "expectedFallback": true,
+    "expectedAutoExecute": false,
+    "note": "验证空识别或失败识别会进入兜底，而不是误执行。"
+  },
+  {
+    "id": "voice_short_slot_fill_001",
+    "category": "short_reply",
+    "baseCommand": "把杯子拿到厨房",
+    "followUpCommand": "红色的",
+    "expectedState": "understanding",
+    "expectedContextType": "slot_fill",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "note": "验证短回复能补全上一轮澄清问题。"
+  },
+  {
+    "id": "voice_short_confirmation_001",
+    "category": "short_reply",
+    "baseCommand": "把重箱子搬到门口",
+    "followUpCommand": "确认",
+    "expectedState": "executing",
+    "expectedContextType": "confirmation",
+    "expectedObjectId": "heavy_box",
+    "expectedDestinationId": "door",
+    "note": "验证短回复确认能通过安全门控进入执行。"
+  },
+  {
+    "id": "voice_pm_demo_sequence_001",
+    "category": "demo_sequence",
+    "expectedSteps": [
+      "clarification",
+      "safety_confirmation",
+      "interruption",
+      "perception_recovery"
+    ],
+    "expectedState": "recovering",
+    "expectedDemoUrl": "/?voicedemo=1",
+    "note": "验证 V3.6 语音 PM Demo 能覆盖澄清、确认、改口和动态恢复四段核心讲解。"
+  }
+]

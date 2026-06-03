@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 演示 Runbook</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260531-3">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V8.1 Demo Runbook</p>
+          <h1>现场演示 Runbook</h1>
+          <p class="subtitle">这页是为了防止面试现场“想演但顺序乱”：按步骤打开、输入、观察、解释，出问题也有备用路线。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/delivery-kit.html">投递包</a>
+          <a href="/interview-demo.html">面试演示</a>
+          <a href="/project-health.html">健康度</a>
+          <a href="/portfolio-hub.html">作品集首页</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Live Sequence</p>
+            <h2>推荐现场演示顺序</h2>
+          </div>
+        </div>
+        <div class="runbook-grid">
+          <article class="runbook-step">
+            <strong>Step 1</strong>
+            <div>
+              <h3>打开作品集首页</h3>
+              <p>入口：<code>/portfolio-hub.html</code>。先讲一句话定位，不急着进入技术细节。</p>
+            </div>
+            <p>观察点：面试官先知道这是 Agent / 语音 / 具身智能 PM 转型项目。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>Step 2</strong>
+            <div>
+              <h3>进入面试演示模式</h3>
+              <p>入口：<code>/interview-demo.html</code>。展示四条黄金路径：日常递送、歧义澄清、老人药品确认、执行中改口。</p>
+            </div>
+            <p>观察点：项目不是只会跑单一路径，而是覆盖真实语音任务中的复杂情况。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>Step 3</strong>
+            <div>
+              <h3>跑主 Demo</h3>
+              <p>输入：<code>把红色杯子拿到厨房台面</code>。观察对象识别、路线生成、机器人移动、物体随行和任务状态。</p>
+            </div>
+            <p>观察点：自然语言被拆成对象、目标、路径、执行状态，而不是直接变成聊天回复。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>Step 4</strong>
+            <div>
+              <h3>打开 Agent 架构</h3>
+              <p>入口：<code>/agent-architecture.html</code>。解释每个模块输入、输出、失败风险和指标。</p>
+            </div>
+            <p>观察点：技术可信度来自模块边界和质量归因，不是堆 Agent 名词。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>Step 5</strong>
+            <div>
+              <h3>打开测试计划</h3>
+              <p>入口：<code>/test-plan.html</code>。讲 expected vs actual、PM Review、Review Sandbox。</p>
+            </div>
+            <p>观察点：你有产品质量意识，知道如何验证 Agent 行为稳定性。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Fallback</p>
+            <h2>现场兜底方案</h2>
+          </div>
+        </div>
+        <div class="risk-grid">
+          <article class="risk-item">
+            <strong>如果主 Demo 没来得及跑</strong>
+            <p>直接打开 `interview-demo.html` 和 `evidence-dashboard.html`，用静态证据讲清四条路径和质量闭环。</p>
+          </article>
+          <article class="risk-item">
+            <strong>如果被追问技术实现</strong>
+            <p>打开 `agent-architecture.html`，按输入、输出、失败风险、指标解释模块，不陷入代码细节。</p>
+          </article>
+          <article class="risk-item">
+            <strong>如果被问真实机器人差距</strong>
+            <p>回答：当前是产品链路 MVP，下一步是 ASR、LLM function calling、VLM grounding 和机器人 SDK 接入。</p>
+          </article>
+          <article class="risk-item">
+            <strong>如果被问为什么不是纯 PM 文档</strong>
+            <p>强调你既能定义产品问题，也能落地可运行原型和评估集，这是技术 PM 的优势。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

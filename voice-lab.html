@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 语音交互专项</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260530-1">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V5.2 Voice Interaction Lab</p>
+          <h1>语音交互专项：从听懂到敢执行</h1>
+          <p class="subtitle">这一页把项目里最适合你职业转型的部分单独拎出来：语音识别不确定时如何确认，用户短回复如何补槽，高风险任务如何播报边界，执行中改口如何保持状态一致。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/">主 Demo</a>
+          <a href="/interview-demo.html">面试演示</a>
+          <a href="/agent-architecture.html">Agent 架构</a>
+          <a href="/voice-script.html">话术脚本</a>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Voice PM Focus</p>
+          <h2>语音 Agent 的关键不是多说话，而是降低误执行风险</h2>
+          <p class="subtitle">家庭机器人语音交互最大的产品风险是误触发、过拒识、指代不清和执行中改口。V5.2 用状态机、短回复策略和指标表，把这些风险变成可设计、可验证的产品机制。</p>
+          <div class="hero-points">
+            <div class="point"><strong>确认</strong><span>识别结果先进入可编辑确认区，不确定不直接执行。</span></div>
+            <div class="point"><strong>补槽</strong><span>支持“红色的”“不是这个”“对”等短回复。</span></div>
+            <div class="point"><strong>接管</strong><span>高风险和异常任务给出人工接管提示。</span></div>
+          </div>
+        </div>
+        <div class="section" style="margin:0; box-shadow:none;">
+          <h2>推荐面试讲法</h2>
+          <p class="subtitle">我把语音交互拆成“识别可信度、语义补全、执行门控、反馈话术、异常兜底”五层，而不是只做一个语音输入框。这样能把小爱实习里的拒识优化经验，迁移到具身智能任务执行场景。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">State Machine</p>
+            <h2>语音任务状态机</h2>
+          </div>
+          <p>每个状态都对应一个用户风险和一个产品策略。</p>
+        </div>
+        <div class="voice-layout">
+          <div class="state-rail">
+            <div class="state-item"><strong>Listening</strong><span>收音中，风险是噪声和截断；策略是显示听取状态。</span></div>
+            <div class="state-item"><strong>Review</strong><span>识别结果进入确认区，用户可以修改后执行。</span></div>
+            <div class="state-item"><strong>Understanding</strong><span>解析意图、对象、目标位置和约束。</span></div>
+            <div class="state-item"><strong>Clarifying</strong><span>对象或位置不明确时询问，不直接执行。</span></div>
+            <div class="state-item"><strong>Confirming</strong><span>药品、重物、老人相关任务进入安全确认。</span></div>
+            <div class="state-item"><strong>Executing</strong><span>执行过程中允许暂停、改目标、换对象和接管。</span></div>
+            <div class="state-item"><strong>Recovering</strong><span>路径被挡、目标移动等异常触发重规划或人工接管。</span></div>
+          </div>
+          <div class="voice-card">
+            <h3>短回复与误识别策略</h3>
+            <p>短回复不是普通聊天，而是上下文补槽。比如系统问“红色杯子还是蓝色杯子”，用户说“红色的”，系统应把它绑定到上一轮候选集，而不是当成新任务。</p>
+            <div class="pill-row">
+              <span class="pill safe">红色的 = 候选补槽</span>
+              <span class="pill safe">对 = 确认执行</span>
+              <span class="pill">不是这个 = 换对象</span>
+              <span class="pill risk">取消 = 停止任务</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Metrics</p>
+            <h2>语音交互指标</h2>
+          </div>
+          <p>这些指标可以放进作品集，证明你有产品质量意识。</p>
+        </div>
+        <table class="metric-table">
+          <thead>
+            <tr>
+              <th>指标</th>
+              <th>衡量什么</th>
+              <th>为什么对具身智能重要</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>误触发率</td>
+              <td>用户没有明确下达任务时，系统是否错误执行。</td>
+              <td>物理动作有真实成本，误执行比聊天误答更危险。</td>
+            </tr>
+            <tr>
+              <td>澄清触发准确率</td>
+              <td>对象/位置歧义时是否发起澄清。</td>
+              <td>避免错拿、错送、错放，是家庭机器人信任基础。</td>
+            </tr>
+            <tr>
+              <td>确认成本</td>
+              <td>高风险任务确认次数与用户打断率。</td>
+              <td>确认太少不安全，确认太多会让用户不用。</td>
+            </tr>
+            <tr>
+              <td>短回复解析率</td>
+              <td>“红色的”“对”“不是这个”等短句是否正确接上上下文。</td>
+              <td>真实语音交互天然短、碎、依赖上下文。</td>
+            </tr>
+            <tr>
+              <td>恢复成功率</td>
+              <td>路径受阻、目标移动、用户改口后能否重规划。</td>
+              <td>执行期协作能力决定 Agent 是否能进入物理世界。</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice Interaction Script | Voice-to-Action Agent</title>
+    <link rel="stylesheet" href="src/voice-script.css">
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">V1.9 Conversation Design</p>
+          <h1>语音交互脚本与状态反馈设计</h1>
+          <p class="subtitle">
+            把 V1.8 的机器人语音反馈沉淀为可复盘的对话设计资产：每一句话术都对应用户意图、系统状态、安全边界和下一步行动。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="/">打开 Demo</a>
+            <a class="secondary-link" href="/portfolio.html">作品集页</a>
+            <a class="secondary-link" href="/version-history.html">版本演进</a>
+            <a class="secondary-link" href="/?speech=1&demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">语音反馈 Demo</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Voice interaction principles">
+          <div>
+            <strong>目标</strong>
+            <span>让用户知道机器人听懂了什么、正在做什么、哪里需要确认，以及失败时如何恢复。</span>
+          </div>
+          <div>
+            <strong>约束</strong>
+            <span>话术必须短、确定、可执行，避免拟人化承诺和不可验证的能力表达。</span>
+          </div>
+          <div>
+            <strong>PM 价值</strong>
+            <span>展示语音 Agent PM 对任务状态、风险提示、信任建立和人机协作边界的设计能力。</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Design Rules</p>
+          <h2>四条语音反馈原则</h2>
+        </div>
+        <div class="principle-grid">
+          <article>
+            <span>01</span>
+            <h3>先复述结果，不复述过程</h3>
+            <p>用户关心机器人理解成了什么任务，而不是内部解析细节。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>风险场景必须显式确认</h3>
+            <p>药品、老人、重物和门口等高风险上下文不能默认自动执行。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>执行状态要可预期</h3>
+            <p>开始、前往、放置、完成、暂停都要有短反馈，减少用户焦虑。</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>失败态给选择，不甩锅</h3>
+            <p>异常恢复话术要告诉用户可选动作：重规划、换目标、等待或接管。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section script-section">
+        <div class="section-heading">
+          <p class="eyebrow">Scenario Scripts</p>
+          <h2>六类核心场景脚本</h2>
+        </div>
+
+        <div class="script-list">
+          <article class="script-card">
+            <div class="script-meta">
+              <span>低风险任务</span>
+              <a href="/?speech=1&demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">打开 Demo</a>
+            </div>
+            <h3>把红色杯子拿到厨房台面</h3>
+            <div class="dialogue">
+              <p><strong>用户</strong><span>把红色杯子拿到厨房台面。</span></p>
+              <p><strong>机器人</strong><span>我已理解任务，目标位置是厨房台面。现在开始执行。</span></p>
+              <p><strong>机器人</strong><span>任务已完成。</span></p>
+            </div>
+            <p class="rationale">设计意图：低风险任务不打断用户，只给开始和完成反馈，保持效率。</p>
+          </article>
+
+          <article class="script-card">
+            <div class="script-meta">
+              <span>歧义澄清</span>
+              <a href="/?speech=1&demo=%E6%8A%8A%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2">打开 Demo</a>
+            </div>
+            <h3>把杯子拿到厨房台面</h3>
+            <div class="dialogue">
+              <p><strong>用户</strong><span>把杯子拿到厨房台面。</span></p>
+              <p><strong>机器人</strong><span>我需要确认目标对象。请在候选项里选择你指的是哪一个。</span></p>
+              <p><strong>用户</strong><span>红色杯子。</span></p>
+            </div>
+            <p class="rationale">设计意图：遇到多个候选对象时不猜测，避免机器人拿错真实物体。</p>
+          </article>
+
+          <article class="script-card">
+            <div class="script-meta">
+              <span>安全确认</span>
+              <a href="/?speech=1&demo=%E6%8A%8A%E8%8D%AF%E7%9B%92%E9%80%92%E7%BB%99%E8%80%81%E4%BA%BA">打开 Demo</a>
+            </div>
+            <h3>把药盒递给老人</h3>
+            <div class="dialogue">
+              <p><strong>用户</strong><span>把药盒递给老人。</span></p>
+              <p><strong>机器人</strong><span>这是高风险任务。我需要你确认后再执行，也可以转人工接管。</span></p>
+              <p><strong>用户</strong><span>确认执行。</span></p>
+            </div>
+            <p class="rationale">设计意图：把安全边界产品化，不把自动化率作为唯一目标。</p>
+          </article>
+
+          <article class="script-card">
+            <div class="script-meta">
+              <span>异常恢复</span>
+              <a href="/?speech=1&confirm=1&demo=%E6%8A%8A%E9%87%8D%E7%AE%B1%E5%AD%90%E6%90%AC%E5%88%B0%E9%97%A8%E5%8F%A3">打开 Demo</a>
+            </div>
+            <h3>把重箱子搬到门口</h3>
+            <div class="dialogue">
+              <p><strong>用户</strong><span>把重箱子搬到门口。</span></p>
+              <p><strong>机器人</strong><span>检测到通道可能受阻，请从恢复选项中选择下一步。</span></p>
+              <p><strong>用户</strong><span>改放到安全区。</span></p>
+            </div>
+            <p class="rationale">设计意图：异常发生时给明确选项，保证用户能恢复控制权。</p>
+          </article>
+
+          <article class="script-card">
+            <div class="script-meta">
+              <span>中途改口</span>
+              <a href="/?speech=1&demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2&interrupt=%E5%88%AB%E6%94%BE%E5%8E%A8%E6%88%BF%E4%BA%86%EF%BC%8C%E6%94%BE%E9%97%A8%E5%8F%A3">打开 Demo</a>
+            </div>
+            <h3>别放厨房了，放门口</h3>
+            <div class="dialogue">
+              <p><strong>用户</strong><span>把红色杯子拿到厨房台面。</span></p>
+              <p><strong>用户</strong><span>别放厨房了，放门口。</span></p>
+              <p><strong>机器人</strong><span>用户改口更换目标位置：门口。我会取消旧动作，并按新的任务计划继续。</span></p>
+            </div>
+            <p class="rationale">设计意图：承认用户最新意图，同时说明系统会取消旧动作，降低不确定感。</p>
+          </article>
+
+          <article class="script-card">
+            <div class="script-meta">
+              <span>人工接管</span>
+              <a href="/?speech=1&demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2&interrupt=%E4%BA%A4%E7%BB%99%E6%88%91%EF%BC%8C%E6%88%91%E6%9D%A5%E6%8E%A5%E7%AE%A1">打开 Demo</a>
+            </div>
+            <h3>交给我，我来接管</h3>
+            <div class="dialogue">
+              <p><strong>用户</strong><span>交给我，我来接管。</span></p>
+              <p><strong>机器人</strong><span>我已安全停止，并保留任务上下文供人工接管。</span></p>
+              <p><strong>系统</strong><span>状态切换为 Paused / Handoff。</span></p>
+            </div>
+            <p class="rationale">设计意图：接管不是失败，而是高风险人机协作里的必要出口。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">State Mapping</p>
+          <h2>话术与系统状态映射</h2>
+        </div>
+        <div class="mapping-table" role="table" aria-label="Voice feedback state mapping">
+          <div role="row" class="table-head">
+            <span role="columnheader">系统状态</span>
+            <span role="columnheader">用户感知风险</span>
+            <span role="columnheader">反馈策略</span>
+            <span role="columnheader">评价指标</span>
+          </div>
+          <div role="row">
+            <span role="cell">Understanding</span>
+            <span role="cell">不知道机器人是否听懂</span>
+            <span role="cell">一句话说明正在解析对象、位置和安全条件</span>
+            <span role="cell">理解反馈触达率</span>
+          </div>
+          <div role="row">
+            <span role="cell">Clarification</span>
+            <span role="cell">拿错对象</span>
+            <span role="cell">要求用户在候选对象中确认</span>
+            <span role="cell">澄清成功率</span>
+          </div>
+          <div role="row">
+            <span role="cell">Safety Confirmation</span>
+            <span role="cell">危险任务被误执行</span>
+            <span role="cell">说明风险并提供确认或接管</span>
+            <span role="cell">高风险确认率</span>
+          </div>
+          <div role="row">
+            <span role="cell">Recovery</span>
+            <span role="cell">机器人卡住或行为异常</span>
+            <span role="cell">给出可选恢复策略</span>
+            <span role="cell">异常恢复率</span>
+          </div>
+          <div role="row">
+            <span role="cell">Interruption</span>
+            <span role="cell">旧动作继续执行</span>
+            <span role="cell">确认新意图并说明取消旧动作</span>
+            <span role="cell">改口处理成功率</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section closing">
+        <div>
+          <p class="eyebrow">Interview Narrative</p>
+          <h2>面试讲法</h2>
+        </div>
+        <p>
+          V1.9 的价值是把“语音反馈”从功能变成产品设计资产。面试时可以说：我不是只做了播报开关，而是把机器人任务流拆成理解、澄清、确认、执行、恢复、打断和接管等状态，并为每个状态定义用户风险、话术策略和衡量指标。这更接近语音 Agent PM 或具身智能交互 PM 的真实工作。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

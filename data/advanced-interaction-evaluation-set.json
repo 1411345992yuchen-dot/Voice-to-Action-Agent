@@ -1,0 +1,53 @@
+[
+  {
+    "id": "multi_turn_slot_fill_001",
+    "category": "multi_turn",
+    "title": "多轮澄清：杯子 -> 红色的",
+    "baseCommand": "把杯子拿到厨房",
+    "followUpCommand": "红色的",
+    "expectedContextType": "slot_fill",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "expectedStatus": "resolved",
+    "expectedDemoUrl": "/?demo=把杯子拿到厨房&interrupt=红色的",
+    "note": "验证用户短回复能补全上一轮待澄清对象，而不是被当成新的孤立任务。"
+  },
+  {
+    "id": "multi_turn_confirm_001",
+    "category": "multi_turn",
+    "title": "多轮确认：药盒递送 -> 确认",
+    "baseCommand": "把药盒递给老人",
+    "followUpCommand": "确认",
+    "expectedContextType": "confirmation",
+    "expectedObjectId": "medicine_box",
+    "expectedDestinationId": "elder_seat",
+    "expectedStatus": "confirmed",
+    "expectedDemoUrl": "/?demo=把药盒递给老人&interrupt=确认",
+    "note": "验证高风险任务不会直接执行，用户确认后才进入执行计划。"
+  },
+  {
+    "id": "queue_sequence_001",
+    "category": "queue",
+    "title": "任务队列：先杯子再移动客厅",
+    "command": "先把红色杯子拿到厨房，再请你移动到客厅",
+    "expectedQueueLength": 2,
+    "expectedFirstObjectId": "red_cup",
+    "expectedSecondIntent": "navigate",
+    "expectedSecondDestinationId": "living_room",
+    "expectedStatus": "queued_sequence",
+    "expectedDemoUrl": "/?demo=先把红色杯子拿到厨房，再请你移动到客厅",
+    "note": "验证复合指令能拆成顺序队列，第一项执行，第二项等待自动推进。"
+  },
+  {
+    "id": "perception_path_blocked_001",
+    "category": "perception",
+    "title": "环境感知：执行中路径被挡",
+    "baseCommand": "把红色杯子拿到厨房",
+    "perceptionEvent": "path_blocked",
+    "expectedPerceptionAction": "pause_for_recovery",
+    "expectedStatus": "paused",
+    "expectedRecoveryMode": "obstacle_avoidance",
+    "expectedDemoUrl": "/?demo=把红色杯子拿到厨房&perception=path_blocked",
+    "note": "验证动态环境变化会触发暂停与恢复选择，而不是继续盲目执行。"
+  }
+]

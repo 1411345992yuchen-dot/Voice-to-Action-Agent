@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Icon Options - Voice-to-Action Agent</title>
+  <style>
+    :root {
+      --bg: #f6f3ed;
+      --surface: #ffffff;
+      --ink: #202421;
+      --muted: #67736c;
+      --line: #d9dfd9;
+      --green: #237a57;
+      --blue: #2f68b7;
+      --amber: #b16b15;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    main {
+      width: min(1180px, calc(100vw - 48px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
+
+    header {
+      margin-bottom: 22px;
+    }
+
+    p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      min-height: 300px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: 0 16px 38px rgba(31, 38, 33, 0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .icons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .icon-box {
+      display: grid;
+      place-items: center;
+      min-height: 118px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(30, 39, 34, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(30, 39, 34, 0.035) 1px, transparent 1px),
+        #fbfaf7;
+      background-size: 28px 28px;
+    }
+
+    .icon-box img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+    }
+
+    .line-icon img {
+      filter: invert(28%) sepia(18%) saturate(844%) hue-rotate(94deg) brightness(90%) contrast(91%);
+    }
+
+    .blue-icon img {
+      filter: invert(34%) sepia(73%) saturate(895%) hue-rotate(183deg) brightness(86%) contrast(85%);
+    }
+
+    .note {
+      min-height: 76px;
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .source {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .source a {
+      color: var(--green);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .source a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>老人和机器人图标候选</h1>
+      <p>选一个编号即可。后续我会把选中的 SVG 本地化进项目，并统一颜色、尺寸、悬停状态和场景位置。</p>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>A. Material Symbols：产品原型感</h2>
+        <div class="icons">
+          <div class="icon-box line-icon"><img src="https://api.iconify.design/material-symbols/smart-toy-outline.svg" alt="Material robot"></div>
+          <div class="icon-box line-icon"><img src="https://api.iconify.design/material-symbols/elderly.svg" alt="Material elderly"></div>
+        </div>
+        <p class="note">最适合现在这个平面图：符号明确，老人有拐杖语义，机器人不幼稚，适合产品 demo。</p>
+        <div class="source">
+          <a href="https://icon-sets.iconify.design/material-symbols/smart-toy-outline/" target="_blank">robot source</a>
+          <a href="https://icon-sets.iconify.design/material-symbols/elderly/" target="_blank">elder source</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>B. Tabler：极简线性</h2>
+        <div class="icons">
+          <div class="icon-box line-icon"><img src="https://api.iconify.design/tabler/robot.svg" alt="Tabler robot"></div>
+          <div class="icon-box line-icon"><img src="https://api.iconify.design/tabler/old.svg" alt="Tabler old person"></div>
+        </div>
+        <p class="note">最干净，和当前 UI 的线框风格很搭；缺点是存在感弱一点，需要用底色或边框增强。</p>
+        <div class="source">
+          <a href="https://icon-sets.iconify.design/tabler/robot/" target="_blank">robot source</a>
+          <a href="https://icon-sets.iconify.design/tabler/old/" target="_blank">elder source</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>C. Fluent：温和现代</h2>
+        <div class="icons">
+          <div class="icon-box blue-icon"><img src="https://api.iconify.design/fluent/bot-24-regular.svg" alt="Fluent bot"></div>
+          <div class="icon-box blue-icon"><img src="https://api.iconify.design/fluent/person-48-regular.svg" alt="Fluent person"></div>
+        </div>
+        <p class="note">更像微软系产品图标，圆润、现代；老人语义不强，但可以通过“老人座位”标签补足。</p>
+        <div class="source">
+          <a href="https://icon-sets.iconify.design/fluent/bot-24-regular/" target="_blank">robot source</a>
+          <a href="https://icon-sets.iconify.design/fluent/person-48-regular/" target="_blank">person source</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>D. Lucide + Material：高级轻量</h2>
+        <div class="icons">
+          <div class="icon-box line-icon"><img src="https://api.iconify.design/lucide/bot.svg" alt="Lucide bot"></div>
+          <div class="icon-box line-icon"><img src="https://api.iconify.design/material-symbols/elderly.svg" alt="Material elderly"></div>
+        </div>
+        <p class="note">机器人很好看，老人语义也清楚；混合图标库，但我可以后续统一 stroke 和颜色。</p>
+        <div class="source">
+          <a href="https://icon-sets.iconify.design/lucide/bot/" target="_blank">robot source</a>
+          <a href="https://icon-sets.iconify.design/material-symbols/elderly/" target="_blank">elder source</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>E. OpenMoji：友好彩色</h2>
+        <div class="icons">
+          <div class="icon-box"><img src="https://api.iconify.design/openmoji/robot.svg" alt="OpenMoji robot"></div>
+          <div class="icon-box"><img src="https://api.iconify.design/openmoji/older-person.svg" alt="OpenMoji older person"></div>
+        </div>
+        <p class="note">亲和、好懂，适合面向普通用户讲故事；但会让产品原型更偏可爱，不如 A/B 专业。</p>
+        <div class="source">
+          <a href="https://icon-sets.iconify.design/openmoji/robot/" target="_blank">robot source</a>
+          <a href="https://icon-sets.iconify.design/openmoji/older-person/" target="_blank">elder source</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

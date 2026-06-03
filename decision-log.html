@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 产品决策日志</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260531-1">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V6.2 Product Decision Log</p>
+          <h1>产品决策日志</h1>
+          <p class="subtitle">把关键取舍写清楚：为什么先做 2D、为什么需要安全确认、为什么做评估集、为什么把语音识别做成确认流、为什么不断调整主界面。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/evidence-dashboard.html">证据总览</a>
+          <a href="/version-history.html">版本演进</a>
+          <a href="/">主 Demo</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Decision Timeline</p>
+            <h2>关键产品取舍</h2>
+          </div>
+          <p>每个决策都对应一个约束、一个取舍和一个产出。</p>
+        </div>
+        <div class="decision-timeline">
+          <article class="decision-item">
+            <strong>V1.0</strong>
+            <div>
+              <h3>先做 2D 家庭场景，而不是 3D / ROS</h3>
+              <p>取舍：放弃真实机器人控制和 3D 仿真，先验证“自然语言到可执行任务流”的产品闭环。结果：快速形成可运行原型，降低作品集启动成本。</p>
+            </div>
+          </article>
+          <article class="decision-item">
+            <strong>V1.2</strong>
+            <div>
+              <h3>优先做 Grounding，而不是继续扩展指令数量</h3>
+              <p>取舍：不追求更多样例，而是解决“右边那个杯子”“老人旁边那个东西”等真实语音指代问题。结果：项目从普通指令解析升级为场景感知任务系统。</p>
+            </div>
+          </article>
+          <article class="decision-item">
+            <strong>V1.3</strong>
+            <div>
+              <h3>高风险任务必须确认或接管</h3>
+              <p>取舍：牺牲部分自动化流畅度，换取药品递送、重物搬运、老人照护等场景的安全可信。结果：引入 Safety Agent 和 Human-in-the-loop 叙事。</p>
+            </div>
+          </article>
+          <article class="decision-item">
+            <strong>V1.5-V2.7</strong>
+            <div>
+              <h3>用评估集固定行为，而不是只靠手工演示</h3>
+              <p>取舍：投入时间写 baseline、打断、语音反馈、路线质量和 sandbox 用例。结果：形成 expected vs actual 测试计划页，能证明 PM 的质量治理意识。</p>
+            </div>
+          </article>
+          <article class="decision-item">
+            <strong>V3.6</strong>
+            <div>
+              <h3>语音识别结果先确认，再执行</h3>
+              <p>取舍：不让识别结果直接触发物理任务，增加一步可编辑确认。结果：更贴近真实语音产品里的误触发控制，也能连接用户的小爱拒识优化经验。</p>
+            </div>
+          </article>
+          <article class="decision-item">
+            <strong>V4.x</strong>
+            <div>
+              <h3>主 Demo 从研发控制台收敛成产品演示台</h3>
+              <p>取舍：把大量调试面板折叠到高级证据里，首屏只保留任务输入、家庭场景和任务状态。结果：降低面试官理解成本。</p>
+            </div>
+          </article>
+          <article class="decision-item">
+            <strong>V5.x</strong>
+            <div>
+              <h3>从功能页升级为面试叙事页</h3>
+              <p>取舍：不再继续无限加功能，而是新增面试演示、语音专项和架构说明。结果：让项目成为可投递、可讲述、可追问的作品集资产。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PM Summary</p>
+            <h2>一句话总结</h2>
+          </div>
+        </div>
+        <div class="script-box">这个项目的主线不是“做了多少功能”，而是围绕具身智能语音任务入口，持续解决对象不确定、执行有风险、路径会变化、用户会改口、行为要可评估这些真实产品问题。</div>
+      </section>
+    </main>
+  </body>
+</html>

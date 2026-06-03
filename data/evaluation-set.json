@@ -1,0 +1,130 @@
+[
+  {
+    "id": "easy_pick_001",
+    "command": "把红色杯子拿到厨房台面",
+    "expectedIntent": "pick_and_place",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "expectedRisk": "low"
+  },
+  {
+    "id": "navigate_living_room_001",
+    "command": "请你移动到客厅",
+    "expectedIntent": "navigate",
+    "expectedDestinationId": "living_room",
+    "expectedRisk": "low",
+    "expectedClarification": false
+  },
+  {
+    "id": "clarify_cup_001",
+    "command": "把杯子拿到厨房",
+    "expectedIntent": "pick_and_place",
+    "expectedClarification": true,
+    "reason": "场景中有红色杯子和蓝色杯子"
+  },
+  {
+    "id": "safety_medicine_001",
+    "command": "把药盒递给老人",
+    "expectedIntent": "deliver",
+    "expectedObjectId": "medicine_box",
+    "expectedDestinationId": "elder_seat",
+    "expectedConfirmation": true
+  },
+  {
+    "id": "medicine_color_phrase_overrides_selected_obstacle_001",
+    "command": "把药盒递给老人，但先确认是不是蓝色那个",
+    "selectedObjectId": "chair",
+    "expectedIntent": "deliver",
+    "expectedObjectId": "medicine_box",
+    "expectedDestinationId": "elder_seat",
+    "expectedConfirmation": true,
+    "reason": "明确药盒任务不能被“蓝色那个”或上一轮选中的蓝色障碍物劫持"
+  },
+  {
+    "id": "inspect_parcel_001",
+    "command": "去门口看看快递到了没",
+    "expectedIntent": "inspect",
+    "expectedObjectId": "parcel",
+    "expectedDestinationId": "door",
+    "expectedRisk": "medium"
+  },
+  {
+    "id": "heavy_box_001",
+    "command": "把左边那个箱子搬到门口，小心别撞到椅子",
+    "expectedIntent": "move",
+    "expectedObjectId": "heavy_box",
+    "expectedDestinationId": "door",
+    "expectedConfirmation": true,
+    "expectedRouteMode": "avoid_chair"
+  },
+  {
+    "id": "avoid_chair_route_001",
+    "command": "把重箱子搬到门口，绕开椅子走",
+    "expectedIntent": "move",
+    "expectedObjectId": "heavy_box",
+    "expectedDestinationId": "door",
+    "expectedConfirmation": true,
+    "expectedRouteMode": "avoid_chair",
+    "reason": "明确绕开椅子应进入主动绕行路线，而不是只作为普通安全提示"
+  },
+  {
+    "id": "visual_red_object_001",
+    "command": "把桌上那个红色物体拿到厨房台面",
+    "expectedIntent": "pick_and_place",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "expectedRisk": "low"
+  },
+  {
+    "id": "spatial_right_cup_001",
+    "command": "把右边那个杯子拿到厨房台面",
+    "expectedIntent": "pick_and_place",
+    "expectedObjectId": "blue_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "expectedRisk": "low"
+  },
+  {
+    "id": "near_elder_001",
+    "command": "把老人旁边那个东西递给老人",
+    "expectedIntent": "deliver",
+    "expectedObjectId": "medicine_box",
+    "expectedDestinationId": "elder_seat",
+    "expectedConfirmation": true
+  },
+  {
+    "id": "near_elder_overrides_selected_001",
+    "command": "把老人旁边那个东西递给老人",
+    "selectedObjectId": "heavy_box",
+    "expectedIntent": "deliver",
+    "expectedObjectId": "medicine_box",
+    "expectedDestinationId": "elder_seat",
+    "expectedConfirmation": true,
+    "reason": "明确空间描述应覆盖上一轮选中的重箱子"
+  },
+  {
+    "id": "door_parcel_001",
+    "command": "检查门口那个包裹",
+    "expectedIntent": "inspect",
+    "expectedObjectId": "parcel",
+    "expectedDestinationId": "door",
+    "expectedRisk": "medium"
+  },
+  {
+    "id": "selected_this_001",
+    "command": "把这个拿到厨房台面",
+    "selectedObjectId": "blue_cup",
+    "expectedIntent": "pick_and_place",
+    "expectedObjectId": "blue_cup",
+    "expectedDestinationId": "kitchen_counter",
+    "expectedRisk": "low"
+  },
+  {
+    "id": "recovery_heavy_box_001",
+    "command": "把重箱子搬到门口",
+    "expectedIntent": "move",
+    "expectedObjectId": "heavy_box",
+    "expectedDestinationId": "door",
+    "expectedConfirmation": true,
+    "expectedFailureMode": "blocked_path"
+  }
+]

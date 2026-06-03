@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent</title>
+    <link rel="stylesheet" href="src/styles.css?v=20260528-4">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Embodied Interaction Prototype</p>
+          <h1>Voice-to-Action Agent</h1>
+        </div>
+        <div class="topbar-actions">
+          <a class="topbar-link" href="/portfolio-hub.html">Portfolio Hub</a>
+          <a class="topbar-link" href="/delivery-kit.html">Delivery Kit</a>
+          <a class="topbar-link" href="/reviewer-brief.html">Reviewer Brief</a>
+          <a class="topbar-link" href="/interview-demo.html">Interview Demo</a>
+          <a class="topbar-link" href="/agent-architecture.html">Agent 架构</a>
+          <a class="topbar-link" href="/case-study-v4.html">Case Study</a>
+          <a class="topbar-link" href="/test-plan.html">Test Plan</a>
+          <div class="status-pill" id="agentStatus">Ready</div>
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="Voice-to-action workspace">
+        <aside class="panel command-panel" aria-label="Command input">
+          <div class="section-title">
+            <span>1</span>
+            <h2>指令输入</h2>
+          </div>
+
+          <label class="field-label" for="commandInput">用户自然语言任务</label>
+          <textarea id="commandInput" rows="5" placeholder="例如：把桌上的红色杯子拿到厨房台面"></textarea>
+
+          <div class="button-row">
+            <button class="primary-button" id="runButton" type="button">生成任务流</button>
+            <button class="icon-button" id="voiceButton" type="button" aria-label="语音输入" title="语音输入">🎙</button>
+            <button class="icon-button" id="resetButton" type="button" aria-label="重置场景" title="重置场景">↺</button>
+          </div>
+
+          <div class="demo-action-strip">
+            <button class="secondary-button demo-mode-button" id="voiceDemoButton" type="button">运行语音 PM Demo</button>
+          </div>
+
+          <div class="sample-section-label">常用演示场景</div>
+          <div class="sample-list" id="sampleList" aria-label="Sample commands"></div>
+
+          <details class="voice-lite-card" id="voiceLiteCard">
+            <summary>语音输入与确认</summary>
+            <div class="voice-lite-body">
+              <div class="speech-card-header">
+                <strong>识别结果</strong>
+                <span class="voice-state-pill" id="voiceStatePill">Idle</span>
+              </div>
+              <label class="field-label" for="voiceTranscriptDraft">可编辑识别文本</label>
+              <textarea id="voiceTranscriptDraft" rows="3" placeholder="语音识别结果会先出现在这里，你可以修改后再执行。"></textarea>
+              <div class="voice-console-actions">
+                <button type="button" id="useTranscriptButton">使用并执行</button>
+                <button type="button" id="clearTranscriptButton">清空</button>
+              </div>
+            </div>
+          </details>
+
+          <details class="advanced-command-drawer">
+            <summary>高级演示工具</summary>
+            <div class="advanced-command-grid">
+              <button class="secondary-button" id="evalButton" type="button">运行评估集</button>
+              <button class="secondary-button subtle-button" id="interruptEvalButton" type="button">运行打断评估</button>
+              <button class="secondary-button voice-eval-button" id="voiceEvalButton" type="button">运行语音反馈评估</button>
+              <button class="secondary-button route-eval-button" id="routeEvalButton" type="button">运行路线质量评估</button>
+            </div>
+          </details>
+
+          <details class="runtime-drawer" id="runtimeDrawer">
+            <summary>执行反馈与接管</summary>
+            <div class="interaction-box" id="interactionBox">
+            <p class="muted">等待用户指令。系统会判断是否需要澄清、确认或接管。</p>
+            </div>
+          </details>
+
+          <div class="speech-card debug-only" aria-label="Robot voice feedback">
+            <div class="speech-card-header">
+              <strong>机器人语音反馈</strong>
+              <label class="toggle-row">
+                <input id="speechToggle" type="checkbox">
+                <span>播报</span>
+              </label>
+            </div>
+            <p id="speechLast" class="speech-last">等待任务后生成反馈话术。</p>
+            <div class="speech-actions">
+              <button type="button" id="replaySpeech">重播最近一句</button>
+            </div>
+            <ol id="speechLog" class="speech-log"></ol>
+          </div>
+
+          <div class="voice-console-card debug-only" aria-label="Voice interaction console">
+            <div class="speech-card-header">
+              <strong>V3.6 语音交互控制台</strong>
+              <span class="voice-state-pill voice-state-pill-debug">Idle</span>
+            </div>
+            <div class="voice-state-rail" id="voiceStateRail"></div>
+            <div class="voice-metrics-grid" id="voiceMetricsGrid"></div>
+          </div>
+
+          <details class="context-drawer">
+            <summary>当前指代对象</summary>
+            <div class="context-card" id="selectedContext">
+            <strong>当前指代对象</strong>
+            <p class="muted">点击场景中的物体后，可以说“把这个拿到厨房台面”。</p>
+            </div>
+          </details>
+        </aside>
+
+        <section class="stage-panel" aria-label="Robot scene">
+          <div class="stage-header">
+            <div class="section-title">
+              <span>2</span>
+              <h2>物理场景模拟</h2>
+            </div>
+            <div class="scene-legend">
+              <span><i class="legend-robot"></i>Robot</span>
+              <span><i class="legend-object"></i>Object</span>
+              <span><i class="legend-risk"></i>Risk</span>
+            </div>
+          </div>
+
+          <div class="scene-map" id="sceneMap" aria-label="2D room map">
+            <div class="home-wall wall-main-horizontal" aria-hidden="true"></div>
+            <div class="home-wall wall-main-vertical" aria-hidden="true"></div>
+            <div class="home-wall wall-kitchen" aria-hidden="true"></div>
+            <div class="home-wall wall-entry" aria-hidden="true"></div>
+            <div class="zone living" data-label="客厅">客厅</div>
+            <div class="zone kitchen" data-label="厨房">厨房</div>
+            <div class="zone door" data-label="门口">门口</div>
+            <div class="zone elder" data-label="老人座位">老人座位</div>
+            <svg class="route-overlay" id="routeOverlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <div class="fixture tv-console" aria-hidden="true"></div>
+            <div class="fixture sofa" aria-hidden="true"></div>
+            <div class="fixture coffee-table" aria-hidden="true"></div>
+            <div class="fixture dining-table" aria-hidden="true"></div>
+            <div class="fixture kitchen-counter" aria-hidden="true"></div>
+            <div class="fixture kitchen-sink" aria-hidden="true"></div>
+            <div class="fixture kitchen-stove" aria-hidden="true"></div>
+            <div class="fixture fridge" aria-hidden="true"></div>
+            <div class="fixture entry-door" aria-hidden="true"></div>
+            <div class="fixture shoe-cabinet" aria-hidden="true"></div>
+            <div class="fixture elder-chair" aria-hidden="true"></div>
+            <div class="fixture elder-person" aria-hidden="true">
+              <img src="assets/icons/material-elderly.svg" alt="">
+            </div>
+            <div class="fixture side-table" aria-hidden="true"></div>
+            <div class="robot" id="robotNode" title="HomeBot">
+              <img src="assets/icons/tabler-robot.svg" alt="">
+            </div>
+          </div>
+
+          <div class="timeline" id="timeline" aria-label="Execution timeline"></div>
+        </section>
+
+        <aside class="panel inspector-panel" aria-label="Agent inspector">
+          <div class="section-title">
+            <span>3</span>
+            <h2>Agent 编排</h2>
+          </div>
+
+          <div class="inspector-block product-focus-block">
+            <h3>当前任务理解</h3>
+            <div class="product-summary" id="productSummary"></div>
+          </div>
+
+          <div class="inspector-block product-focus-block">
+            <h3>系统下一步决策</h3>
+            <div class="decision-summary" id="decisionSummary"></div>
+          </div>
+
+          <details class="debug-drawer">
+            <summary>高级调试与证据</summary>
+
+          <div class="inspector-block run-log-block">
+            <div class="inspector-heading">
+              <h3>运行日志</h3>
+              <div class="log-actions">
+                <button id="exportLogButton" type="button">导出</button>
+                <button id="clearLogButton" type="button">清空</button>
+              </div>
+            </div>
+            <div class="run-log" id="runLog"></div>
+          </div>
+
+          <div class="inspector-block context-memory-block">
+            <h3>多轮上下文</h3>
+            <div class="context-memory" id="contextMemory"></div>
+          </div>
+
+          <div class="inspector-block task-queue-block">
+            <div class="inspector-heading">
+              <h3>任务队列</h3>
+              <div class="log-actions">
+                <button id="clearQueueButton" type="button">清空</button>
+              </div>
+            </div>
+            <div class="task-queue" id="taskQueue"></div>
+          </div>
+
+          <div class="inspector-block perception-block">
+            <h3>环境感知</h3>
+            <div class="perception-controls">
+              <button type="button" data-perception-event="target_moved">目标被挪走</button>
+              <button type="button" data-perception-event="path_blocked">路径被挡住</button>
+              <button type="button" data-perception-event="elder_moved">老人位置变化</button>
+            </div>
+            <div class="perception-feed" id="perceptionFeed"></div>
+          </div>
+
+          <div class="inspector-block quality-evidence-block">
+            <div class="inspector-heading">
+              <h3>Quality Evidence / PM 讲解</h3>
+              <a class="mini-link" href="/test-plan.html">测试计划</a>
+            </div>
+            <div class="quality-evidence" id="qualityEvidence"></div>
+          </div>
+
+          <div class="inspector-block execution-state-block">
+            <h3>Execution State Machine</h3>
+            <div class="execution-state-machine" id="executionStateMachine"></div>
+          </div>
+
+          <div class="inspector-block handoff-block">
+            <h3>Human-in-the-loop 接管决策</h3>
+            <div class="handoff-panel" id="handoffPanel"></div>
+          </div>
+
+          <div class="inspector-block grounding-block">
+            <h3>Grounding 证据</h3>
+            <div class="grounding-evidence" id="groundingEvidence"></div>
+          </div>
+
+          <div class="inspector-block route-block">
+            <h3>执行路径预览</h3>
+            <div class="route-preview" id="routePreview"></div>
+          </div>
+
+          <div class="inspector-block">
+            <h3>子 Agent 决策链</h3>
+            <div class="agent-stack" id="agentTrace"></div>
+          </div>
+
+          <div class="inspector-block">
+            <h3>结构化任务</h3>
+            <pre id="taskJson">{}</pre>
+          </div>
+
+          <div class="inspector-block">
+            <h3>任务计划</h3>
+            <ol class="plan-list" id="planList"></ol>
+          </div>
+          </details>
+        </aside>
+      </section>
+
+      <section class="metric-strip" aria-label="Evaluation metrics">
+        <div class="metric">
+          <strong id="metricTotal">0</strong>
+          <span>总任务</span>
+        </div>
+        <div class="metric">
+          <strong id="metricSuccess">0%</strong>
+          <span>完成率</span>
+        </div>
+        <div class="metric">
+          <strong id="metricClarify">0</strong>
+          <span>澄清次数</span>
+        </div>
+        <div class="metric">
+          <strong id="metricConfirm">0</strong>
+          <span>安全确认</span>
+        </div>
+        <div class="metric">
+          <strong id="metricHandoff">0</strong>
+          <span>人工接管</span>
+        </div>
+        <div class="metric">
+          <strong id="metricRisk">0</strong>
+          <span>风险拦截</span>
+        </div>
+        <div class="metric">
+          <strong id="metricRecovery">0</strong>
+          <span>异常恢复</span>
+        </div>
+        <div class="metric">
+          <strong id="metricInterrupt">0</strong>
+          <span>中途打断</span>
+        </div>
+        <div class="metric">
+          <strong id="metricInterruptEval">-</strong>
+          <span>打断评估</span>
+        </div>
+        <div class="metric">
+          <strong id="metricSpeech">0</strong>
+          <span>语音反馈</span>
+        </div>
+        <div class="metric">
+          <strong id="metricVoiceTurns">0</strong>
+          <span>语音轮次</span>
+        </div>
+        <div class="metric">
+          <strong id="metricVoiceFallback">0</strong>
+          <span>语音兜底</span>
+        </div>
+        <div class="metric">
+          <strong id="metricVoiceEval">-</strong>
+          <span>语音评估</span>
+        </div>
+        <div class="metric">
+          <strong id="metricRouteEval">-</strong>
+          <span>路线评估</span>
+        </div>
+        <div class="metric">
+          <strong id="metricEval">-</strong>
+          <span>评估通过</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/agent-orchestrator.js?v=20260528-2"></script>
+    <script src="src/app.js?v=20260528-2"></script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "daily_delivery",
+    "version": "V5.0",
+    "title": "日常递送",
+    "tagline": "低风险任务从自然语言到可执行动作",
+    "command": "把红色杯子拿到厨房台面",
+    "demoUrl": "/?demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2",
+    "userProblem": "用户不会描述机器人控制参数，只会说生活化目标。",
+    "agentPath": ["Intent: 识别物品移动", "Grounding: 锁定红色杯子", "Planner: 生成移动与放置路径", "Evaluator: 记录任务完成"],
+    "evidence": {
+      "intent": "pick_and_place",
+      "object": "红色杯子",
+      "destination": "厨房台面",
+      "risk": "低风险",
+      "gate": "无需确认",
+      "coverage": "核心任务评估 easy_pick_001",
+      "pmCapability": "把口语化需求转成结构化任务流"
+    },
+    "talkTrack": "这条路径证明产品不是聊天助手，而是把生活语言映射到对象、位置和执行计划。"
+  },
+  {
+    "id": "ambiguity_clarification",
+    "version": "V5.0",
+    "title": "歧义澄清",
+    "tagline": "遇到多个候选对象时先问清楚再执行",
+    "command": "把杯子拿到厨房",
+    "demoUrl": "/?demo=%E6%8A%8A%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF",
+    "userProblem": "家庭场景里同类物体很多，直接执行会导致错拿。",
+    "agentPath": ["Intent: 识别递送意图", "Grounding: 发现红杯/蓝杯歧义", "Dialogue: 发起澄清", "Evaluator: 记录澄清触发"],
+    "evidence": {
+      "intent": "pick_and_place",
+      "object": "杯子候选集",
+      "destination": "厨房台面",
+      "risk": "低风险",
+      "gate": "对象澄清",
+      "coverage": "核心任务评估 clarify_cup_001",
+      "pmCapability": "用澄清机制降低误执行风险"
+    },
+    "talkTrack": "这条路径对应语音交互中的误触发控制：不确定时不装懂，先把执行风险降下来。"
+  },
+  {
+    "id": "elder_medicine",
+    "version": "V5.0",
+    "title": "照护确认",
+    "tagline": "高风险任务进入确认或接管门控",
+    "command": "把药盒递给老人",
+    "demoUrl": "/?confirm=1&demo=%E6%8A%8A%E8%8D%AF%E7%9B%92%E9%80%92%E7%BB%99%E8%80%81%E4%BA%BA",
+    "userProblem": "药品、老人照护等任务不能只追求自动化，必须给用户确认权。",
+    "agentPath": ["Intent: 识别药品递送", "Grounding: 定位药盒与老人座位", "Safety: 标记高风险", "Human-in-loop: 请求确认"],
+    "evidence": {
+      "intent": "deliver",
+      "object": "药盒",
+      "destination": "老人座位",
+      "risk": "高风险",
+      "gate": "安全确认",
+      "coverage": "核心任务评估 safety_medicine_001",
+      "pmCapability": "定义安全边界和人机协作门控"
+    },
+    "talkTrack": "这条路径展示具身智能产品里的安全设计：不是所有任务都应该自动执行。"
+  },
+  {
+    "id": "mid_execution_change",
+    "version": "V5.0",
+    "title": "执行中改口",
+    "tagline": "用户中途修正目标时重建任务计划",
+    "command": "把红色杯子拿到厨房台面；中途说：别放厨房了，放门口",
+    "demoUrl": "/?demo=%E6%8A%8A%E7%BA%A2%E8%89%B2%E6%9D%AF%E5%AD%90%E6%8B%BF%E5%88%B0%E5%8E%A8%E6%88%BF%E5%8F%B0%E9%9D%A2&interrupt=%E5%88%AB%E6%94%BE%E5%8E%A8%E6%88%BF%E4%BA%86%EF%BC%8C%E6%94%BE%E9%97%A8%E5%8F%A3",
+    "userProblem": "真实人机协作不是一次性命令，用户会暂停、改目标或接管。",
+    "agentPath": ["Execution: 保留当前任务状态", "Interruption: 分类为目标修正", "Planner: 重建路径", "Evaluator: 记录打断闭环"],
+    "evidence": {
+      "intent": "destination_change",
+      "object": "红色杯子",
+      "destination": "门口",
+      "risk": "中风险",
+      "gate": "中途改口",
+      "coverage": "打断评估 destination_correction",
+      "pmCapability": "定义动态意图和执行状态一致性"
+    },
+    "talkTrack": "这条路径把 Agent 从静态理解推进到执行期协作，能体现状态机和异常恢复能力。"
+  }
+]

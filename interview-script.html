@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 面试脚本</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260531-2">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V7.2 Interview Script</p>
+          <h1>从 30 秒到 8 分钟的项目讲法</h1>
+          <p class="subtitle">这页不是介绍功能，而是帮你把项目讲成“问题、取舍、方案、验证、下一步”的产品故事。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/delivery-kit.html">投递包</a>
+          <a href="/interview-demo.html">面试演示</a>
+          <a href="/decision-log.html">决策日志</a>
+          <a href="/portfolio-hub.html">作品集首页</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Talk Tracks</p>
+            <h2>三套可直接使用的讲法</h2>
+          </div>
+        </div>
+        <div class="script-timeline">
+          <article class="script-step">
+            <strong>30 秒</strong>
+            <div>
+              <h3>快速定位</h3>
+              <p>这是一个面向具身智能交互的 Voice-to-Action Agent 原型。我把用户自然语言任务拆成意图识别、对象 grounding、安全确认、路径规划、执行反馈和评估回归几个模块，用本地 Demo 验证“语音指令如何可靠地变成物理任务流”。它和我在华为做的多 Agent 告警工作流是连续的，都是把人的模糊意图转成可执行工作流。</p>
+            </div>
+          </article>
+          <article class="script-step">
+            <strong>3 分钟</strong>
+            <div>
+              <h3>标准项目介绍</h3>
+              <p>我先定义了家庭机器人任务场景，不追求一开始接真实机器人，而是先验证产品闭环。第一步解决用户一句话任务的结构化理解，第二步解决“这个、旁边那个、老人旁边”这类对象 grounding，第三步补安全门控和人工接管，第四步做执行中改口和异常恢复，最后用评估集、测试计划和证据页证明行为稳定性。这个项目能体现我从工程实现转向产品定义的能力：不仅能做功能，也能定义边界、风险、指标和迭代顺序。</p>
+            </div>
+          </article>
+          <article class="script-step">
+            <strong>8 分钟</strong>
+            <div>
+              <h3>深挖讲法</h3>
+              <p>先打开面试演示页讲四条黄金路径，再打开主 Demo 跑一个任务，接着打开 Agent 架构解释每个模块的输入输出和失败风险，最后打开测试计划说明 expected vs actual、PM Review 和 Review Sandbox。结尾讲下一步：接入真实 ASR / LLM function calling / VLM grounding / 机器人 SDK，把当前规则原型升级为更真实的具身交互系统。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Likely Questions</p>
+            <h2>高频追问回答骨架</h2>
+          </div>
+        </div>
+        <div class="kit-grid">
+          <article class="kit-card">
+            <h3>为什么不用 3D / ROS？</h3>
+            <p>当前阶段目标是验证产品链路，不是验证机器人控制能力。2D 能更快暴露产品问题：对象指代、安全门控、异常恢复、执行状态和评估集。真实机器人控制是下一阶段，不应该抢走 MVP 的验证重心。</p>
+          </article>
+          <article class="kit-card">
+            <h3>为什么规则实现，不直接上大模型？</h3>
+            <p>规则实现让每个模块输入输出可解释，适合先做产品原型和测试集。后续可以把 Intent、Grounding、Planner 替换成 LLM function calling 或 VLM grounding，但产品边界和评估集先固定下来。</p>
+          </article>
+          <article class="kit-card">
+            <h3>项目和华为经历有什么关系？</h3>
+            <p>华为项目是把告警 SOP 转成多 Agent 工作流，这个项目是把家庭任务转成具身执行工作流。底层能力相同：任务抽象、流程编排、状态治理、异常兜底和质量评估。</p>
+          </article>
+          <article class="kit-card">
+            <h3>你作为 PM 的贡献是什么？</h3>
+            <p>不是只写代码。我定义了用户场景、任务边界、风险门控、评估集、版本路线、演示路径和岗位叙事，把一个功能原型沉淀成可投递、可追问的产品作品集。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

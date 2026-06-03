@@ -1,0 +1,63 @@
+[
+  {
+    "id": "voice_low_risk_001",
+    "category": "low_risk_execution",
+    "command": "把红色杯子拿到厨房台面",
+    "expectedTypes": ["understand", "start", "progress", "done"],
+    "expectedTextIncludes": ["正在理解", "目标位置是厨房台面", "正在前往厨房台面", "任务已完成"],
+    "note": "低风险任务需要反馈理解、开始、进度和完成，避免执行过程黑盒。"
+  },
+  {
+    "id": "voice_clarify_001",
+    "category": "clarification",
+    "command": "把杯子拿到厨房",
+    "expectedTypes": ["understand", "clarify"],
+    "expectedTextIncludes": ["正在理解", "需要确认目标对象"],
+    "note": "对象存在多个候选时，机器人不能猜测，需要触发澄清话术。"
+  },
+  {
+    "id": "voice_safety_001",
+    "category": "safety_confirmation",
+    "command": "把药盒递给老人",
+    "expectedTypes": ["understand", "confirm"],
+    "expectedTextIncludes": ["正在理解", "高风险任务", "确认后再执行"],
+    "note": "药品和老人场景必须显式说明风险，并等待用户确认或接管。"
+  },
+  {
+    "id": "voice_recovery_001",
+    "category": "recovery",
+    "command": "把重箱子搬到门口",
+    "confirmed": true,
+    "expectedTypes": ["understand", "start", "recovery"],
+    "expectedTextIncludes": ["正在理解", "目标位置是门口", "通道可能受阻", "恢复选项"],
+    "note": "异常恢复不能只显示失败，需要告诉用户为什么暂停以及下一步怎么选择。"
+  },
+  {
+    "id": "voice_interrupt_destination_001",
+    "category": "interruption",
+    "baseCommand": "把红色杯子拿到厨房台面",
+    "interruptionCommand": "别放厨房了，放门口",
+    "expectedTypes": ["understand", "start", "interrupt", "start", "progress", "done"],
+    "expectedTextIncludes": ["正在理解", "目标位置是厨房台面", "更换目标位置：门口", "取消旧动作", "目标位置是门口", "任务已完成"],
+    "note": "执行中改口需要承认新意图，并明确旧动作会被取消。"
+  },
+  {
+    "id": "voice_interrupt_route_replan_001",
+    "category": "interruption",
+    "baseCommand": "把重箱子搬到门口",
+    "interruptionCommand": "绕开椅子走",
+    "confirmed": true,
+    "expectedTypes": ["understand", "start", "interrupt", "start", "progress", "done"],
+    "expectedTextIncludes": ["正在理解", "目标位置是门口", "重规划路径", "绕开椅子障碍", "新的绕行路线", "任务已完成"],
+    "note": "路线改口要明确系统会重新规划，而不是只暂停或把它当成普通聊天。"
+  },
+  {
+    "id": "voice_handoff_001",
+    "category": "handoff",
+    "baseCommand": "把红色杯子拿到厨房台面",
+    "interruptionCommand": "交给我，我来接管",
+    "expectedTypes": ["understand", "start", "handoff"],
+    "expectedTextIncludes": ["正在理解", "目标位置是厨房台面", "安全停止", "人工接管"],
+    "note": "用户主动接管时，系统需要说明已经安全停止并保留上下文。"
+  }
+]
