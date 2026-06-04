@@ -276,11 +276,11 @@ function applyProductizedCopy() {
   };
 
   setText(".eyebrow", "Home Robot Interaction Demo");
-  setText(".command-panel .section-title h2", "任务输入");
+  setText(".command-panel .section-title h2", "一句话任务");
   setText(".stage-panel .section-title h2", "家庭场景");
   setText(".inspector-panel .section-title h2", "任务状态");
   setText("label[for='commandInput']", "输入一句话任务");
-  setText(".sample-section-label", "选择一个场景");
+  setText(".sample-section-label", "试跑场景");
   setText(".voice-lite-card summary", "语音确认");
   setText(".advanced-command-drawer summary", "评测工具");
   setText(".runtime-drawer summary", "执行接管");
@@ -418,11 +418,10 @@ function handleAutomationParams() {
 function renderSamples() {
   nodes.sampleList.innerHTML = "";
   const sampleScenarios = [
-    { title: "日常递送", helper: "低风险物品移动", command: "把红色杯子拿到厨房台面" },
-    { title: "照护确认", helper: "老人/药品相关", command: "把药盒递给老人，但先确认是不是蓝色那个" },
-    { title: "高风险搬运", helper: "重物需要确认", command: "把重箱子搬到门口" },
-    { title: "自主导航", helper: "无物体移动意图", command: "请你移动到客厅" },
-    { title: "异常恢复", helper: "路径变化后重新规划", command: "把重箱子搬到门口，绕开椅子走" }
+    { title: "日常执行", helper: "拿杯子到厨房", command: "把红色杯子拿到厨房台面" },
+    { title: "对象澄清", helper: "让系统先确认", command: "把杯子拿到厨房" },
+    { title: "安全确认", helper: "药盒递给老人", command: "把药盒递给老人" },
+    { title: "执行改口", helper: "执行中再说：别放厨房了，放门口", command: "把红色杯子拿到厨房台面" }
   ];
   const samples = sampleScenarios.map((item) => {
     const matched = state.scenario.samples.find((sample) => sample === item.command) || item.command;
@@ -1335,6 +1334,7 @@ function requestClarification(parseResult, command) {
   setStatus("Clarifying");
   setRuntimeFeedbackOpen(true);
   state.pending = { type: "clarification", command, parseResult };
+  updateInspector(parseResult.task, parseResult.plan || [], parseResult.trace || [], parseResult.groundingReport, parseResult.routeReport);
   state.conversation.pendingQuestion = {
     type: "clarification",
     command,
@@ -1366,6 +1366,7 @@ function requestConfirmation(parseResult, command) {
   setStatus("Confirming");
   setRuntimeFeedbackOpen(true);
   state.pending = { type: "confirmation", command, parseResult };
+  updateInspector(parseResult.task, parseResult.plan || buildPlan(parseResult.task), parseResult.trace || [], parseResult.groundingReport, parseResult.routeReport);
   state.conversation.pendingQuestion = {
     type: "confirmation",
     command,
@@ -2043,7 +2044,7 @@ function renderProductPanels(task, plan = [], trace = [], groundingReport = null
       <article class="product-card">
         <div class="product-card-main">
           <strong>${task ? escapeHtml(intentLabel) : "等待任务输入"}</strong>
-          <p>${task ? escapeHtml(task.userCommand || "来自语音/文本输入的任务") : "输入一句自然语言指令，系统会先理解意图，再决定执行、澄清、确认或接管。"}</p>
+          <p>${task ? escapeHtml(task.userCommand || "来自语音/文本输入的任务") : "输入一句话，系统只做一件事：先判断能不能安全执行。"}</p>
         </div>
         <dl class="product-facts">
           <div><dt>目标对象</dt><dd>${escapeHtml(objectText)}</dd></div>

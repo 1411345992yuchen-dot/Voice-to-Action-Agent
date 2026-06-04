@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Voice-to-Action Agent</title>
-    <link rel="stylesheet" href="src/styles.css?v=20260604-1">
+    <link rel="stylesheet" href="src/styles.css?v=20260604-2">
   </head>
   <body>
     <main class="app-shell">
@@ -22,13 +22,13 @@
 
       <section class="workspace" aria-label="Voice-to-action workspace">
         <aside class="panel command-panel" aria-label="Command input">
-          <div class="section-title">
+          <div class="section-title compact-title">
             <span>1</span>
-            <h2>指令输入</h2>
+            <h2>一句话任务</h2>
           </div>
 
-          <label class="field-label" for="commandInput">用户自然语言任务</label>
-          <textarea id="commandInput" rows="5" placeholder="例如：把桌上的红色杯子拿到厨房台面"></textarea>
+          <label class="field-label" for="commandInput">输入任务</label>
+          <textarea id="commandInput" rows="4" placeholder="例如：把红色杯子拿到厨房台面"></textarea>
 
           <div class="button-row">
             <button class="primary-button" id="runButton" type="button">生成任务流</button>
@@ -36,11 +36,11 @@
             <button class="icon-button" id="resetButton" type="button" aria-label="重置场景" title="重置场景">↺</button>
           </div>
 
-          <div class="demo-action-strip">
+          <div class="demo-action-strip debug-only">
             <button class="secondary-button demo-mode-button" id="voiceDemoButton" type="button">运行语音 PM Demo</button>
           </div>
 
-          <div class="sample-section-label">常用演示场景</div>
+          <div class="sample-section-label">核心场景</div>
           <div class="sample-list" id="sampleList" aria-label="Sample commands"></div>
 
           <details class="voice-lite-card" id="voiceLiteCard">
@@ -69,7 +69,7 @@
             </div>
           </details>
 
-          <details class="runtime-drawer" id="runtimeDrawer">
+          <details class="runtime-drawer debug-only" id="runtimeDrawer">
             <summary>执行反馈与接管</summary>
             <div class="interaction-box" id="interactionBox">
             <p class="muted">等待用户指令。系统会判断是否需要澄清、确认或接管。</p>
@@ -100,7 +100,7 @@
             <div class="voice-metrics-grid" id="voiceMetricsGrid"></div>
           </div>
 
-          <details class="context-drawer">
+          <details class="context-drawer debug-only">
             <summary>当前指代对象</summary>
             <div class="context-card" id="selectedContext">
             <strong>当前指代对象</strong>
@@ -111,9 +111,9 @@
 
         <section class="stage-panel" aria-label="Robot scene">
           <div class="stage-header">
-            <div class="section-title">
-              <span>2</span>
-              <h2>物理场景模拟</h2>
+          <div class="section-title compact-title">
+            <span>2</span>
+              <h2>家庭场景</h2>
             </div>
             <div class="scene-legend">
               <span><i class="legend-robot"></i>Robot</span>
@@ -156,18 +156,18 @@
         </section>
 
         <aside class="panel inspector-panel" aria-label="Agent inspector">
-          <div class="section-title">
+          <div class="section-title compact-title">
             <span>3</span>
-            <h2>Agent 编排</h2>
+            <h2>任务状态</h2>
           </div>
 
-          <div class="inspector-block product-focus-block">
-            <h3>当前任务理解</h3>
+          <div class="inspector-block product-focus-block primary-status-block">
+            <h3>当前状态</h3>
             <div class="product-summary" id="productSummary"></div>
           </div>
 
           <div class="inspector-block product-focus-block">
-            <h3>系统下一步决策</h3>
+            <h3>下一步</h3>
             <div class="decision-summary" id="decisionSummary"></div>
           </div>
 
@@ -321,6 +321,6 @@
     </main>
 
     <script src="src/agent-orchestrator.js?v=20260528-2"></script>
-    <script src="src/app.js?v=20260604-1"></script>
+    <script src="src/app.js?v=20260604-2"></script>
   </body>
 </html>
