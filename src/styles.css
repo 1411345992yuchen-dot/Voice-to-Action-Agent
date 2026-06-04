@@ -1497,6 +1497,94 @@ button:hover {
   margin-top: 10px;
 }
 
+.core-flow-rail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+
+.core-flow-step {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf7;
+}
+
+.core-flow-step span {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef2ef;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.core-flow-step strong,
+.core-flow-step small {
+  display: block;
+}
+
+.core-flow-step strong {
+  color: #23332b;
+  font-size: 13px;
+}
+
+.core-flow-step small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.core-flow-step.active {
+  border-color: rgba(47, 104, 183, 0.35);
+  background: var(--blue-soft);
+}
+
+.core-flow-step.active span {
+  background: var(--blue);
+  color: #fff;
+}
+
+.core-flow-step.done {
+  border-color: rgba(35, 122, 87, 0.24);
+  background: var(--green-soft);
+}
+
+.core-flow-step.done span {
+  background: var(--green);
+  color: #fff;
+}
+
+.core-flow-step.warn {
+  border-color: rgba(177, 107, 21, 0.35);
+  background: var(--amber-soft);
+}
+
+.core-flow-step.warn span {
+  background: var(--amber);
+  color: #fff;
+}
+
+.core-flow-step.risk {
+  border-color: rgba(180, 67, 67, 0.35);
+  background: var(--red-soft);
+}
+
+.core-flow-step.risk span {
+  background: var(--red);
+  color: #fff;
+}
+
 .product-summary,
 .decision-summary {
   display: grid;

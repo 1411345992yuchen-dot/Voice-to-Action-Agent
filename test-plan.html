@@ -26,6 +26,11 @@
 
       <section class="summary-grid" aria-label="Test summary">
         <article>
+          <span id="corePass">-</span>
+          <strong>核心用例</strong>
+          <p>默认只展示最能证明主流程的关键回归。</p>
+        </article>
+        <article>
           <span id="baselinePass">-</span>
           <strong>基础评估</strong>
           <p>覆盖意图、对象、位置、风险、恢复预案和路线策略。</p>
@@ -40,37 +45,37 @@
           <strong>语音评估</strong>
           <p>覆盖理解、澄清、确认、恢复、改口、路线重规划和接管话术。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="routePass">-</span>
           <strong>路线评估</strong>
           <p>覆盖绕行点、风险标记、路线策略和分段执行合同。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="advancedPass">-</span>
           <strong>高级交互</strong>
           <p>覆盖多轮澄清、确认、任务队列和动态感知。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="voiceInteractionPass">-</span>
           <strong>语音交互</strong>
           <p>覆盖识别确认、文本修正、兜底、多轮短回复和语音 Demo 链路。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="totalPass">-</span>
           <strong>总通过率</strong>
           <p>用于展示 Agent 行为质量是否可持续维护。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="blockedCount">0</span>
           <strong>当前阻塞</strong>
           <p>失败用例应进入复盘，区分产品定义与实现缺陷。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="reviewFocus">-</span>
           <strong>PM 复盘重点</strong>
           <p>按产品定义、grounding、路线、评分、执行和话术归因。</p>
         </article>
-        <article>
+        <article class="extra-summary-card">
           <span id="sandboxStatus">关闭</span>
           <strong>复盘沙盒</strong>
           <p>模拟典型事故，不影响真实回归基线。</p>
@@ -110,7 +115,8 @@
         </div>
       </section>
 
-      <section class="review-sandbox">
+      <details class="review-sandbox">
+        <summary>高级复盘沙盒</summary>
         <div>
           <p class="eyebrow">Review Sandbox</p>
           <h2>失败注入 / PM 复盘演练</h2>
@@ -120,7 +126,7 @@
           <div class="sandbox-controls" id="sandboxControls"></div>
           <p class="sandbox-description" id="sandboxDescription">当前显示真实回归结果。开启沙盒后，真实基线保持不变，新增的模拟事故会单独进入复盘。</p>
         </div>
-      </section>
+      </details>
 
       <section class="case-layout">
         <aside class="case-list-panel">
@@ -129,7 +135,8 @@
             <h2>评估用例</h2>
           </div>
           <div class="filter-row" role="tablist" aria-label="Evaluation filter">
-            <button class="active" type="button" data-filter="all">全部</button>
+            <button class="active" type="button" data-filter="core">核心</button>
+            <button type="button" data-filter="all">全部</button>
             <button type="button" data-filter="baseline">基础</button>
             <button type="button" data-filter="interruption">打断</button>
             <button type="button" data-filter="voice">语音</button>

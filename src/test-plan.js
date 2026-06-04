@@ -8,12 +8,13 @@ const state = {
   voiceInteractionCases: [],
   baseResults: [],
   results: [],
-  activeFilter: "all",
+  activeFilter: "core",
   selectedId: null,
   activeSandboxId: "none"
 };
 
 const nodes = {
+  corePass: document.getElementById("corePass"),
   baselinePass: document.getElementById("baselinePass"),
   interruptPass: document.getElementById("interruptPass"),
   voicePass: document.getElementById("voicePass"),
@@ -52,6 +53,19 @@ const nodes = {
   guideScript: document.getElementById("guideScript"),
   demoLink: document.getElementById("demoLink")
 };
+
+const CORE_CASE_IDS = new Set([
+  "easy_pick_001",
+  "clarify_cup_001",
+  "safety_medicine_001",
+  "near_elder_overrides_selected_001",
+  "interrupt_destination_001",
+  "interrupt_route_replan_001",
+  "voice_low_risk_001",
+  "voice_clarify_001",
+  "voice_safety_001",
+  "multi_turn_slot_fill_001"
+]);
 
 const REVIEW_SANDBOXES = [
   {
@@ -120,6 +134,7 @@ async function init() {
   state.advancedCases = advancedCases;
   state.voiceInteractionCases = voiceInteractionCases;
   state.activeSandboxId = readSandboxParam();
+  state.activeFilter = state.activeSandboxId === "none" ? "core" : "sandbox";
   state.baseResults = [
     ...runBaselineCases(baselineCases),
     ...runInterruptionCases(interruptionCases),
@@ -129,7 +144,7 @@ async function init() {
     ...runVoiceInteractionCases(voiceInteractionCases)
   ];
   state.results = buildDisplayResults();
-  state.selectedId = state.results[0]?.id || null;
+  state.selectedId = getVisibleResults()[0]?.id || state.results[0]?.id || null;
 
   bindFilters();
   bindSandboxControls();
@@ -1453,12 +1468,14 @@ function buildInterruptionNote(caseItem, simulated) {
 
 function bindFilters() {
   document.querySelectorAll("[data-filter]").forEach((button) => {
+    button.classList.toggle("active", button.getAttribute("data-filter") === state.activeFilter);
     button.addEventListener("click", () => {
       state.activeFilter = button.getAttribute("data-filter");
       document.querySelectorAll("[data-filter]").forEach((item) => item.classList.remove("active"));
       button.classList.add("active");
       const visible = getVisibleResults();
       state.selectedId = visible[0]?.id || state.results[0]?.id || null;
+      renderSummary();
       renderCaseList();
       renderSelectedCase();
     });
@@ -1509,7 +1526,12 @@ function renderSandboxControls() {
 }
 
 function renderSummary() {
+  document.body.classList.toggle(
+    "show-extra-summary",
+    state.activeFilter !== "core" || state.activeSandboxId !== "none"
+  );
   const realResults = state.results.filter((item) => item.group !== "sandbox");
+  const core = realResults.filter(isCoreResult);
   const baseline = realResults.filter((item) => item.group === "baseline");
   const interruption = realResults.filter((item) => item.group === "interruption");
   const voice = realResults.filter((item) => item.group === "voice");
@@ -1521,6 +1543,7 @@ function renderSummary() {
   const watchCount = state.results.filter((item) => item.review?.severity === "watch").length;
   const focusCategory = topReviewCategory(state.results);
   const activeSandbox = REVIEW_SANDBOXES.find((item) => item.id === state.activeSandboxId);
+  if (nodes.corePass) nodes.corePass.textContent = `${countPassed(core)}/${core.length}`;
   nodes.baselinePass.textContent = `${countPassed(baseline)}/${baseline.length}`;
   nodes.interruptPass.textContent = `${countPassed(interruption)}/${interruption.length}`;
   nodes.voicePass.textContent = `${countPassed(voice)}/${voice.length}`;
@@ -1546,8 +1569,13 @@ function countPassed(items) {
 }
 
 function getVisibleResults() {
+  if (state.activeFilter === "core") return state.results.filter(isCoreResult);
   if (state.activeFilter === "all") return state.results;
   return state.results.filter((item) => item.group === state.activeFilter);
+}
+
+function isCoreResult(item) {
+  return CORE_CASE_IDS.has(item.id);
 }
 
 function renderCaseList() {

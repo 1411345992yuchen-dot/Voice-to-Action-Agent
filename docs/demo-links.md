@@ -24,11 +24,9 @@ python server.py
 
 ## Core Acceptance
 
-- 基础评估：`http://localhost:8765/?eval=1`
-- 打断评估：`http://localhost:8765/?interrupteval=1`
-- 语音反馈评估：`http://localhost:8765/?voiceeval=1`
-- 路线质量评估：`http://localhost:8765/?routeeval=1`
 - 核心验收页：`http://localhost:8765/test-plan.html`
+- 默认展示：10 条主链路用例，覆盖日常执行、歧义澄清、安全确认、执行中改口、语音反馈和多轮补全。
+- 深度筛选：在页面里切换“全部 / 路线 / 高级交互 / 沙盒”，用于后续专项复盘，不作为默认演示路径。
 
 ## Archived Pages
 

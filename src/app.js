@@ -178,6 +178,7 @@ const nodes = {
   qualityEvidence: document.getElementById("qualityEvidence"),
   executionStateMachine: document.getElementById("executionStateMachine"),
   handoffPanel: document.getElementById("handoffPanel"),
+  coreFlowRail: document.getElementById("coreFlowRail"),
   productSummary: document.getElementById("productSummary"),
   decisionSummary: document.getElementById("decisionSummary"),
   exportLogButton: document.getElementById("exportLogButton"),
@@ -2033,6 +2034,7 @@ function updateInspector(task, plan, trace, groundingReport = null, routeReport 
 }
 
 function renderProductPanels(task, plan = [], trace = [], groundingReport = null, routeReport = null) {
+  renderCoreFlowRail(task, groundingReport, routeReport);
   if (nodes.productSummary) {
     const intentLabel = getIntentLabel(task?.intent);
     const objectText = task?.object || "待识别";
@@ -2072,6 +2074,56 @@ function renderProductPanels(task, plan = [], trace = [], groundingReport = null
       </article>
     `;
   }
+}
+
+function renderCoreFlowRail(task, groundingReport = null, routeReport = null) {
+  if (!nodes.coreFlowRail) return;
+  const stages = buildCoreFlowStages(task, groundingReport, routeReport);
+  nodes.coreFlowRail.innerHTML = stages.map((stage, index) => `
+    <article class="core-flow-step ${escapeHtml(stage.state)}">
+      <span>${index + 1}</span>
+      <div>
+        <strong>${escapeHtml(stage.label)}</strong>
+        <small>${escapeHtml(stage.detail)}</small>
+      </div>
+    </article>
+  `).join("");
+}
+
+function buildCoreFlowStages(task, groundingReport = null, routeReport = null) {
+  const current = state.executionState.current;
+  const hasTask = Boolean(task);
+  const hasGrounding = Boolean(task?.objectId || task?.destinationId || groundingReport);
+  const hasRoute = Boolean(routeReport?.segments?.length || task?.status === "executing" || task?.status === "completed");
+  const isClarifying = state.pending?.type === "clarification" || current === "need_clarification";
+  const isConfirming = state.pending?.type === "confirmation" || current === "need_confirmation";
+  const isExecuting = current === "executing" || task?.status === "executing";
+  const isDone = current === "completed" || task?.status === "completed";
+  const isRecovery = ["recovering", "paused"].includes(current);
+  const isHandoff = current === "handoff" || task?.status === "handoff";
+
+  return [
+    {
+      label: "理解",
+      detail: hasTask ? "已识别任务意图" : "等待一句话任务",
+      state: current === "parsing" ? "active" : hasTask ? "done" : "active"
+    },
+    {
+      label: "定位",
+      detail: isClarifying ? "需要确认对象" : hasGrounding ? "对象/位置已绑定" : "等待场景线索",
+      state: isClarifying ? "warn" : hasGrounding ? "done" : hasTask ? "active" : "pending"
+    },
+    {
+      label: "安全门",
+      detail: isConfirming ? "等待安全确认" : isHandoff ? "转人工接管" : hasTask ? "风险已评估" : "待评估",
+      state: isHandoff ? "risk" : isConfirming ? "warn" : hasTask ? "done" : "pending"
+    },
+    {
+      label: "执行",
+      detail: isDone ? "任务完成" : isRecovery ? "恢复/暂停中" : isExecuting ? "机器人执行中" : hasRoute ? "路线已生成" : "待执行",
+      state: isHandoff ? "risk" : isDone ? "done" : isRecovery ? "warn" : isExecuting ? "active" : hasRoute ? "done" : "pending"
+    }
+  ];
 }
 
 function buildDecisionSummary(task, groundingReport = null, routeReport = null) {
