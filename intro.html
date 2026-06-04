@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent 产品介绍</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260604-2">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V11 Scope Reset</p>
+          <h1>Voice-to-Action Agent</h1>
+          <p class="subtitle">一个聚焦具身智能交互的产品原型：用户说一句自然语言任务，系统完成意图理解、对象定位、安全确认、动作规划、执行反馈和异常恢复。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a class="action-link primary" href="/">打开主 Demo</a>
+          <a href="/test-plan.html">核心验收</a>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Product Promise</p>
+          <h2>从一句话到一个可执行的机器人任务流</h2>
+          <p class="subtitle">这个项目不再主打“作品集材料很多”，而是收缩为一个清晰产品：把模糊语音/文本指令变成安全、可解释、可观察的物理世界任务执行过程。</p>
+          <div class="hero-points">
+            <div class="point"><strong>Understand</strong><span>识别用户想做什么，是搬运、递送、检查还是机器人自主导航。</span></div>
+            <div class="point"><strong>Ground</strong><span>把“杯子”“老人旁边那个东西”“这个”映射到场景对象。</span></div>
+            <div class="point"><strong>Act Safely</strong><span>对药盒、老人、重物、门口等高风险任务做确认和兜底。</span></div>
+          </div>
+        </div>
+        <div class="resume-block">
+          <strong>一句话讲法：</strong><br>
+          Voice-to-Action Agent 验证的是具身智能产品的核心链路：自然语言不是答案生成，而是任务执行入口。系统必须先理解、定位、确认风险，再规划动作并反馈执行状态。
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Core Flow</p>
+            <h2>主流程只保留 6 步</h2>
+          </div>
+          <p>后续优化都围绕这条链路展开，其他材料和实验页不再作为主产品入口。</p>
+        </div>
+        <div class="architecture-flow">
+          <span>1. 用户输入任务</span>
+          <span>2. Intent 识别</span>
+          <span>3. Object Grounding</span>
+          <span>4. Safety Gate</span>
+          <span>5. Route / Action Plan</span>
+          <span>6. Execute / Recover</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Focused Scope</p>
+            <h2>保留的核心能力</h2>
+          </div>
+        </div>
+        <div class="kit-grid">
+          <article class="kit-card">
+            <h3>自然语言任务理解</h3>
+            <p>支持文本和浏览器语音输入，把“把红色杯子拿到厨房台面”等自然语言变成结构化任务。</p>
+          </article>
+          <article class="kit-card">
+            <h3>指代和对象澄清</h3>
+            <p>处理颜色、位置、旁边、当前选中对象等 grounding 线索；对象不唯一时先澄清。</p>
+          </article>
+          <article class="kit-card">
+            <h3>安全确认和接管</h3>
+            <p>药盒、老人照护、重物、门口等任务不直接执行，必须进入确认或人工接管路径。</p>
+          </article>
+          <article class="kit-card">
+            <h3>物理执行可视化</h3>
+            <p>展示机器人移动、携带物体、路线预览、执行时间线和异常恢复，而不是只输出文本解释。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Demo Script</p>
+            <h2>建议只演示 4 条路径</h2>
+          </div>
+        </div>
+        <div class="runbook-grid">
+          <article class="runbook-step">
+            <strong>日常执行</strong>
+            <p><code>把桌上的红色杯子拿到厨房台面</code></p>
+            <p>证明从自然语言到可执行任务流的基础闭环。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>歧义澄清</strong>
+            <p><code>把杯子拿到厨房</code></p>
+            <p>证明系统不会擅自选择对象，而会向用户确认红色还是蓝色。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>安全确认</strong>
+            <p><code>把药盒递给老人</code></p>
+            <p>证明高风险物理任务不会因为理解正确就直接执行。</p>
+          </article>
+          <article class="runbook-step">
+            <strong>执行中改口</strong>
+            <p><code>别放厨房了，放门口</code></p>
+            <p>证明机器人任务执行过程中仍能处理用户意图变化。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Non-goals</p>
+            <h2>不再作为主路径展示</h2>
+          </div>
+          <p>下面内容保留在仓库中，但从主入口撤下，避免分散对 Voice-to-Action 本体的注意力。</p>
+        </div>
+        <div class="risk-grid">
+          <article class="risk-item">
+            <strong>求职材料页</strong>
+            <p>投递包、面试脚本、简历素材、视频脚本等不再作为主产品入口。</p>
+          </article>
+          <article class="risk-item">
+            <strong>LLM / Tool Calling 实验页</strong>
+            <p>保留为技术归档，不继续抢主 Demo 的产品主线。</p>
+          </article>
+          <article class="risk-item">
+            <strong>复杂评测面板</strong>
+            <p>只保留核心验收集，PM Review、失败注入和细分评估默认隐藏。</p>
+          </article>
+          <article class="risk-item">
+            <strong>历史设计选项</strong>
+            <p>户型、图标、场景选择页只作为历史记录，不再进入演示路径。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

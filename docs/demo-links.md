@@ -1,48 +1,46 @@
-# Demo 链接清单
+# Focused Demo Links
 
-本地运行：
+V11 之后，项目默认只推荐三类入口：产品介绍、主 Demo、核心验收。其他历史页面保留在仓库里，但不再作为面试或作品集主路径。
+
+## Run
 
 ```powershell
 cd D:\voice-to-action-agent
 python server.py
 ```
 
-然后打开：
+## Main Path
 
-```text
-http://localhost:8765/
-```
+- 产品介绍：`http://localhost:8765/intro.html`
+- 主 Demo：`http://localhost:8765/`
+- 核心验收：`http://localhost:8765/test-plan.html`
 
-## 作品集入口
+## Recommended Demo Script
 
-- 作品集首页：`http://localhost:8765/portfolio-hub.html`
-- 一页式 Brief：`http://localhost:8765/portfolio-brief.html`
-- 面试演示模式：`http://localhost:8765/interview-demo.html`
-- 岗位讲法：`http://localhost:8765/role-positioning.html`
-- 产品决策日志：`http://localhost:8765/decision-log.html`
-- 证据总览：`http://localhost:8765/evidence-dashboard.html`
-- 语音交互专项：`http://localhost:8765/voice-lab.html`
-- 真实语音评估：`http://localhost:8765/real-voice-eval.html`
-- Tool Calling Lab：`http://localhost:8765/tool-calling-lab.html`
-- LLM Integration Lab：`http://localhost:8765/llm-integration-lab.html`
-- Agent 架构说明：`http://localhost:8765/agent-architecture.html`
-
-## 可运行任务 Demo
-
-- 日常递送：`http://localhost:8765/?demo=把红色杯子拿到厨房台面`
+- 日常执行：`http://localhost:8765/?demo=把桌上的红色杯子拿到厨房台面`
 - 歧义澄清：`http://localhost:8765/?demo=把杯子拿到厨房`
-- 高风险确认：`http://localhost:8765/?confirm=1&demo=把药盒递给老人`
-- 执行中改口：`http://localhost:8765/?demo=把红色杯子拿到厨房台面&interrupt=别放厨房了，放门口`
-- 避障路线：`http://localhost:8765/?demo=把重箱子搬到门口，绕开椅子走`
-- 语音 PM Demo：`http://localhost:8765/?voicedemo=1`
+- 安全确认：`http://localhost:8765/?confirm=1&demo=把药盒递给老人`
+- 执行中改口：`http://localhost:8765/?demo=把桌上的红色杯子拿到厨房台面&interrupt=别放厨房了，放门口`
 
-## 质量验证
+## Core Acceptance
 
-- 核心评估：`http://localhost:8765/?eval=1`
+- 基础评估：`http://localhost:8765/?eval=1`
 - 打断评估：`http://localhost:8765/?interrupteval=1`
 - 语音反馈评估：`http://localhost:8765/?voiceeval=1`
 - 路线质量评估：`http://localhost:8765/?routeeval=1`
-- 真实语音评估：`http://localhost:8765/real-voice-eval.html`
-- Tool Calling 评估：`http://localhost:8765/tool-calling-lab.html`
-- LLM 接入桥评估：`http://localhost:8765/llm-integration-lab.html`
-- 测试计划页：`http://localhost:8765/test-plan.html`
+- 核心验收页：`http://localhost:8765/test-plan.html`
+
+## Archived Pages
+
+这些页面不删除，主要用于查历史材料或以后继续开发：
+
+- `portfolio-hub.html`
+- `portfolio-brief.html`
+- `real-voice-eval.html`
+- `tool-calling-lab.html`
+- `llm-integration-lab.html`
+- `agent-architecture.html`
+- `delivery-kit.html`
+- `resume-pack.html`
+- `interview-script.html`
+- `demo-video-script.html`

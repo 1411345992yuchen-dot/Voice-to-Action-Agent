@@ -216,6 +216,16 @@
 - 评估覆盖低风险执行、高风险确认、歧义澄清、闲聊阻止、缺少世界状态和代理不可用六类接入风险。
 - 目标是从“Tool Calling 契约”推进到“真实模型接入前的代理、安全和回退策略”。
 
+## V11.0: Scope Reset
+
+- 新增 `intro.html`，作为唯一推荐介绍页。
+- 主 Demo 顶部导航只保留“产品介绍”和“核心验收”。
+- `portfolio-hub.html` 降级为收缩说明和跳转页。
+- 默认隐藏主 Demo 的高级评估按钮和底部大指标条。
+- `README.md`、`docs/demo-links.md` 和 `docs/project-health.md` 改为聚焦版。
+- 历史作品集材料、Tool Calling Lab 和 LLM Integration Lab 保留归档，但不再作为演示主线。
+- 目标是把项目重新聚焦到 Voice-to-Action Agent 本体：自然语言任务理解、对象定位、安全确认、路线执行、反馈和异常恢复。
+
 ## V2: Multimodal Reference
 
 - 加入场景图上传或静态图片

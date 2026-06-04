@@ -287,7 +287,7 @@ function applyProductizedCopy() {
   setText(".context-drawer summary", "指代对象");
   setText(".debug-drawer summary", "高级证据");
   setText(".topbar-link[href='/case-study-v4.html']", "案例说明");
-  setText(".topbar-link[href='/test-plan.html']", "测试计划");
+  setText(".topbar-link[href='/test-plan.html']", "核心验收");
   const productHeadings = document.querySelectorAll(".product-focus-block h3");
   if (productHeadings[0]) productHeadings[0].textContent = "任务理解";
   if (productHeadings[1]) productHeadings[1].textContent = "下一步";

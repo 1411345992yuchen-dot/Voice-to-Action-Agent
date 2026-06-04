@@ -2808,6 +2808,10 @@ pre {
   gap: 8px;
 }
 
+.metric-strip.debug-only {
+  display: none;
+}
+
 .metric {
   min-height: 62px;
   padding: 10px;

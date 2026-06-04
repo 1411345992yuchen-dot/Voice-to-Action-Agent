@@ -4,27 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Voice-to-Action Agent</title>
-    <link rel="stylesheet" href="src/styles.css?v=20260528-4">
+    <link rel="stylesheet" href="src/styles.css?v=20260604-1">
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Embodied Interaction Prototype</p>
+          <p class="eyebrow">Voice-to-Action Product Prototype</p>
           <h1>Voice-to-Action Agent</h1>
         </div>
         <div class="topbar-actions">
-          <a class="topbar-link" href="/portfolio-hub.html">Portfolio Hub</a>
-          <a class="topbar-link" href="/portfolio-brief.html">One-page Brief</a>
-          <a class="topbar-link" href="/delivery-kit.html">Delivery Kit</a>
-          <a class="topbar-link" href="/reviewer-brief.html">Reviewer Brief</a>
-          <a class="topbar-link" href="/interview-demo.html">Interview Demo</a>
-          <a class="topbar-link" href="/real-voice-eval.html">Real Voice Eval</a>
-          <a class="topbar-link" href="/tool-calling-lab.html">Tool Calling</a>
-          <a class="topbar-link" href="/llm-integration-lab.html">LLM Bridge</a>
-          <a class="topbar-link" href="/agent-architecture.html">Agent 架构</a>
-          <a class="topbar-link" href="/case-study-v4.html">Case Study</a>
-          <a class="topbar-link" href="/test-plan.html">Test Plan</a>
+          <a class="topbar-link" href="/intro.html">产品介绍</a>
+          <a class="topbar-link" href="/test-plan.html">核心验收</a>
           <div class="status-pill" id="agentStatus">Ready</div>
         </div>
       </header>
@@ -68,7 +59,7 @@
             </div>
           </details>
 
-          <details class="advanced-command-drawer">
+          <details class="advanced-command-drawer debug-only">
             <summary>高级演示工具</summary>
             <div class="advanced-command-grid">
               <button class="secondary-button" id="evalButton" type="button">运行评估集</button>
@@ -265,7 +256,7 @@
         </aside>
       </section>
 
-      <section class="metric-strip" aria-label="Evaluation metrics">
+      <section class="metric-strip debug-only" aria-label="Evaluation metrics">
         <div class="metric">
           <strong id="metricTotal">0</strong>
           <span>总任务</span>
@@ -330,6 +321,6 @@
     </main>
 
     <script src="src/agent-orchestrator.js?v=20260528-2"></script>
-    <script src="src/app.js?v=20260528-2"></script>
+    <script src="src/app.js?v=20260604-1"></script>
   </body>
 </html>

@@ -2,38 +2,37 @@
 
 ## Current State
 
-The project is in a portfolio-delivery stage. It includes a runnable prototype, interview demo paths, role positioning, evidence dashboards, resume bullets, video scripts, a reviewer-facing summary, GitHub showcase assets, a real-voice evaluation console, an LLM Tool Calling prototype, a one-page portfolio brief, and an LLM integration bridge.
+V11 把项目从“作品集材料集合”收缩回 Voice-to-Action Agent 本体。当前主线只有三类入口：
+
+1. `intro.html`：说明产品问题、主流程和非目标。
+2. `index.html`：主产品 Demo，验证自然语言任务到物理执行流。
+3. `test-plan.html`：核心验收页，证明关键行为可回归。
 
 ## Current Strengths
 
-- Runnable local prototype.
-- Multi-agent task decomposition.
-- Voice interaction and embodied task framing.
-- Baseline evaluation remains 15/15.
-- Interview and delivery materials are now organized as first-class pages.
-- GitHub README screenshots and publish checklist are now available.
-- Real voice evaluation covers ASR transcript, confidence, correction, false-trigger blocking, and Agent parsing.
-- Tool Calling Lab wraps existing Agent modules into stable tool contracts for future LLM function calling.
-- One-page portfolio brief is available as both HTML and Markdown.
-- LLM Integration Lab demonstrates a server-side proxy boundary, request validation, model-call dry run, local deterministic fallback, and six integration checks.
+- 主 Demo 可本地运行，能展示从自然语言到机器人任务执行的闭环。
+- Agent 编排链路清晰：Intent、Grounding、Safety、Planner、Evaluator。
+- 支持对象澄清、安全确认、路线预览、执行中改口、异常恢复和运行日志。
+- 核心验收仍覆盖基础、打断、语音反馈、路线质量和高级交互回归。
+- 新增聚焦版 `intro.html`，适合面试开场快速说明项目价值。
 
 ## Current Risks
 
-- Real voice evaluation is still an initial browser-ASR and sample-transcript workflow, not a production ASR benchmark.
-- Real LLM calls are not executed yet. V10 validates the proxy boundary and fallback path, but the next step is to connect a server-side model call and persist traces.
-- The scene is a 2D product abstraction, not a robot-control simulation.
-- External distribution has a GitHub package, but no hosted public demo yet.
+- 场景仍是 2D 产品抽象，不是机器人 SDK 或真实仿真环境。
+- 真实语音、Tool Calling 和 LLM 接入桥已作为历史实验保留，但不再是主路径。
+- 主 Demo 仍保留较多高级能力，后续应继续做“默认简洁，高级折叠”。
+- 家庭场景视觉还可以继续打磨，但优先级低于主流程稳定性和讲解清晰度。
 
-## V9-V10 Completed
+## V11 Scope Reset
 
-1. V9.0 GitHub release package: screenshots, README cover, publish checklist, and reviewer path.
-2. V9.1 real voice evaluation: sample utterances, recognition confidence, correction, false-trigger metrics, and Agent parsing checks.
-3. V9.2 LLM Tool Calling prototype: mock LLM planner, tool contracts, tool trace UI, and six tool-calling evaluation cases.
-4. V9.3 one-page portfolio brief: printable HTML and copy-ready Markdown.
-5. V10.0 LLM integration bridge: backend proxy dry-run, request and response visualization, local fallback, and six integration evaluation cases.
+- 新增 `intro.html` 作为唯一介绍页。
+- 主 Demo 顶部导航只保留“产品介绍”和“核心验收”。
+- `portfolio-hub.html` 改为跳转到 `intro.html` 的收缩说明页。
+- 默认隐藏主 Demo 的高级评估按钮和底部大指标条，减少界面噪音。
+- `README.md` 和 `docs/demo-links.md` 已改为聚焦版，只推荐主 Demo 与核心验收路线。
 
 ## Recommended Next
 
-1. Replace the dry-run proxy with a real server-side LLM call and trace storage.
-2. V10.x simulation bridge: connect the planner contract to a simple robot SDK or simulation layer.
-3. Optional: deploy a static public preview site.
+1. 继续简化主 Demo 左栏和右栏，让默认界面只呈现“输入 -> 场景 -> 决策”三件事。
+2. 做一版核心场景脚本锁定：日常执行、歧义澄清、安全确认、执行中改口。
+3. 把高级实验页移入更明确的 `archive` 或文档归档索引，避免未来继续发散。
