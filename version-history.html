@@ -965,6 +965,51 @@
               <a href="/?demo=把杯子拿到厨房">查看 V11.3 澄清状态</a>
             </div>
           </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V11.4</div>
+            <div class="version-body">
+              <h3>Right Panel Subtraction / 右侧状态减法</h3>
+              <p class="problem">产品问题：状态区已经有核心流程和状态简报后，哪些信息应该删掉，避免重复解释？</p>
+              <ul>
+                <li>移除右侧重复的“下一步”卡片，只保留状态简报和任务事实。</li>
+                <li>“当前状态”改成“任务事实”，聚焦意图、对象、目的地、风险和路线。</li>
+                <li>高级调试与证据继续折叠，默认界面不再被解释性材料挤占。</li>
+              </ul>
+              <p class="capability">体现能力：信息架构减法、核心状态层级治理和 Demo 可读性控制。</p>
+              <a href="/">查看 V11.4 主 Demo</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V11.5</div>
+            <div class="version-body">
+              <h3>Voice Primary Entry / 语音主入口</h3>
+              <p class="problem">产品问题：语音是 Voice-to-Action 的关键入口，如何更明显地呈现，同时不让误识别直接触发动作？</p>
+              <ul>
+                <li>语音按钮从小图标升级为明确的“语音”入口。</li>
+                <li>语音确认区默认可见，提示“先进入确认区，确认后才触发物理执行”。</li>
+                <li>保留文本输入作为稳定演示兜底，但产品重点回到语音到动作的主链路。</li>
+              </ul>
+              <p class="capability">体现能力：语音交互入口设计、ASR 风险门控和物理执行安全边界。</p>
+              <a href="/">查看 V11.5 语音入口</a>
+            </div>
+          </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V11.6</div>
+            <div class="version-body">
+              <h3>Route Specialty Review / 路线专项复盘</h3>
+              <p class="problem">产品问题：路线深测如何从隐藏的老评估变成可直达、可解释、可复盘的专项验收？</p>
+              <ul>
+                <li>测试计划页支持 `filter` 和 `case` URL 参数，可直达路线专项和具体用例。</li>
+                <li>绕行模式改为用户约束优先，明确说“绕开椅子”时生成可见绕行点和 `chair_avoided` 标记。</li>
+                <li>路线专项对齐 expected 与 actual，direct、绕行、导航和老人递送当前 4/4 通过。</li>
+              </ul>
+              <p class="capability">体现能力：路线质量治理、验收口径修正和物理执行可解释性。</p>
+              <a href="/test-plan.html?filter=route">查看 V11.6 路线专项</a>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -975,7 +1020,7 @@
         </div>
         <div class="talk-track">
           <p>
-            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。中间补过 grounding、安全确认、失败恢复、执行中改口、路线预览和行为评估，也做过语音、Tool Calling 和 LLM 接入桥实验。到 V11 后我主动收缩主线，只保留介绍页、主 Demo 和核心验收页；V11.3 继续把主 Demo 压成“一句话任务、家庭场景、任务状态”、四步核心流程和用户可理解的状态简报。
+            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。中间补过 grounding、安全确认、失败恢复、执行中改口、路线预览和行为评估，也做过语音、Tool Calling 和 LLM 接入桥实验。到 V11 后我主动收缩主线，只保留介绍页、主 Demo 和核心验收页；V11.6 继续把主 Demo 压成“一句话任务、家庭场景、任务状态”、四步核心流程、状态简报、任务事实和语音确认入口，并把路线深测收口成可直达的 4/4 专项复盘页。
           </p>
           <p>
             这条路线和我现在的多 Agent 工作流工程经验是连贯的：本质上都是把人的模糊意图转化为可执行、可解释、可评估的任务流。区别在于，这个项目把能力迁移到了具身智能场景，并且体现了产品经理需要做的取舍：不是功能越多越好，而是主流程越清楚越有说服力。

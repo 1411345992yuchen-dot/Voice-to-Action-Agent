@@ -187,9 +187,9 @@ textarea:focus {
 
 .button-row {
   display: grid;
-  grid-template-columns: 1fr 42px 42px;
+  grid-template-columns: 1fr 72px 42px;
   gap: 8px;
-  margin: 10px 0 12px;
+  margin: 10px 0 8px;
 }
 
 button {
@@ -219,6 +219,33 @@ button:hover {
   color: var(--blue);
   border-color: #b8cdea;
   font-weight: 720;
+}
+
+.voice-primary-button {
+  background: var(--blue-soft);
+  color: var(--blue);
+  border-color: #b8cdea;
+  font-weight: 850;
+}
+
+.voice-primary-button::before {
+  content: "";
+  width: 8px;
+  height: 13px;
+  display: inline-block;
+  margin-right: 5px;
+  border: 2px solid currentColor;
+  border-radius: 8px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  vertical-align: -2px;
+}
+
+.voice-entry-note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .demo-action-strip .secondary-button {
@@ -272,7 +299,6 @@ button:hover {
   display: none;
 }
 
-.voice-lite-card:not([open]),
 .runtime-drawer:not([open]),
 .context-drawer:not([open]) {
   display: none;
@@ -1677,14 +1703,12 @@ button:hover {
   background: var(--green-soft);
 }
 
-.product-summary,
-.decision-summary {
+.product-summary {
   display: grid;
   gap: 8px;
 }
 
-.product-card,
-.decision-card {
+.product-card {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fbfaf7;
@@ -1703,8 +1727,7 @@ button:hover {
   font-size: 15px;
 }
 
-.product-card-main p,
-.decision-card p {
+.product-card-main p {
   color: #405047;
   font-size: 12px;
   line-height: 1.5;
@@ -1766,76 +1789,6 @@ button:hover {
 .risk-chip.high {
   background: var(--red-soft);
   color: var(--red);
-}
-
-.decision-card {
-  padding: 11px;
-}
-
-.decision-card header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.decision-card header strong {
-  color: #23332b;
-  font-size: 15px;
-}
-
-.decision-card header span {
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: var(--blue-soft);
-  color: var(--blue);
-  font-size: 11px;
-  font-weight: 850;
-}
-
-.decision-card.success header span {
-  background: var(--green-soft);
-  color: var(--green);
-}
-
-.decision-card.warn header span {
-  background: var(--amber-soft);
-  color: var(--amber);
-}
-
-.decision-card.risk {
-  border-color: rgba(180, 67, 67, 0.32);
-  background: #fff7f6;
-}
-
-.decision-card.risk header span {
-  background: var(--red-soft);
-  color: var(--red);
-}
-
-.decision-next {
-  margin-top: 8px;
-  padding: 8px;
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.decision-next small,
-.decision-next b {
-  display: block;
-}
-
-.decision-next small {
-  margin-bottom: 2px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.decision-next b {
-  color: var(--green);
-  font-size: 12px;
 }
 
 .debug-drawer {

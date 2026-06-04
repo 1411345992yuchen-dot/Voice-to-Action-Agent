@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Voice-to-Action Agent</title>
-    <link rel="stylesheet" href="src/styles.css?v=20260604-4">
+    <link rel="stylesheet" href="src/styles.css?v=20260604-6">
   </head>
   <body>
     <main class="app-shell">
@@ -32,9 +32,10 @@
 
           <div class="button-row">
             <button class="primary-button" id="runButton" type="button">生成任务流</button>
-            <button class="icon-button" id="voiceButton" type="button" aria-label="语音输入" title="语音输入">🎙</button>
+            <button class="voice-primary-button" id="voiceButton" type="button" aria-label="语音输入" title="语音输入">语音</button>
             <button class="icon-button" id="resetButton" type="button" aria-label="重置场景" title="重置场景">↺</button>
           </div>
+          <p class="voice-entry-note">语音识别先进入确认区，确认后才会触发物理执行。</p>
 
           <div class="demo-action-strip debug-only">
             <button class="secondary-button demo-mode-button" id="voiceDemoButton" type="button">运行语音 PM Demo</button>
@@ -165,13 +166,8 @@
           <div class="status-brief" id="statusBrief" aria-label="任务状态简报"></div>
 
           <div class="inspector-block product-focus-block primary-status-block">
-            <h3>当前状态</h3>
+            <h3>任务事实</h3>
             <div class="product-summary" id="productSummary"></div>
-          </div>
-
-          <div class="inspector-block product-focus-block">
-            <h3>下一步</h3>
-            <div class="decision-summary" id="decisionSummary"></div>
           </div>
 
           <details class="debug-drawer">
@@ -324,6 +320,6 @@
     </main>
 
     <script src="src/agent-orchestrator.js?v=20260528-2"></script>
-    <script src="src/app.js?v=20260604-4"></script>
+    <script src="src/app.js?v=20260604-6"></script>
   </body>
 </html>

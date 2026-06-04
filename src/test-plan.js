@@ -67,6 +67,18 @@ const CORE_CASE_IDS = new Set([
   "multi_turn_slot_fill_001"
 ]);
 
+const FILTER_IDS = new Set([
+  "core",
+  "all",
+  "baseline",
+  "interruption",
+  "voice",
+  "route",
+  "advanced",
+  "voice_interaction",
+  "sandbox"
+]);
+
 const REVIEW_SANDBOXES = [
   {
     id: "none",
@@ -134,7 +146,7 @@ async function init() {
   state.advancedCases = advancedCases;
   state.voiceInteractionCases = voiceInteractionCases;
   state.activeSandboxId = readSandboxParam();
-  state.activeFilter = state.activeSandboxId === "none" ? "core" : "sandbox";
+  state.activeFilter = state.activeSandboxId === "none" ? readFilterParam() : "sandbox";
   state.baseResults = [
     ...runBaselineCases(baselineCases),
     ...runInterruptionCases(interruptionCases),
@@ -144,7 +156,13 @@ async function init() {
     ...runVoiceInteractionCases(voiceInteractionCases)
   ];
   state.results = buildDisplayResults();
-  state.selectedId = getVisibleResults()[0]?.id || state.results[0]?.id || null;
+  const requestedCaseId = readCaseParam();
+  const visibleResults = getVisibleResults();
+  state.selectedId = visibleResults.find((item) => item.id === requestedCaseId)?.id
+    || state.results.find((item) => item.id === requestedCaseId)?.id
+    || visibleResults[0]?.id
+    || state.results[0]?.id
+    || null;
 
   bindFilters();
   bindSandboxControls();
@@ -157,6 +175,17 @@ function readSandboxParam() {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get("sandbox");
   return REVIEW_SANDBOXES.some((item) => item.id === requested) ? requested : "none";
+}
+
+function readFilterParam() {
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get("filter");
+  return FILTER_IDS.has(requested) ? requested : "core";
+}
+
+function readCaseParam() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("case");
 }
 
 async function fetchJson(path) {
@@ -1050,7 +1079,11 @@ function expandRouteWithDetoursForTest(waypoints, routeMode, world) {
   waypoints.slice(1).forEach((waypoint, index) => {
     const from = expanded[expanded.length - 1];
     const passesChair = distancePointToSegment(chair, from, waypoint) < 14;
-    if (passesChair && from.id !== "chair" && waypoint.id !== "chair") {
+    const needsVisibleDetour = !passesChair
+      && !expanded.some((item) => item.role === "detour")
+      && waypoint.role === "pickup"
+      && waypoint.x < chair.x - 8;
+    if ((passesChair || needsVisibleDetour) && from.id !== "chair" && waypoint.id !== "chair") {
       const detourPoint = makeDetourPointForTest(from, waypoint, index + 1);
       if (routeDistance(from, detourPoint) > 2 && routeDistance(detourPoint, waypoint) > 2) {
         expanded.push(detourPoint);
@@ -1073,10 +1106,11 @@ function detectRouteRisksForTest(task, object, destination, segments, world) {
   const markers = [];
   const chair = findById(world.objects, "chair");
   const nearChair = chair && segments.some((segment) => distancePointToSegment(chair, segment.from, segment.to) < 12);
-  if (nearChair && task.objectId !== "chair") {
-    markers.push(task.routeMode === "avoid_chair"
-      ? { id: "chair_avoided", level: "low" }
-      : { id: "near_chair", level: "medium" });
+  const hasDetour = segments.some((segment) => segment.to?.role === "detour" || segment.from?.role === "detour");
+  if (task.routeMode === "avoid_chair" && hasDetour && task.objectId !== "chair") {
+    markers.push({ id: "chair_avoided", level: "low" });
+  } else if (nearChair && task.objectId !== "chair") {
+    markers.push({ id: "near_chair", level: "medium" });
   }
   if (object?.risk === "high") markers.push({ id: "high_risk_object", level: "high" });
   if (destination?.id === "elder_seat" || /老人/.test(task.userCommand || "")) markers.push({ id: "elder_handoff", level: "medium" });
@@ -1475,6 +1509,8 @@ function bindFilters() {
       button.classList.add("active");
       const visible = getVisibleResults();
       state.selectedId = visible[0]?.id || state.results[0]?.id || null;
+      syncFilterParam();
+      syncCaseParam();
       renderSummary();
       renderCaseList();
       renderSelectedCase();
@@ -1497,6 +1533,7 @@ function bindSandboxControls() {
       const sandboxResult = state.results.find((item) => item.group === "sandbox");
       state.selectedId = sandboxResult?.id || getVisibleResults()[0]?.id || state.results[0]?.id || null;
       syncSandboxParam();
+      syncCaseParam();
       renderSandboxControls();
       renderSummary();
       renderCaseList();
@@ -1513,6 +1550,26 @@ function syncSandboxParam() {
     url.searchParams.delete("sandbox");
   } else {
     url.searchParams.set("sandbox", state.activeSandboxId);
+  }
+  window.history.replaceState({}, "", url);
+}
+
+function syncFilterParam() {
+  const url = new URL(window.location.href);
+  if (state.activeFilter === "core") {
+    url.searchParams.delete("filter");
+  } else {
+    url.searchParams.set("filter", state.activeFilter);
+  }
+  window.history.replaceState({}, "", url);
+}
+
+function syncCaseParam() {
+  const url = new URL(window.location.href);
+  if (state.selectedId) {
+    url.searchParams.set("case", state.selectedId);
+  } else {
+    url.searchParams.delete("case");
   }
   window.history.replaceState({}, "", url);
 }
@@ -1595,6 +1652,7 @@ function renderCaseList() {
     `;
     button.addEventListener("click", () => {
       state.selectedId = item.id;
+      syncCaseParam();
       renderCaseList();
       renderSelectedCase();
     });

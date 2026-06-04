@@ -250,6 +250,25 @@
 - pending 状态下路线字段和执行流程不再误导为“已准备执行”，而是显示“待确认后执行”。
 - 目标是让面试官不用看调试证据，也能理解系统为什么停、为什么执行、用户下一步能做什么。
 
+## V11.4: Right Panel Subtraction
+
+- 主 Demo 右侧移除重复的“下一步”卡片，避免状态简报和决策卡重复表达。
+- “当前状态”改成“任务事实”，只保留用户最需要确认的意图、对象、目的地、风险和路线状态。
+- 目标是让右侧信息层级更像产品控制台：先看状态简报，再看任务事实，需要证据时再展开高级调试。
+
+## V11.5: Voice Primary Entry
+
+- 把语音按钮从小图标升级成明确的“语音”主入口。
+- 语音确认区默认可见，明确提示“语音识别先进入确认区，确认后才会触发物理执行”。
+- 目标是把语音能力从隐藏辅助功能拉回 Voice-to-Action 主链路，同时保留安全确认门控。
+
+## V11.6: Route Specialty Review
+
+- `test-plan.html` 支持 `filter` 和 `case` URL 参数，可直达路线专项复盘和具体用例。
+- 顶部“路线专项”入口指向 `test-plan.html?filter=route`，而不是主 Demo 里的旧评估按钮。
+- 路线专项已对齐 expected 与 actual：direct、avoid_chair、navigation、elder handoff 当前 4/4 通过。
+- 绕行模式改成用户约束优先，明确说“绕开椅子”时生成可见绕行点、低速避障策略和 `chair_avoided` 标记。
+
 ## V2: Multimodal Reference
 
 - 加入场景图上传或静态图片

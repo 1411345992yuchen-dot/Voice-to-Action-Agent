@@ -181,7 +181,6 @@ const nodes = {
   coreFlowRail: document.getElementById("coreFlowRail"),
   statusBrief: document.getElementById("statusBrief"),
   productSummary: document.getElementById("productSummary"),
-  decisionSummary: document.getElementById("decisionSummary"),
   exportLogButton: document.getElementById("exportLogButton"),
   clearLogButton: document.getElementById("clearLogButton"),
   clearQueueButton: document.getElementById("clearQueueButton")
@@ -283,7 +282,7 @@ function applyProductizedCopy() {
   setText(".inspector-panel .section-title h2", "任务状态");
   setText("label[for='commandInput']", "输入一句话任务");
   setText(".sample-section-label", "试跑场景");
-  setText(".voice-lite-card summary", "语音确认");
+  setText(".voice-lite-card summary", "语音确认区");
   setText(".advanced-command-drawer summary", "评测工具");
   setText(".runtime-drawer summary", "执行接管");
   setText(".context-drawer summary", "指代对象");
@@ -291,11 +290,10 @@ function applyProductizedCopy() {
   setText(".topbar-link[href='/case-study-v4.html']", "案例说明");
   setText(".topbar-link[href='/test-plan.html']", "核心验收");
   const productHeadings = document.querySelectorAll(".product-focus-block h3");
-  if (productHeadings[0]) productHeadings[0].textContent = "任务理解";
-  if (productHeadings[1]) productHeadings[1].textContent = "下一步";
+  if (productHeadings[0]) productHeadings[0].textContent = "任务事实";
 
   if (nodes.runButton) nodes.runButton.textContent = "执行任务";
-  if (nodes.voiceButton) nodes.voiceButton.textContent = "🎙";
+  if (nodes.voiceButton) nodes.voiceButton.textContent = "语音";
   if (nodes.resetButton) nodes.resetButton.textContent = "↻";
   if (nodes.voiceDemoButton) nodes.voiceDemoButton.textContent = "播放完整演示";
   if (nodes.evalButton) nodes.evalButton.textContent = "基础评测";
@@ -2067,22 +2065,6 @@ function renderProductPanels(task, plan = [], trace = [], groundingReport = null
     `;
   }
 
-  if (nodes.decisionSummary) {
-    const decision = buildDecisionSummary(task, groundingReport, routeReport, statusBrief);
-    nodes.decisionSummary.innerHTML = `
-      <article class="decision-card ${escapeHtml(decision.tone)}">
-        <header>
-          <strong>${escapeHtml(decision.title)}</strong>
-          <span>${escapeHtml(decision.badge)}</span>
-        </header>
-        <p>${escapeHtml(decision.body)}</p>
-        <div class="decision-next">
-          <small>下一步</small>
-          <b>${escapeHtml(decision.next)}</b>
-        </div>
-      </article>
-    `;
-  }
 }
 
 function renderStatusBrief(brief) {
@@ -2240,17 +2222,6 @@ function buildStatusBrief(task, groundingReport = null, routeReport = null) {
     reason: groundingReport?.summary || `已识别 ${task.object || "目标对象"}，目标位置为 ${task.destination || "待确认"}。`,
     userAction: task.requiresHumanConfirmation ? "等待安全确认" : "可开始执行",
     tone: "info"
-  };
-}
-
-function buildDecisionSummary(task, groundingReport = null, routeReport = null, statusBrief = null) {
-  const brief = statusBrief || buildStatusBrief(task, groundingReport, routeReport);
-  return {
-    title: brief.headline,
-    badge: brief.badge,
-    body: brief.reason,
-    next: brief.userAction,
-    tone: brief.tone
   };
 }
 
@@ -2690,6 +2661,7 @@ function buildRouteReport(task, options = {}) {
   const routePreference = inferRoutePreference(task.userCommand || "");
   const routeMode = options.routeMode || task.routeMode || routePreference.mode;
   const routeConstraint = task.routeConstraint || routePreference.constraint;
+  const routedTask = { ...task, routeMode };
 
   const waypoints = [
     {
@@ -2720,11 +2692,11 @@ function buildRouteReport(task, options = {}) {
     distance: routeDistance(compactWaypoints[index], to)
   }));
   const totalDistance = segments.reduce((sum, segment) => sum + segment.distance, 0);
-  const riskMarkers = detectRouteRisks(task, object, destination, segments);
-  const routeRisk = summarizeRouteRisk(task, object, riskMarkers);
-  const strategyLabels = buildRouteStrategyLabels(task, object, destination, routeMode, riskMarkers);
+  const riskMarkers = detectRouteRisks(routedTask, object, destination, segments, compactWaypoints);
+  const routeRisk = summarizeRouteRisk(routedTask, object, riskMarkers);
+  const strategyLabels = buildRouteStrategyLabels(routedTask, object, destination, routeMode, riskMarkers);
   const routeScore = scoreRoutePlan({
-    task,
+    task: routedTask,
     object,
     destination,
     routeMode,
@@ -2733,7 +2705,7 @@ function buildRouteReport(task, options = {}) {
     riskMarkers,
     totalDistance
   });
-  const routeComparison = buildRouteComparison(task, object, destination, routeMode, routeScore);
+  const routeComparison = buildRouteComparison(routedTask, object, destination, routeMode, routeScore);
 
   return {
     mode: task.intent === "navigate" ? "navigation" : "manipulation",
@@ -2903,8 +2875,12 @@ function expandRouteWithDetours(waypoints, routeMode) {
   waypoints.slice(1).forEach((waypoint, index) => {
     const from = expanded[expanded.length - 1];
     const passesChair = distancePointToSegment(chair, from, waypoint) < 14;
+    const needsVisibleDetour = !passesChair
+      && !expanded.some((item) => item.role === "detour")
+      && waypoint.role === "pickup"
+      && waypoint.x < chair.x - 8;
     const segmentAlreadyTargetsChair = from.id === "chair" || waypoint.id === "chair";
-    if (passesChair && !segmentAlreadyTargetsChair) {
+    if ((passesChair || needsVisibleDetour) && !segmentAlreadyTargetsChair) {
       const detourPoint = makeDetourPoint(from, waypoint, index + 1);
       if (routeDistance(from, detourPoint) > 2 && routeDistance(detourPoint, waypoint) > 2) {
         expanded.push(detourPoint);
@@ -2971,27 +2947,27 @@ function describeRouteSegment(task, from, to, index) {
   return `携带 ${task.object || "目标对象"} 前往 ${to.name}`;
 }
 
-function detectRouteRisks(task, object, destination, segments) {
+function detectRouteRisks(task, object, destination, segments, waypoints = []) {
   const markers = [];
   const chair = findObject("chair");
   const nearChair = chair && segments.some((segment) => distancePointToSegment(chair, segment.from, segment.to) < 12);
   const routeMode = task.routeMode || inferRoutePreference(task.userCommand || "").mode;
-  if (nearChair && task.objectId !== "chair") {
-    if (routeMode === "avoid_chair") {
-      markers.push({
-        id: "chair_avoided",
-        level: "low",
-        label: "已规划椅子绕行",
-        detail: "路线加入绕行点，靠近障碍时保持低速并可中途暂停。"
-      });
-    } else {
-      markers.push({
-        id: "near_chair",
-        level: "medium",
-        label: "路径靠近椅子障碍",
-        detail: "建议低速绕行，并保留中途暂停能力。"
-      });
-    }
+  const hasDetour = waypoints.some((waypoint) => waypoint.role === "detour")
+    || segments.some((segment) => segment.to?.role === "detour");
+  if (routeMode === "avoid_chair" && hasDetour && task.objectId !== "chair") {
+    markers.push({
+      id: "chair_avoided",
+      level: "low",
+      label: "已规划椅子绕行",
+      detail: "路线加入绕行点，靠近障碍时保持低速并可中途暂停。"
+    });
+  } else if (nearChair && task.objectId !== "chair") {
+    markers.push({
+      id: "near_chair",
+      level: "medium",
+      label: "路径靠近椅子障碍",
+      detail: "建议低速绕行，并保留中途暂停能力。"
+    });
   }
 
   if (object?.risk === "high") {

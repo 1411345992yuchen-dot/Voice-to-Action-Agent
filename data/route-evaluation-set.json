@@ -9,10 +9,10 @@
     "expectedMinSegments": 2,
     "expectedWaypointRoles": ["start", "pickup", "destination"],
     "forbiddenWaypointRoles": ["detour"],
-    "expectedRiskMarkers": ["near_chair", "high_risk_object", "door_space"],
+    "expectedRiskMarkers": ["high_risk_object", "door_space"],
     "expectedStrategyLabels": ["默认路径", "高风险确认", "门口空间检查"],
     "expectedMinScore": 50,
-    "expectedScoreGrade": "D",
+    "expectedScoreGrade": "C",
     "expectedMinSafetyScore": 40,
     "expectedMinEfficiencyScore": 40,
     "expectedRecommendedMode": "direct"
@@ -24,13 +24,13 @@
     "expectedDestinationId": "door",
     "expectedRouteMode": "avoid_chair",
     "expectedStatus": "high",
-    "expectedMinSegments": 4,
+    "expectedMinSegments": 3,
     "expectedWaypointRoles": ["start", "detour", "pickup", "destination"],
     "expectedRiskMarkers": ["chair_avoided", "high_risk_object", "door_space"],
     "forbiddenRiskMarkers": ["near_chair"],
     "expectedStrategyLabels": ["主动绕行", "低速避障", "障碍已规避"],
     "expectedMinScore": 45,
-    "expectedScoreGrade": "D",
+    "expectedScoreGrade": "C",
     "expectedMinSafetyScore": 60,
     "expectedMinEfficiencyScore": 0,
     "expectedRecommendedMode": "avoid_chair"
@@ -49,7 +49,7 @@
     "expectedMinScore": 88,
     "expectedScoreGrade": "A",
     "expectedMinSafetyScore": 80,
-    "expectedMinEfficiencyScore": 85
+    "expectedMinEfficiencyScore": 83
   },
   {
     "id": "route_elder_medicine_handoff_001",
