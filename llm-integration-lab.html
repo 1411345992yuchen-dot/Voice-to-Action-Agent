@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice-to-Action Agent LLM Integration Lab</title>
+    <link rel="stylesheet" href="src/v5-pages.css?v=20260604-1">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">V10.0 LLM Integration Bridge</p>
+          <h1>LLM Integration Lab：真实模型接入前的安全桥接层</h1>
+          <p class="subtitle">这一页把 V9.2 的 Tool Calling 契约继续往真实接入推进：前端只构造任务上下文和工具 schema，后端代理负责模型调用边界；如果代理不可用、请求不完整或模型不可控，系统回退到本地确定性 Agent 链路。</p>
+        </div>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href="/portfolio-hub.html">作品集首页</a>
+          <a href="/tool-calling-lab.html">Tool Calling</a>
+          <a href="/real-voice-eval.html">真实语音评估</a>
+          <a href="/">主 Demo</a>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Integration Thesis</p>
+          <h2>真实 LLM 接入不是替代门控，而是被门控约束</h2>
+          <p class="subtitle">V10 的重点不是炫耀“接了一个模型”，而是把接入前必须想清楚的产品边界展示出来：密钥不能进浏览器，模型只能选择工具，最终动作必须经过 grounding、安全、路线和执行门控。</p>
+          <div class="hero-points">
+            <div class="point"><strong>Proxy</strong><span>浏览器不持有 API Key，只调用本地后端代理。</span></div>
+            <div class="point"><strong>Schema</strong><span>工具输入输出可审计，防止 prompt 直接越权执行。</span></div>
+            <div class="point"><strong>Fallback</strong><span>代理失败时本地 Agent 仍能维持安全演示。</span></div>
+          </div>
+        </div>
+        <div class="resume-block">
+          <strong>面试讲法：</strong><br>
+          我把 V10 做成“可接真实 LLM 的桥”，而不是直接把 API Key 写进前端。LLM 负责理解和组织工具调用，但物理动作仍由本地 Agent 的 grounding、安全、路线和 gate 约束。这样即使模型失败，也不会把风险带到执行层。
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Guardrails</p>
+            <h2>接入前必须固定的 4 条边界</h2>
+          </div>
+          <p>这些边界决定了真实模型接入后，系统仍然像一个可控的具身 Agent，而不是不可解释的聊天框。</p>
+        </div>
+        <div class="tool-contract-grid" id="guardrailGrid"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Integration Console</p>
+            <h2>LLM 接入检查台</h2>
+          </div>
+          <button class="action-link primary" type="button" id="runAllButton">运行全部 V10 用例</button>
+        </div>
+        <div class="tool-lab-grid">
+          <aside class="eval-case-list" id="caseList" aria-label="LLM integration evaluation cases"></aside>
+          <section class="eval-console">
+            <div class="console-heading">
+              <div>
+                <p class="eyebrow" id="activeCaseId">Case</p>
+                <h3 id="activeCaseTitle">选择一个接入用例</h3>
+              </div>
+              <span class="pill" id="caseStatusPill">等待运行</span>
+            </div>
+            <p class="subtitle" id="activeCaseScenario">用例会展示请求包、代理响应、本地兜底工具链和接入检查结果。</p>
+
+            <div class="asr-panel">
+              <label for="commandInput">用户指令</label>
+              <textarea id="commandInput" rows="3" placeholder="选择用例后会自动填入，也可以手动改写。"></textarea>
+              <div class="asr-controls">
+                <button type="button" class="action-link primary" id="runCaseButton">运行接入检查</button>
+                <button type="button" class="action-link" id="resetCaseButton">恢复用例指令</button>
+              </div>
+            </div>
+
+            <div class="eval-result-grid bridge-readiness" id="readinessPanel">
+              <article class="eval-result-card">
+                <strong>Readiness</strong>
+                <p>等待运行。</p>
+              </article>
+              <article class="eval-result-card">
+                <strong>Proxy</strong>
+                <p>等待运行。</p>
+              </article>
+              <article class="eval-result-card">
+                <strong>Local Fallback</strong>
+                <p>等待运行。</p>
+              </article>
+            </div>
+
+            <div class="bridge-json-grid">
+              <article class="tool-call-card">
+                <div class="tool-call-head">
+                  <span>1</span>
+                  <strong>后端代理请求包</strong>
+                  <em>frontend -> proxy</em>
+                </div>
+                <pre id="requestJson">等待运行。</pre>
+              </article>
+              <article class="tool-call-card">
+                <div class="tool-call-head">
+                  <span>2</span>
+                  <strong>后端代理响应</strong>
+                  <em>dry-run</em>
+                </div>
+                <pre id="proxyJson">等待运行。</pre>
+              </article>
+            </div>
+
+            <div class="tool-trace" id="localTrace"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Batch Result</p>
+            <h2>V10 批量评估结果</h2>
+          </div>
+        </div>
+        <div class="runbook-grid" id="batchResult">
+          <article class="runbook-step">
+            <strong>暂无结果</strong>
+            <p>点击“运行全部 V10 用例”后，这里会显示每条 LLM 接入风险用例的通过状态。</p>
+            <p>用于证明真实模型接入前，代理边界、工具契约、安全门控和兜底策略已经可验收。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/agent-orchestrator.js?v=20260604-1"></script>
+    <script src="src/tool-calling-prototype.js?v=20260604-1"></script>
+    <script src="src/llm-integration-bridge.js?v=20260604-1"></script>
+    <script src="src/llm-integration-lab.js?v=20260604-1"></script>
+  </body>
+</html>

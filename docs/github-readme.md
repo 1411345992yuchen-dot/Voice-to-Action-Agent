@@ -14,6 +14,8 @@ Voice-to-Action Agent is a local portfolio prototype for embodied intelligence i
 
 ![Tool Calling Lab](screenshots/tool-calling-lab.png)
 
+![LLM Integration Lab](screenshots/llm-integration-lab.png)
+
 ## Why It Matters
 
 The project is designed for Agent PM, voice interaction PM, and embodied-intelligence PM interviews. It demonstrates how a vague user instruction can become a reliable, observable, and testable physical-world task flow instead of a simple chat response.
@@ -27,6 +29,7 @@ The project is designed for Agent PM, voice interaction PM, and embodied-intelli
 - Product evidence: PRD, roadmap, metrics, version history, test plan, role positioning, interview scripts, and portfolio hub.
 - Real voice evaluation: browser ASR transcript, confidence, manual correction, false-trigger blocking, and Agent parsing after transcript confirmation.
 - LLM Tool Calling prototype: mock LLM planner, stable tool contracts, trace UI, and evaluation cases before a live model is connected.
+- LLM integration bridge: server-side proxy dry run, request validation, local deterministic fallback, and integration risk cases.
 
 ## Screenshots
 
@@ -41,6 +44,10 @@ The project is designed for Agent PM, voice interaction PM, and embodied-intelli
 | Real Voice Evaluation | Tool Calling Lab |
 |---|---|
 | ![Real Voice Evaluation](screenshots/real-voice-eval.png) | ![Tool Calling Lab](screenshots/tool-calling-lab.png) |
+
+| LLM Integration Lab | Agent Architecture |
+|---|---|
+| ![LLM Integration Lab](screenshots/llm-integration-lab.png) | ![Agent Architecture](screenshots/agent-architecture.png) |
 
 ## Local Run
 
@@ -73,6 +80,12 @@ LLM Tool Calling prototype:
 http://localhost:8765/tool-calling-lab.html
 ```
 
+LLM integration bridge:
+
+```text
+http://localhost:8765/llm-integration-lab.html
+```
+
 ## Recommended Demo Path
 
 1. Portfolio Hub
@@ -82,9 +95,10 @@ http://localhost:8765/tool-calling-lab.html
 5. Main Demo
 6. Real Voice Evaluation
 7. Tool Calling Lab
-8. Agent Architecture
-9. Evidence Dashboard
-10. Test Plan
+8. LLM Integration Lab
+9. Agent Architecture
+10. Evidence Dashboard
+11. Test Plan
 
 ## Evaluation Assets
 
@@ -94,6 +108,7 @@ http://localhost:8765/tool-calling-lab.html
 - `data/route-evaluation-set.json`: route report and route scoring cases.
 - `data/real-voice-evaluation-set.json`: ASR transcript, confidence, correction, false-trigger, and voice-to-Agent cases.
 - `data/tool-calling-evaluation-set.json`: tool contract, gate mode, route mode, and no-execution cases for the mock LLM planner.
+- `data/llm-integration-evaluation-set.json`: server proxy, request validation, fallback, and safety-boundary cases for real LLM integration.
 
 ## Portfolio Positioning
 

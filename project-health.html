@@ -10,7 +10,7 @@
     <main class="page-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">V9.3 Project Health</p>
+          <p class="eyebrow">V10.0 Project Health</p>
           <h1>项目健康度和下一步路线图</h1>
           <p class="subtitle">这页把“做到哪了、还能补什么、当前风险是什么”讲清楚，避免项目看起来只有过去成果、没有后续判断。</p>
         </div>
@@ -46,9 +46,9 @@
             <p>主 Demo、面试演示、架构、证据、投递包、脚本、简历素材都能独立打开。</p>
           </article>
           <article class="score-card">
-            <span class="score-value">V9.3</span>
+            <span class="score-value">V10.0</span>
             <strong>投递阶段</strong>
-            <p>项目已补齐 GitHub 展示、真实语音评估、Tool Calling 原型和一页式 Brief。</p>
+            <p>项目已补齐 GitHub 展示、真实语音评估、Tool Calling 原型、一页式 Brief 和 LLM 接入桥。</p>
           </article>
         </div>
       </section>
@@ -66,8 +66,8 @@
             <p>当前已支持浏览器 ASR、模拟识别和人工修正记录，下一步可加入录音样本库和更稳定的云端 ASR。</p>
           </article>
           <article class="risk-item">
-            <strong>Grounding 仍偏规则</strong>
-            <p>当前已新增 Tool Calling 包装层，下一步可把 mock planner 替换为真实 LLM 或 VLM grounding。</p>
+            <strong>真实 LLM 仍未发起外部调用</strong>
+            <p>当前已新增后端代理 dry-run 和本地兜底检查，下一步可在服务端配置真实模型调用和 trace 存档。</p>
           </article>
           <article class="risk-item">
             <strong>场景仍是 2D 抽象</strong>
@@ -83,8 +83,8 @@
       <section class="section">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">V9 Candidates</p>
-            <h2>下一轮可选优化方向</h2>
+            <p class="eyebrow">V10 Progress</p>
+            <h2>当前已完成和下一轮可选方向</h2>
           </div>
         </div>
         <div class="kit-grid">
@@ -103,6 +103,10 @@
           <article class="kit-card">
             <h3>V9.3 一页式作品集 Brief</h3>
             <p>已完成：新增可打印 HTML 和 Markdown 版本，方便发给 HR / 面试官或放进简历链接。</p>
+          </article>
+          <article class="kit-card">
+            <h3>V10.0 LLM 接入桥</h3>
+            <p>已完成：新增后端代理 dry-run、前端接入检查台、请求/响应可视化、本地工具链兜底和 6 条 V10 评估用例。</p>
           </article>
         </div>
       </section>

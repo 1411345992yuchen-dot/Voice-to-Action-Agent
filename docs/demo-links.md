@@ -24,6 +24,7 @@ http://localhost:8765/
 - 语音交互专项：`http://localhost:8765/voice-lab.html`
 - 真实语音评估：`http://localhost:8765/real-voice-eval.html`
 - Tool Calling Lab：`http://localhost:8765/tool-calling-lab.html`
+- LLM Integration Lab：`http://localhost:8765/llm-integration-lab.html`
 - Agent 架构说明：`http://localhost:8765/agent-architecture.html`
 
 ## 可运行任务 Demo
@@ -43,4 +44,5 @@ http://localhost:8765/
 - 路线质量评估：`http://localhost:8765/?routeeval=1`
 - 真实语音评估：`http://localhost:8765/real-voice-eval.html`
 - Tool Calling 评估：`http://localhost:8765/tool-calling-lab.html`
+- LLM 接入桥评估：`http://localhost:8765/llm-integration-lab.html`
 - 测试计划页：`http://localhost:8765/test-plan.html`

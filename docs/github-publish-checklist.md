@@ -15,7 +15,11 @@ node --check D:\voice-to-action-agent\src\app.js
 node --check D:\voice-to-action-agent\src\agent-orchestrator.js
 node --check D:\voice-to-action-agent\src\test-plan.js
 node --check D:\voice-to-action-agent\src\real-voice-eval.js
+node --check D:\voice-to-action-agent\src\llm-integration-bridge.js
+node --check D:\voice-to-action-agent\src\llm-integration-lab.js
 python -m json.tool D:\voice-to-action-agent\data\real-voice-evaluation-set.json
+python -m json.tool D:\voice-to-action-agent\data\llm-integration-evaluation-set.json
+python -m py_compile D:\voice-to-action-agent\server.py
 ```
 
 2. Start the local app:
@@ -33,6 +37,7 @@ http://localhost:8765/portfolio-brief.html
 http://localhost:8765/
 http://localhost:8765/real-voice-eval.html
 http://localhost:8765/tool-calling-lab.html
+http://localhost:8765/llm-integration-lab.html
 http://localhost:8765/test-plan.html
 http://localhost:8765/project-health.html
 ```
@@ -46,6 +51,7 @@ docs/screenshots/main-demo-eval.png
 docs/screenshots/interview-demo.png
 docs/screenshots/real-voice-eval.png
 docs/screenshots/tool-calling-lab.png
+docs/screenshots/llm-integration-lab.png
 docs/screenshots/agent-architecture.png
 ```
 
@@ -68,8 +74,9 @@ When sharing the project, recommend this reading order:
 5. Interview Demo.
 6. Real Voice Evaluation.
 7. Tool Calling Lab.
-8. Agent Architecture.
-9. Test Plan.
+8. LLM Integration Lab.
+9. Agent Architecture.
+10. Test Plan.
 
 ## Positioning
 

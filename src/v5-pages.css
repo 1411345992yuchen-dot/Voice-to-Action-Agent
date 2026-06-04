@@ -1232,6 +1232,30 @@ h1 {
   white-space: pre-wrap;
 }
 
+.bridge-json-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.bridge-json-grid pre {
+  overflow: auto;
+  max-height: 360px;
+  margin: 0;
+  padding: 12px;
+  background: #f4f6f3;
+  color: var(--ink);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.bridge-readiness {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .brief-shell {
   max-width: 1120px;
 }
@@ -1446,7 +1470,9 @@ h1 {
   }
 
   .tool-contract-grid,
-  .tool-json-grid {
+  .tool-json-grid,
+  .bridge-json-grid,
+  .bridge-readiness {
     grid-template-columns: 1fr;
   }
 

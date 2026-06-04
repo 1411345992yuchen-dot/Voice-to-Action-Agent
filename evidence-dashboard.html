@@ -29,7 +29,7 @@
           <p class="subtitle">作品集最怕只有“我做了”。这个面板把项目转成四类可被追问的证据：功能证据、质量证据、产品证据、面试证据。</p>
           <div class="hero-points">
             <div class="point"><strong>功能</strong><span>Agent 编排、语音确认、路线规划、异常恢复。</span></div>
-            <div class="point"><strong>质量</strong><span>核心评估、打断评估、语音评估、路线评估、真实语音评估。</span></div>
+            <div class="point"><strong>质量</strong><span>核心评估、打断评估、语音评估、真实语音评估、LLM 接入评估。</span></div>
             <div class="point"><strong>PM</strong><span>PRD、指标、决策日志、Case Study。</span></div>
           </div>
         </div>
@@ -52,6 +52,7 @@
             <ul class="evidence-list">
               <li>Intent / Grounding / Safety / Planner / Evaluator 多 Agent 编排。</li>
               <li>Tool Calling Lab 把核心模块包装成可替换工具接口。</li>
+              <li>LLM Integration Lab 展示后端代理、请求契约和本地兜底链路。</li>
               <li>支持“右边那个杯子”“老人旁边那个东西”等场景指代。</li>
               <li>高风险任务进入安全确认和人工接管。</li>
               <li>执行中支持暂停、改目标、换对象和路线重规划。</li>
@@ -64,6 +65,7 @@
               <li>打断、语音反馈、路线质量、高级交互和语音交互均有专项用例。</li>
               <li>真实语音评估覆盖 ASR 置信度、人工修正、误触发阻止和确认后 Agent 解析。</li>
               <li>Tool Calling 评估覆盖工具调用数量、执行门控、澄清/确认和阻止执行。</li>
+              <li>LLM 接入评估覆盖代理请求、密钥边界、缺少世界状态和代理不可用兜底。</li>
               <li>测试计划页展示 expected vs actual 和 PM Review 归因。</li>
               <li>Review Sandbox 能模拟错拿对象、安全漏检和旧任务泄漏。</li>
             </ul>
@@ -82,6 +84,7 @@
             <ul class="evidence-list">
               <li>面试演示页提供四条黄金路径和可运行链接。</li>
               <li>一页式 Brief 可以直接转发给 HR / 面试官做异步评审。</li>
+              <li>LLM 接入桥可以解释真实模型接入时的安全边界和工程化产品判断。</li>
               <li>岗位讲法页为 Agent PM、语音 PM、具身 PM、AIOps PM 准备不同叙事。</li>
               <li>Agent 架构页可解释模块边界、失败风险和评估指标。</li>
               <li>简历项目经历可以直接对应这些页面进行追问。</li>
@@ -104,6 +107,7 @@
           <a href="/voice-lab.html">语音专项<br>转型重点</a>
           <a href="/real-voice-eval.html">真实语音评估<br>ASR 到门控</a>
           <a href="/tool-calling-lab.html">Tool Calling<br>接口契约</a>
+          <a href="/llm-integration-lab.html">LLM Bridge<br>真实接入边界</a>
           <a href="/agent-architecture.html">Agent 架构<br>技术可信度</a>
           <a href="/decision-log.html">决策日志<br>PM 判断力</a>
           <a href="/test-plan.html">测试计划<br>质量治理</a>

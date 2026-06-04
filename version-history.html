@@ -893,6 +893,21 @@
               <a href="/portfolio-brief.html">查看 V9.3 一页式 Brief</a>
             </div>
           </article>
+
+          <article class="version-card featured">
+            <div class="version-index">V10.0</div>
+            <div class="version-body">
+              <h3>LLM 接入桥</h3>
+              <p class="problem">产品问题：真实 LLM 接入时，如何避免密钥暴露、模型越权和物理执行绕过安全门控？</p>
+              <ul>
+                <li>新增 `llm-integration-lab.html`，展示前端请求包、后端 dry-run 代理响应、本地工具链兜底和接入检查结果。</li>
+                <li>`server.py` 新增 `/api/llm-tool-plan` 代理占位接口，只校验请求边界和服务端配置状态，不在浏览器暴露 API Key。</li>
+                <li>新增 `data/llm-integration-evaluation-set.json`，覆盖正常请求、高风险确认、歧义澄清、误触发阻止、缺少世界状态和代理不可用。</li>
+              </ul>
+              <p class="capability">体现能力：真实 LLM 产品接入边界、工具契约、安全兜底和后端代理意识。</p>
+              <a href="/llm-integration-lab.html">查看 V10.0 LLM 接入桥</a>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -903,7 +918,7 @@
         </div>
         <div class="talk-track">
           <p>
-            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。然后我按真实机器人产品会遇到的问题逐步迭代：先解决对象指代，再解决安全确认和失败恢复，接着补执行中的用户改口，再用评估集和测试计划页把 Agent 行为质量固定下来，最后补齐语音反馈、Grounding 证据、路径预览、执行中路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 失败注入、多轮上下文管理、任务队列、动态环境感知、高级交互评测、PM Demo Guide、Live Quality Evidence、语音交互状态机、主界面产品化、参考户型图的家庭场景表达、面试演示模式、产品证据卡、语音交互专项、Agent 架构说明、作品集首页、岗位讲法、产品决策日志、证据总览、投递文档包、评审摘要、演示 Runbook、项目健康度、GitHub 展示包、真实语音评估、Tool Calling 契约和一页式 Brief。
+            我做这个项目时没有一开始追求复杂模型，而是先验证具身交互产品的核心闭环：用户自然语言能否变成可执行任务。然后我按真实机器人产品会遇到的问题逐步迭代：先解决对象指代，再解决安全确认和失败恢复，接着补执行中的用户改口，再用评估集和测试计划页把 Agent 行为质量固定下来，最后补齐语音反馈、Grounding 证据、路径预览、执行中路线重规划、路线质量评估、路线评分对比、PM Review 复盘模式、Review Sandbox 失败注入、多轮上下文管理、任务队列、动态环境感知、高级交互评测、PM Demo Guide、Live Quality Evidence、语音交互状态机、主界面产品化、参考户型图的家庭场景表达、面试演示模式、产品证据卡、语音交互专项、Agent 架构说明、作品集首页、岗位讲法、产品决策日志、证据总览、投递文档包、评审摘要、演示 Runbook、项目健康度、GitHub 展示包、真实语音评估、Tool Calling 契约、一页式 Brief 和 LLM 接入桥。
           </p>
           <p>
             这条路线和我现在的多 Agent 工作流工程经验是连贯的：本质上都是把人的模糊意图转化为可执行、可解释、可评估的任务流。区别在于，这个项目把能力迁移到了具身智能场景。

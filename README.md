@@ -14,8 +14,9 @@
 4. `interview-demo.html`：四条黄金演示路径。
 5. `real-voice-eval.html`：真实语音评估一期。
 6. `tool-calling-lab.html`：LLM Tool Calling 原型。
-7. `agent-architecture.html`：Agent 模块边界和指标。
-8. `test-plan.html`：回归测试和 PM Review。
+7. `llm-integration-lab.html`：LLM 接入桥，展示后端代理、安全边界和本地兜底。
+8. `agent-architecture.html`：Agent 模块边界和指标。
+9. `test-plan.html`：回归测试和 PM Review。
 
 ## Screenshots
 
@@ -30,6 +31,8 @@
 ![真实语音评估](docs/screenshots/real-voice-eval.png)
 
 ![LLM Tool Calling 原型](docs/screenshots/tool-calling-lab.png)
+
+![LLM 接入桥](docs/screenshots/llm-integration-lab.png)
 
 ![Agent 架构说明](docs/screenshots/agent-architecture.png)
 
@@ -86,6 +89,12 @@ LLM Tool Calling 原型页面：
 http://localhost:8765/tool-calling-lab.html
 ```
 
+LLM 接入桥页面：
+
+```text
+http://localhost:8765/llm-integration-lab.html
+```
+
 ## Project Structure
 
 ```text
@@ -109,6 +118,7 @@ D:\voice-to-action-agent
 ├── project-health.html
 ├── real-voice-eval.html
 ├── tool-calling-lab.html
+├── llm-integration-lab.html
 ├── role-positioning.html
 ├── decision-log.html
 ├── evidence-dashboard.html
@@ -119,6 +129,8 @@ D:\voice-to-action-agent
 │   ├── real-voice-eval.js
 │   ├── tool-calling-prototype.js
 │   ├── tool-calling-lab.js
+│   ├── llm-integration-bridge.js
+│   ├── llm-integration-lab.js
 │   ├── portfolio.css
 │   ├── test-plan.css
 │   ├── test-plan.js
@@ -134,7 +146,8 @@ D:\voice-to-action-agent
 │   ├── voice-feedback-evaluation-set.json
 │   ├── route-evaluation-set.json
 │   ├── real-voice-evaluation-set.json
-│   └── tool-calling-evaluation-set.json
+│   ├── tool-calling-evaluation-set.json
+│   └── llm-integration-evaluation-set.json
 └── docs
     ├── agent-orchestration.md
     ├── case-study.md
@@ -147,6 +160,7 @@ D:\voice-to-action-agent
     ├── project-health.md
     ├── real-voice-evaluation.md
     ├── tool-calling-prototype.md
+    ├── llm-integration-bridge.md
     ├── portfolio-one-page-brief.md
     ├── interview-guide.md
     ├── product-decisions.md
@@ -190,6 +204,7 @@ D:\voice-to-action-agent
 - 语音识别确认区：语音结果先进入可编辑确认区，用户确认后再执行，降低误识别直接触发任务的风险
 - 真实语音评估：记录 ASR 文本、置信度、人工修正、误触发阻止和确认后 Agent 解析结果
 - LLM Tool Calling 原型：把 Intent、Grounding、Safety、Route、Gate 和 Evaluation 包成可替换工具接口
+- LLM 接入桥：通过后端代理 dry-run 展示真实模型接入边界、请求校验、本地确定性兜底和执行门控
 - 一页式作品集 Brief：把项目定位、能力证据、演示路径和面试讲法压缩成可打印材料
 - 语音 PM Demo 模式：一键串联歧义澄清、高风险确认、中途改口和动态环境恢复四段面试演示
 - 分步任务计划和执行时间线
@@ -211,6 +226,7 @@ http://localhost:8765/?routeeval=1
 http://localhost:8765/portfolio-brief.html
 http://localhost:8765/real-voice-eval.html
 http://localhost:8765/tool-calling-lab.html
+http://localhost:8765/llm-integration-lab.html
 http://localhost:8765/test-plan.html?sandbox=grounding_wrong_object
 http://localhost:8765/test-plan.html?sandbox=route_score_regression
 http://localhost:8765/test-plan.html?sandbox=safety_gate_missing
@@ -355,6 +371,14 @@ http://localhost:8765/?voicedemo=1
 - 新增 `docs/portfolio-one-page-brief.md`，提供可复制到投递材料、飞书文档或 GitHub README 的 Markdown 版本。
 - 一页式 Brief 集中展示项目定位、产品问题、解决方案、核心机制、证据指标、PM 能力证据、推荐演示路径和面试讲法。
 - 这一步让项目从“可浏览作品集系统”继续升级为“可直接发给 HR / 面试官的浓缩投递材料”。
+
+## V10.0 Update
+
+- 新增 `llm-integration-lab.html`，展示真实 LLM 接入前的后端代理、请求包、代理响应、本地工具链兜底和接入检查结果。
+- 新增 `src/llm-integration-bridge.js` 和 `src/llm-integration-lab.js`，把 V9.2 的 Tool Calling 契约升级为 proxy-ready 的 LLM 接入桥。
+- 新增 `data/llm-integration-evaluation-set.json` 和 `docs/llm-integration-bridge.md`，覆盖正常代理请求、高风险确认、歧义澄清、闲聊阻止、缺少世界状态和代理不可用六类接入风险。
+- `server.py` 新增 `/api/llm-tool-plan` dry-run 代理接口，只校验请求边界和服务端密钥配置状态，不在浏览器暴露 API Key，不直接调用外部模型。
+- 这一步让项目从“能解释未来如何接 LLM”继续推进为“能展示真实接入前的安全边界、后端代理和兜底策略”。
 
 ## Portfolio Narrative
 

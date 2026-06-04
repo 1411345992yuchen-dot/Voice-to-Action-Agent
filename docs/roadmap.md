@@ -207,6 +207,15 @@
 - 页面支持浏览器打印和导出 PDF。
 - 目标是让项目不仅能被浏览和运行，也能被快速转发给 HR、面试官或作品集评审。
 
+## V10.0: LLM Integration Bridge
+
+- 新增 `llm-integration-lab.html`。
+- 新增 `src/llm-integration-bridge.js`、`src/llm-integration-lab.js` 和 `data/llm-integration-evaluation-set.json`。
+- `server.py` 新增 `/api/llm-tool-plan` dry-run 后端代理，校验真实 LLM 接入前的请求边界，不暴露浏览器端 API Key。
+- 页面展示前端请求包、后端代理响应、本地确定性 Tool Calling 兜底和接入检查项。
+- 评估覆盖低风险执行、高风险确认、歧义澄清、闲聊阻止、缺少世界状态和代理不可用六类接入风险。
+- 目标是从“Tool Calling 契约”推进到“真实模型接入前的代理、安全和回退策略”。
+
 ## V2: Multimodal Reference
 
 - 加入场景图上传或静态图片
