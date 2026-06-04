@@ -1585,6 +1585,98 @@ button:hover {
   color: #fff;
 }
 
+.status-brief {
+  margin: 0 0 12px;
+}
+
+.status-brief-card {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.status-brief-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.status-brief-card header span {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(35, 122, 87, 0.1);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.status-brief-card header strong {
+  min-width: 0;
+  color: #17211b;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.status-brief-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.status-brief-grid div {
+  padding: 8px;
+  border-radius: 7px;
+  background: rgba(247, 248, 245, 0.78);
+}
+
+.status-brief-grid small,
+.status-brief-grid b {
+  display: block;
+}
+
+.status-brief-grid small {
+  margin-bottom: 3px;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.status-brief-grid b {
+  color: #31443a;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.status-brief-card.warn {
+  border-color: rgba(177, 107, 21, 0.32);
+  background: var(--amber-soft);
+}
+
+.status-brief-card.warn header span,
+.status-brief-card.warn .status-brief-grid small {
+  color: var(--amber);
+}
+
+.status-brief-card.risk {
+  border-color: rgba(180, 67, 67, 0.32);
+  background: var(--red-soft);
+}
+
+.status-brief-card.risk header span,
+.status-brief-card.risk .status-brief-grid small {
+  color: var(--red);
+}
+
+.status-brief-card.success {
+  border-color: rgba(35, 122, 87, 0.24);
+  background: var(--green-soft);
+}
+
 .product-summary,
 .decision-summary {
   display: grid;

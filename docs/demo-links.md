@@ -22,6 +22,12 @@ python server.py
 - 安全确认：`http://localhost:8765/?confirm=1&demo=把药盒递给老人`
 - 执行中改口：`http://localhost:8765/?demo=把桌上的红色杯子拿到厨房台面&interrupt=别放厨房了，放门口`
 
+## Status Brief Examples
+
+- 澄清状态：`http://localhost:8765/?demo=把杯子拿到厨房`
+- 安全确认：`http://localhost:8765/?demo=把药盒递给老人`
+- 执行改口：`http://localhost:8765/?demo=把桌上的红色杯子拿到厨房台面&interrupt=别放厨房了，放门口`
+
 ## Core Acceptance
 
 - 核心验收页：`http://localhost:8765/test-plan.html`

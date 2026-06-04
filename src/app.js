@@ -179,6 +179,7 @@ const nodes = {
   executionStateMachine: document.getElementById("executionStateMachine"),
   handoffPanel: document.getElementById("handoffPanel"),
   coreFlowRail: document.getElementById("coreFlowRail"),
+  statusBrief: document.getElementById("statusBrief"),
   productSummary: document.getElementById("productSummary"),
   decisionSummary: document.getElementById("decisionSummary"),
   exportLogButton: document.getElementById("exportLogButton"),
@@ -1342,6 +1343,7 @@ function requestClarification(parseResult, command) {
     prompt: "需要用户确认目标对象",
     candidates: (parseResult.candidates || []).filter(Boolean).map((item) => item.name)
   };
+  addTimeline("Clarify", "目标不唯一，已暂停执行并等待用户选择。");
   renderContextMemory();
   const candidateButtons = parseResult.candidates
     .filter(Boolean)
@@ -1374,6 +1376,7 @@ function requestConfirmation(parseResult, command) {
     prompt: `等待安全确认：${parseResult.task.object || "目标对象"} -> ${parseResult.task.destination}`,
     candidates: ["确认执行", "转人工接管", "取消"]
   };
+  addTimeline("Confirm", "高风险或敏感任务已锁住执行门，等待用户确认。");
   renderContextMemory();
   const riskCopy = parseResult.task.riskLevel === "high"
     ? "该任务涉及高风险对象或靠近用户，需要确认后执行。"
@@ -2034,14 +2037,20 @@ function updateInspector(task, plan, trace, groundingReport = null, routeReport 
 }
 
 function renderProductPanels(task, plan = [], trace = [], groundingReport = null, routeReport = null) {
+  const statusBrief = buildStatusBrief(task, groundingReport, routeReport);
   renderCoreFlowRail(task, groundingReport, routeReport);
+  renderStatusBrief(statusBrief);
   if (nodes.productSummary) {
     const intentLabel = getIntentLabel(task?.intent);
     const objectText = task?.object || "待识别";
     const destinationText = task?.destination || "待识别";
     const riskLevel = task?.riskLevel || "low";
     const riskLabel = getRiskLabel(riskLevel);
-    const routeText = routeReport?.selectedRoute?.label || routeReport?.routeLabel || (task ? "已生成执行路径" : "等待规划");
+    const routeText = state.pending?.type === "clarification"
+      ? "待确认对象后执行"
+      : state.pending?.type === "confirmation"
+        ? "待安全确认后执行"
+        : routeReport?.selectedRoute?.label || routeReport?.routeLabel || (task ? "已生成执行路径" : "等待规划");
     nodes.productSummary.innerHTML = `
       <article class="product-card">
         <div class="product-card-main">
@@ -2059,7 +2068,7 @@ function renderProductPanels(task, plan = [], trace = [], groundingReport = null
   }
 
   if (nodes.decisionSummary) {
-    const decision = buildDecisionSummary(task, groundingReport, routeReport);
+    const decision = buildDecisionSummary(task, groundingReport, routeReport, statusBrief);
     nodes.decisionSummary.innerHTML = `
       <article class="decision-card ${escapeHtml(decision.tone)}">
         <header>
@@ -2074,6 +2083,32 @@ function renderProductPanels(task, plan = [], trace = [], groundingReport = null
       </article>
     `;
   }
+}
+
+function renderStatusBrief(brief) {
+  if (!nodes.statusBrief) return;
+  nodes.statusBrief.innerHTML = `
+    <article class="status-brief-card ${escapeHtml(brief.tone)}">
+      <header>
+        <span>${escapeHtml(brief.badge)}</span>
+        <strong>${escapeHtml(brief.headline)}</strong>
+      </header>
+      <div class="status-brief-grid">
+        <div>
+          <small>系统判断</small>
+          <b>${escapeHtml(brief.systemAction)}</b>
+        </div>
+        <div>
+          <small>原因</small>
+          <b>${escapeHtml(brief.reason)}</b>
+        </div>
+        <div>
+          <small>用户动作</small>
+          <b>${escapeHtml(brief.userAction)}</b>
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 function renderCoreFlowRail(task, groundingReport = null, routeReport = null) {
@@ -2097,6 +2132,7 @@ function buildCoreFlowStages(task, groundingReport = null, routeReport = null) {
   const hasRoute = Boolean(routeReport?.segments?.length || task?.status === "executing" || task?.status === "completed");
   const isClarifying = state.pending?.type === "clarification" || current === "need_clarification";
   const isConfirming = state.pending?.type === "confirmation" || current === "need_confirmation";
+  const isWaitingForUser = isClarifying || isConfirming;
   const isExecuting = current === "executing" || task?.status === "executing";
   const isDone = current === "completed" || task?.status === "completed";
   const isRecovery = ["recovering", "paused"].includes(current);
@@ -2105,97 +2141,116 @@ function buildCoreFlowStages(task, groundingReport = null, routeReport = null) {
   return [
     {
       label: "理解",
-      detail: hasTask ? "已识别任务意图" : "等待一句话任务",
+      detail: hasTask ? "已听懂要做什么" : "等你说一句任务",
       state: current === "parsing" ? "active" : hasTask ? "done" : "active"
     },
     {
       label: "定位",
-      detail: isClarifying ? "需要确认对象" : hasGrounding ? "对象/位置已绑定" : "等待场景线索",
+      detail: isClarifying ? "先确认目标对象" : hasGrounding ? "对象和位置已绑定" : "等待场景线索",
       state: isClarifying ? "warn" : hasGrounding ? "done" : hasTask ? "active" : "pending"
     },
     {
       label: "安全门",
-      detail: isConfirming ? "等待安全确认" : isHandoff ? "转人工接管" : hasTask ? "风险已评估" : "待评估",
+      detail: isConfirming ? "需要你确认风险" : isHandoff ? "已转人工接管" : hasTask ? "风险已检查" : "待评估",
       state: isHandoff ? "risk" : isConfirming ? "warn" : hasTask ? "done" : "pending"
     },
     {
       label: "执行",
-      detail: isDone ? "任务完成" : isRecovery ? "恢复/暂停中" : isExecuting ? "机器人执行中" : hasRoute ? "路线已生成" : "待执行",
-      state: isHandoff ? "risk" : isDone ? "done" : isRecovery ? "warn" : isExecuting ? "active" : hasRoute ? "done" : "pending"
+      detail: isDone ? "任务已完成" : isRecovery ? "暂停并恢复中" : isWaitingForUser ? "等你确认后执行" : isExecuting ? "执行中，可改口" : hasRoute ? "路线已准备" : "待执行",
+      state: isHandoff ? "risk" : isDone ? "done" : isRecovery ? "warn" : isWaitingForUser ? "pending" : isExecuting ? "active" : hasRoute ? "done" : "pending"
     }
   ];
 }
 
-function buildDecisionSummary(task, groundingReport = null, routeReport = null) {
+function buildStatusBrief(task, groundingReport = null, routeReport = null) {
   if (state.pending?.type === "clarification") {
     return {
-      title: "需要澄清",
-      badge: "Clarify",
-      body: state.pending.question || "系统还不能唯一确定目标对象或目标位置。",
-      next: "等待用户补充一个短回答",
+      headline: "我还不能确定要操作哪一个",
+      badge: "待选择",
+      systemAction: "暂停执行",
+      reason: state.pending.question || "目标对象或目标位置还不唯一。",
+      userAction: "选择候选，或补一句颜色/位置",
       tone: "warn"
     };
   }
   if (state.pending?.type === "confirmation") {
     return {
-      title: "等待安全确认",
-      badge: "Confirm",
-      body: state.pending.question || "该动作涉及高风险对象，需要用户明确确认。",
-      next: "确认后低速执行，拒绝则停止",
+      headline: "这个任务需要先确认风险",
+      badge: "待确认",
+      systemAction: "锁住执行门",
+      reason: state.pending.question || "动作涉及药品、老人、重物或门口等高风险场景。",
+      userAction: "确认执行，或选择人工接管",
       tone: "warn"
     };
   }
   if (state.handoff?.severity === "high") {
     return {
-      title: "建议人工接管",
-      badge: "Handoff",
-      body: state.handoff.operatorPrompt || state.handoff.reason,
-      next: "停止自动执行并保留上下文",
+      headline: "建议人工接管",
+      badge: "接管",
+      systemAction: "停止自动动作",
+      reason: state.handoff.operatorPrompt || state.handoff.reason,
+      userAction: "人工处理后再恢复任务",
       tone: "risk"
     };
   }
   if (!task) {
     return {
-      title: "准备就绪",
-      badge: "Ready",
-      body: "系统会把自然语言转成可执行任务，并在不确定或高风险时主动打断。",
-      next: "选择一个场景或输入指令",
+      headline: "等待一句话任务",
+      badge: "就绪",
+      systemAction: "只接收一个任务",
+      reason: "系统会先理解意图，再检查对象、位置和风险。",
+      userAction: "输入指令或选择试跑场景",
       tone: "info"
     };
   }
   if (state.executionState.current === "recovering") {
     return {
-      title: "正在恢复",
-      badge: "Recovering",
-      body: "检测到路径或目标状态变化，正在重新定位和规划。",
-      next: "等待恢复完成或人工接管",
+      headline: "任务暂停，正在恢复",
+      badge: "恢复",
+      systemAction: "重新定位和规划",
+      reason: "路径、目标或环境状态发生变化，继续执行前需要重新确认。",
+      userAction: "等待恢复，或人工接管",
       tone: "warn"
     };
   }
   if (state.executionState.current === "completed") {
     return {
-      title: "任务完成",
-      badge: "Done",
-      body: `${task.object || "机器人"} 已到达 ${task.destination || "目标位置"}，任务证据已记录。`,
-      next: "可继续输入下一条任务",
+      headline: "任务已完成",
+      badge: "完成",
+      systemAction: "记录执行证据",
+      reason: `${task.object || "机器人"} 已到达 ${task.destination || "目标位置"}。`,
+      userAction: "继续输入下一条任务",
       tone: "success"
     };
   }
   if (task.status === "executing" || state.executionState.current === "executing") {
     return {
-      title: "正在执行",
-      badge: "Executing",
-      body: routeReport?.selectedRoute?.reason || `机器人正在执行 ${task.object || "导航"} -> ${task.destination || "目标位置"}。`,
-      next: "保持观察，允许中途修改目标",
+      headline: "机器人正在执行",
+      badge: "执行中",
+      systemAction: "按路线推进",
+      reason: routeReport?.selectedRoute?.reason || `正在执行 ${task.object || "导航"} 到 ${task.destination || "目标位置"}。`,
+      userAction: "可随时改目标、暂停或接管",
       tone: task.riskLevel === "high" ? "warn" : "success"
     };
   }
   return {
-    title: "已理解任务",
-    badge: "Parsed",
-    body: groundingReport?.summary || `识别到 ${task.object || "目标对象"}，目标位置为 ${task.destination || "待确认"}。`,
-    next: "生成路线并进入执行",
+    headline: "任务已理解",
+    badge: "已解析",
+    systemAction: "准备路线和动作",
+    reason: groundingReport?.summary || `已识别 ${task.object || "目标对象"}，目标位置为 ${task.destination || "待确认"}。`,
+    userAction: task.requiresHumanConfirmation ? "等待安全确认" : "可开始执行",
     tone: "info"
+  };
+}
+
+function buildDecisionSummary(task, groundingReport = null, routeReport = null, statusBrief = null) {
+  const brief = statusBrief || buildStatusBrief(task, groundingReport, routeReport);
+  return {
+    title: brief.headline,
+    badge: brief.badge,
+    body: brief.reason,
+    next: brief.userAction,
+    tone: brief.tone
   };
 }
 
