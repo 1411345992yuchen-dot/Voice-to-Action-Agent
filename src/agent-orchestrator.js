@@ -358,26 +358,29 @@ const VoiceToActionAgents = (() => {
   }
 
   function isRobotNavigationCommand(command) {
-    const hasDestination = /厨房|台面|门口|客厅|老人座位|老人/.test(command);
+    const hasDestination = /厨房|台面|门口|客厅|老人座位|老人|床头柜|床边|餐桌|桌边/.test(command);
     const hasNavigationVerb = /移动到|走到|前往|去|到/.test(command);
-    const hasObjectMention = /把|将|拿|取|放|递|送|搬|挪|杯|药|快递|包裹|箱子|椅子|障碍|东西|物体|这个|那个/.test(command);
+    const hasObjectMention = /把|将|拿|取|放|递|送|搬|挪|杯|水|药|快递|包裹|箱子|椅子|障碍|东西|物体|这个|那个/.test(command);
     return hasDestination && hasNavigationVerb && !hasObjectMention;
   }
 
   function inferObject(command, objects, context) {
-    const sceneCandidate = inferObjectBySceneReference(command, objects);
+    const objectReference = extractObjectReferencePhrase(command);
+    const sceneCandidate = inferObjectBySceneReference(objectReference, objects);
     if (sceneCandidate) return sceneCandidate;
 
-    if (/这个|那个|这边|那边/.test(command) && context.selectedObjectId) {
+    if (/这个|那个|这边|那边/.test(objectReference) && context.selectedObjectId) {
       return findById(objects, context.selectedObjectId);
     }
 
-    if (/药|药盒/.test(command)) return findById(objects, "medicine_box");
-    if (/快递|包裹/.test(command)) return findById(objects, "parcel");
-    if (/箱子|重箱/.test(command)) return findById(objects, "heavy_box");
-    if (/障碍|椅子/.test(command)) return findById(objects, "chair");
-    if (/红色|红杯/.test(command)) return findById(objects, "red_cup");
-    if (/蓝色|蓝杯/.test(command)) return findById(objects, "blue_cup");
+    if (/药|药盒/.test(objectReference)) return findById(objects, "medicine_box");
+    if (/快递|包裹/.test(objectReference)) return findById(objects, "parcel");
+    if (/箱子|重箱/.test(objectReference)) return findById(objects, "heavy_box");
+    if (/障碍|椅子/.test(objectReference)) return findById(objects, "chair");
+    if (/床头柜|床边|床头/.test(objectReference) && /水|水杯|杯/.test(objectReference)) return findById(objects, "red_cup");
+    if (/餐桌|桌边|桌上|桌面/.test(objectReference) && /水|水杯|杯/.test(objectReference)) return findById(objects, "blue_cup");
+    if (/红色|红杯/.test(objectReference)) return findById(objects, "red_cup");
+    if (/蓝色|蓝杯/.test(objectReference)) return findById(objects, "blue_cup");
     return null;
   }
 
@@ -410,7 +413,8 @@ const VoiceToActionAgents = (() => {
       };
     }
 
-    const candidateRows = scoreObjectCandidates(context.command, context.objects)
+    const objectReference = extractObjectReferencePhrase(context.command);
+    const candidateRows = scoreObjectCandidates(objectReference, context.objects)
       .map((candidate) => enrichCandidateForReport(candidate, context, object, ambiguity))
       .sort((left, right) => {
         if (left.isSelected !== right.isSelected) return left.isSelected ? -1 : 1;
@@ -495,9 +499,9 @@ const VoiceToActionAgents = (() => {
 
   function extractGroundingSignals(command, context) {
     const signals = [];
-    if (/杯子|杯|箱子|药|药盒|快递|包裹|障碍|椅子|东西|物体/.test(command)) signals.push("对象类型");
+    if (/水|水杯|杯子|杯|箱子|药|药盒|快递|包裹|障碍|椅子|东西|物体/.test(command)) signals.push("对象类型");
     if (/红色|蓝色|红|蓝/.test(command)) signals.push("颜色属性");
-    if (/桌上|桌面|门口|厨房|客厅|老人|边桌/.test(command)) signals.push("场景区域");
+    if (/床头柜|床边|床头|餐桌|桌边|桌上|桌面|门口|厨房|客厅|老人|边桌/.test(command)) signals.push("场景区域");
     if (/左边|右边|旁边|附近|边上/.test(command)) signals.push("空间关系");
     if (/这个|那个|这边|那边/.test(command)) signals.push("指代上下文");
     if (context.selectedObjectId) signals.push("当前选中对象");
@@ -521,25 +525,58 @@ const VoiceToActionAgents = (() => {
   }
 
   function inferDestination(command, object, destinations) {
+    const targetText = extractTargetPhrase(command);
+    const targetDestination = targetText ? matchDestinationText(targetText, destinations) : null;
+    if (targetDestination) return targetDestination;
+
     if (/厨房|台面/.test(command)) return findById(destinations, "kitchen_counter");
     if (/门口/.test(command)) return findById(destinations, "door");
     if (/老人|递给/.test(command)) return findById(destinations, "elder_seat");
     if (/客厅/.test(command)) return findById(destinations, "living_room");
+    if (/床头柜|床边|床头/.test(command)) return findById(destinations, "bedside_table");
+    if (/餐桌|桌边|桌旁/.test(command)) return findById(destinations, "dining_table");
     if (object?.id === "medicine_box") return findById(destinations, "elder_seat");
     if (object?.id === "parcel") return findById(destinations, "door");
     return findById(destinations, "kitchen_counter");
   }
 
+  function extractTargetPhrase(command) {
+    const matches = [...command.matchAll(/(?:拿到|放到|送到|递到|搬到|挪到|带到|移动到|走到|前往|拿去|送去|放去|放在|递给|拿给|送给|交给)([^，。；,;]*)/g)];
+    if (!matches.length) return "";
+    return matches[matches.length - 1][1] || "";
+  }
+
+  function extractObjectReferencePhrase(command) {
+    const sourceMatches = [...command.matchAll(/(?:把|将)(.*?)(?:拿到|放到|送到|递到|搬到|挪到|带到|拿去|送去|放去|放在|递给|拿给|送给|交给)/g)];
+    if (sourceMatches.length) {
+      return (sourceMatches[sourceMatches.length - 1][1] || "").trim();
+    }
+    return command
+      .replace(/(?:拿到|放到|送到|递到|搬到|挪到|带到|移动到|走到|前往|拿去|送去|放去|放在|递给|拿给|送给|交给)([^，。；,;]*)/g, "")
+      .trim();
+  }
+
+  function matchDestinationText(text, destinations) {
+    if (/厨房|台面/.test(text)) return findById(destinations, "kitchen_counter");
+    if (/门口/.test(text)) return findById(destinations, "door");
+    if (/老人/.test(text)) return findById(destinations, "elder_seat");
+    if (/客厅|安全区/.test(text)) return findById(destinations, "living_room");
+    if (/餐桌|桌边|桌旁|桌上|桌面/.test(text)) return findById(destinations, "dining_table");
+    if (/床头柜|床边|床头/.test(text)) return findById(destinations, "bedside_table");
+    return null;
+  }
+
   function detectAmbiguity(command, object, objects) {
-    if (/杯子/.test(command) && !/红色|蓝色|左边|右边|桌上/.test(command)) {
+    const objectReference = extractObjectReferencePhrase(command);
+    if (/水|水杯|杯子|杯/.test(objectReference) && !/红色|蓝色|红杯|蓝杯|左边|右边|床头柜|床边|床头|餐桌|桌边|桌上|桌面/.test(objectReference)) {
       return {
         needClarification: true,
-        reason: "杯子存在多个候选，需要颜色或位置澄清",
+        reason: "水杯存在多个候选，需要位置澄清",
         candidates: [findById(objects, "red_cup"), findById(objects, "blue_cup")].filter(Boolean)
       };
     }
 
-    if (/那个|这个|这边|那边|旁边/.test(command) && !object) {
+    if (/那个|这个|这边|那边|旁边/.test(objectReference) && !object) {
       return {
         needClarification: true,
         reason: "存在指代词，但缺少视觉或上下文定位",
@@ -564,7 +601,7 @@ const VoiceToActionAgents = (() => {
 
   function scoreByType(command, candidates) {
     return candidates.map((candidate) => {
-      if (/杯子|杯/.test(command) && candidate.object.type === "cup") addScore(candidate, 2, "类型匹配：杯子");
+      if (/水|水杯|杯子|杯/.test(command) && candidate.object.type === "cup") addScore(candidate, 2, "类型匹配：水杯");
       if (/箱子/.test(command) && candidate.object.type === "box") addScore(candidate, 3, "类型匹配：箱子");
       if (/药|药盒/.test(command) && candidate.object.type === "medicine") addScore(candidate, 4, "类型匹配：药品");
       if (/快递|包裹/.test(command) && candidate.object.type === "parcel") addScore(candidate, 4, "类型匹配：包裹/快递");
@@ -584,7 +621,8 @@ const VoiceToActionAgents = (() => {
 
   function scoreByZone(command, candidates) {
     return candidates.map((candidate) => {
-      if (/桌上|桌面|桌/.test(command) && candidate.object.semanticZone === "table") addScore(candidate, 3, "区域匹配：桌上");
+      if (/床头柜|床边|床头/.test(command) && candidate.object.semanticZone === "bedside_table") addScore(candidate, 4, "区域匹配：床头柜");
+      if (/餐桌|桌边|桌上|桌面|桌/.test(command) && ["dining_table", "table"].includes(candidate.object.semanticZone)) addScore(candidate, 3, "区域匹配：餐桌");
       if (/门口/.test(command) && candidate.object.semanticZone === "door") addScore(candidate, 3, "区域匹配：门口");
       if (/老人旁边|老人边上|边桌/.test(command) && candidate.object.semanticZone === "elder_side_table") addScore(candidate, 4, "区域匹配：老人旁边");
       if (/客厅左侧|客厅左边/.test(command) && candidate.object.semanticZone === "living_left") addScore(candidate, 4, "区域匹配：客厅左侧");
@@ -600,7 +638,7 @@ const VoiceToActionAgents = (() => {
 
     return candidates.map((candidate) => {
       if (/左边|左侧/.test(command)) {
-        if (leftCupX !== null && /杯子|杯/.test(command) && candidate.object.type === "cup" && candidate.object.x === leftCupX) {
+        if (leftCupX !== null && /水|水杯|杯子|杯/.test(command) && candidate.object.type === "cup" && candidate.object.x === leftCupX) {
           addScore(candidate, 4, "空间匹配：杯子中更靠左");
         } else if (candidate.object.semanticZone === "living_left") {
           addScore(candidate, 3, "空间匹配：客厅左侧");
@@ -608,7 +646,7 @@ const VoiceToActionAgents = (() => {
       }
 
       if (/右边|右侧/.test(command)) {
-        if (rightCupX !== null && /杯子|杯/.test(command) && candidate.object.type === "cup" && candidate.object.x === rightCupX) {
+        if (rightCupX !== null && /水|水杯|杯子|杯/.test(command) && candidate.object.type === "cup" && candidate.object.x === rightCupX) {
           addScore(candidate, 4, "空间匹配：杯子中更靠右");
         } else if (candidate.object.x > 60) {
           addScore(candidate, 2, "空间匹配：场景右侧");
@@ -640,7 +678,7 @@ const VoiceToActionAgents = (() => {
       evidence.push("使用用户在场景中选中的对象作为指代上下文");
     }
 
-    if (/左边|右边|旁边|桌上|门口|老人/.test(command)) {
+    if (/左边|右边|旁边|床边|床头柜|餐桌|桌边|桌上|门口|老人/.test(command)) {
       evidence.push("使用场景位置语义完成视觉指代 grounding");
     }
 

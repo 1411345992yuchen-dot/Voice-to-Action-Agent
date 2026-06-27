@@ -1,11 +1,11 @@
 const fallbackScenario = {
   samples: [
-    "把桌上的红色杯子拿到厨房台面",
-    "先把红色杯子拿到厨房，再请你移动到客厅",
+    "把床头柜上的水杯拿到餐桌右侧",
+    "把餐桌水杯递给床上的老人",
     "请你移动到客厅",
-    "把右边那个杯子拿到厨房台面",
+    "把餐桌左上角那杯水递给老人",
     "把老人旁边那个东西递给老人",
-    "把这个拿到厨房台面",
+    "把这个拿到餐桌右侧",
     "把重箱子搬到门口",
     "把重箱子搬到门口，绕开椅子走",
     "帮我检查客厅有没有障碍物",
@@ -14,8 +14,8 @@ const fallbackScenario = {
     "把左边那个箱子搬到门口，小心别撞到椅子"
   ],
   objects: [
-    { id: "red_cup", name: "红色杯子", type: "cup", color: "red", zone: "桌上", semanticZone: "table", aliases: ["红色杯子", "红杯", "红色物体", "桌上红色物体"], x: 51, y: 46, risk: "low" },
-    { id: "blue_cup", name: "蓝色杯子", type: "cup", color: "blue", zone: "桌上", semanticZone: "table", aliases: ["蓝色杯子", "蓝杯", "蓝色物体", "右边杯子"], x: 57, y: 46, risk: "low" },
+    { id: "red_cup", name: "床头柜水杯", type: "cup", color: "red", zone: "床头柜", semanticZone: "bedside_table", aliases: ["床头柜水杯", "床头柜上的水", "床边水杯", "床边那杯水", "床边的水", "红色杯子", "红杯", "红色物体", "桌上红色物体"], x: 64.5, y: 12.5, risk: "low" },
+    { id: "blue_cup", name: "餐桌水杯", type: "cup", color: "blue", zone: "餐桌左上角", semanticZone: "dining_table", aliases: ["餐桌水杯", "餐桌边水杯", "餐桌左上角水杯", "餐桌左上角那杯水", "餐桌边那杯水", "餐桌上的水", "餐桌那杯水", "蓝色杯子", "蓝杯", "蓝色物体", "右边杯子"], x: 72.5, y: 71.5, risk: "low" },
     { id: "medicine_box", name: "药盒", type: "medicine", color: "red", zone: "边桌", semanticZone: "elder_side_table", aliases: ["药盒", "药", "老人旁边的东西", "边桌物品"], x: 78, y: 78, risk: "high" },
     { id: "parcel", name: "快递", type: "parcel", color: "blue", zone: "门口", semanticZone: "door", aliases: ["快递", "包裹", "门口包裹"], x: 14, y: 69, risk: "medium" },
     { id: "chair", name: "椅子障碍", type: "obstacle", color: "blue", zone: "客厅", semanticZone: "living_room", aliases: ["椅子", "障碍", "椅子障碍"], x: 63, y: 55, risk: "medium" },
@@ -24,8 +24,10 @@ const fallbackScenario = {
   destinations: [
     { id: "kitchen_counter", name: "厨房台面", x: 18, y: 29 },
     { id: "door", name: "门口", x: 14, y: 69 },
-    { id: "elder_seat", name: "老人座位", x: 74, y: 78 },
-    { id: "living_room", name: "客厅", x: 70, y: 38 }
+    { id: "elder_seat", name: "床上老人", x: 72, y: 24 },
+    { id: "living_room", name: "客厅", x: 70, y: 38 },
+    { id: "bedside_table", name: "床头柜", x: 64.5, y: 16 },
+    { id: "dining_table", name: "餐桌右侧", x: 80, y: 76 }
   ]
 };
 
@@ -119,6 +121,18 @@ const state = {
 
 const RUN_LOG_STORAGE_KEY = "voiceToActionAgent.runLogs.v1";
 const MAX_RUN_LOGS = 160;
+const CLEAN_SCENE_VISIBLE_OBJECT_IDS = new Set(["red_cup", "blue_cup"]);
+const DINING_TABLE_ACCESS = {
+  stand: { x: 93, y: 89, name: "餐桌右下侧安全站位" },
+  standby: { x: 93, y: 90 },
+  minCupGap: 9,
+  placementCandidates: [
+    { x: 87.5, y: 82.5, zone: "餐桌右下边缘" },
+    { x: 87.5, y: 73.8, zone: "餐桌右上边缘" },
+    { x: 77.5, y: 85.8, zone: "餐桌左下边缘" },
+    { x: 82.8, y: 70.8, zone: "餐桌上边缘" }
+  ]
+};
 
 const nodes = {
   commandInput: document.getElementById("commandInput"),
@@ -301,7 +315,7 @@ function applyProductizedCopy() {
   if (nodes.voiceEvalButton) nodes.voiceEvalButton.textContent = "语音评测";
   if (nodes.routeEvalButton) nodes.routeEvalButton.textContent = "路线评测";
 
-  setPlaceholder("#commandInput", "例如：把红色杯子拿到厨房台面");
+  setPlaceholder("#commandInput", "例如：把床头柜上的水杯拿到餐桌右侧");
   setPlaceholder("#voiceTranscriptDraft", "确认识别文本后再执行");
 
   const metricLabels = [
@@ -418,10 +432,10 @@ function handleAutomationParams() {
 function renderSamples() {
   nodes.sampleList.innerHTML = "";
   const sampleScenarios = [
-    { title: "日常执行", helper: "拿杯子到厨房", command: "把红色杯子拿到厨房台面" },
-    { title: "对象澄清", helper: "让系统先确认", command: "把杯子拿到厨房" },
-    { title: "安全确认", helper: "药盒递给老人", command: "把药盒递给老人" },
-    { title: "执行改口", helper: "执行中再说：别放厨房了，放门口", command: "把红色杯子拿到厨房台面" }
+    { title: "日常执行", helper: "床边水到餐桌", command: "把床头柜上的水杯拿到餐桌右侧" },
+    { title: "照护递水", helper: "餐桌水递给老人", command: "把餐桌水杯递给床上的老人" },
+    { title: "对象澄清", helper: "让系统先确认", command: "把水杯拿到餐桌右侧" },
+    { title: "执行改口", helper: "执行中再说：别递给老人了，放餐桌", command: "把餐桌水杯递给床上的老人" }
   ];
   const samples = sampleScenarios.map((item) => {
     const matched = state.scenario.samples.find((sample) => sample === item.command) || item.command;
@@ -514,14 +528,18 @@ function resetScene(options = {}) {
 }
 
 function renderScene() {
-  const activeObjectIds = new Set(state.objects.map((object) => object.id));
+  const emptySceneShell = nodes.sceneMap?.classList.contains("scene-empty-shell");
+  const visibleObjects = emptySceneShell
+    ? state.objects.filter((object) => CLEAN_SCENE_VISIBLE_OBJECT_IDS.has(object.id))
+    : state.objects;
+  const activeObjectIds = new Set(visibleObjects.map((object) => object.id));
   [...nodes.sceneMap.querySelectorAll(".object-node")].forEach((node) => {
     if (!activeObjectIds.has(node.dataset.objectId)) {
       node.remove();
     }
   });
 
-  state.objects.forEach((object) => {
+  visibleObjects.forEach((object) => {
     let element = nodes.sceneMap.querySelector(`[data-object-id="${object.id}"]`);
     if (!element) {
       element = document.createElement("button");
@@ -1041,7 +1059,7 @@ function addPerceptionTrace(trace = [], title, detail) {
 function runCommand(rawCommand, overrides = {}) {
   const command = (rawCommand || "").trim();
   if (!command) {
-    nodes.interactionBox.innerHTML = '<p class="muted">请输入一个可执行任务，例如“把红色杯子拿到厨房台面”。</p>';
+    nodes.interactionBox.innerHTML = '<p class="muted">请输入一个可执行任务，例如“把床头柜上的水杯拿到餐桌右侧”。</p>';
     addSpeechFeedback("clarify", "我还没有收到任务。请告诉我要拿取、递送、检查或搬运什么。");
     return;
   }
@@ -1190,6 +1208,7 @@ function parseCommand(command, overrides = {}) {
 
   const normalized = command.toLowerCase();
   const routePreference = inferRoutePreference(command);
+  const objectReference = extractObjectReferencePhrase(normalized);
   const object = overrides.objectId
     ? state.objects.find((item) => item.id === overrides.objectId)
     : inferObject(normalized);
@@ -1198,8 +1217,11 @@ function parseCommand(command, overrides = {}) {
   const riskLevel = inferRisk(command, object, action);
 
   const objectlessIntent = action.intent === "navigate";
-  const ambiguousCup = !objectlessIntent && !overrides.objectId && normalized.includes("杯子") && !normalized.includes("红色") && !normalized.includes("蓝色");
-  const deicticReference = !objectlessIntent && !overrides.objectId && /那个|这个|左边|右边|这边|那边/.test(command) && !object;
+  const ambiguousCup = !objectlessIntent
+    && !overrides.objectId
+    && /杯子|水杯|杯|水/.test(objectReference)
+    && !/红色|蓝色|红杯|蓝杯|床头柜|床边|床头|餐桌|桌边|右边|左边/.test(objectReference);
+  const deicticReference = !objectlessIntent && !overrides.objectId && /那个|这个|左边|右边|这边|那边/.test(objectReference) && !object;
   const ambiguousBox = !objectlessIntent && !overrides.objectId && normalized.includes("箱子") && !normalized.includes("重");
 
   const task = {
@@ -1243,28 +1265,63 @@ function buildWorld() {
 }
 
 function inferObject(command) {
-  if (/老人旁边|老人边上|边桌/.test(command)) return findObject("medicine_box");
-  if (/桌上|桌面|桌/.test(command) && /东西|物体/.test(command)) return findObject("red_cup");
-  if (/门口/.test(command) && /东西|包裹|快递/.test(command)) return findObject("parcel");
-  if (/客厅左侧|客厅左边|左边/.test(command) && /箱子|东西|物体/.test(command)) return findObject("heavy_box");
-  if (command.includes("药")) return findObject("medicine_box");
-  if (command.includes("快递") || command.includes("包裹")) return findObject("parcel");
-  if (command.includes("重箱") || command.includes("箱子")) return findObject("heavy_box");
-  if (command.includes("障碍") || command.includes("椅子")) return findObject("chair");
-  if (command.includes("红色") || command.includes("红杯")) return findObject("red_cup");
-  if (command.includes("蓝色") || command.includes("蓝杯")) return findObject("blue_cup");
+  const objectReference = extractObjectReferencePhrase(command);
+  if (/床头柜|床边|床头/.test(objectReference) && /水|杯/.test(objectReference)) return findObject("red_cup");
+  if (/餐桌|桌边|桌上|桌面/.test(objectReference) && /水|杯/.test(objectReference)) return findObject("blue_cup");
+  if (/老人旁边|老人边上|边桌/.test(objectReference)) return findObject("medicine_box");
+  if (/桌上|桌面|桌/.test(objectReference) && /东西|物体/.test(objectReference)) return findObject("red_cup");
+  if (/门口/.test(objectReference) && /东西|包裹|快递/.test(objectReference)) return findObject("parcel");
+  if (/客厅左侧|客厅左边|左边/.test(objectReference) && /箱子|东西|物体/.test(objectReference)) return findObject("heavy_box");
+  if (objectReference.includes("药")) return findObject("medicine_box");
+  if (objectReference.includes("快递") || objectReference.includes("包裹")) return findObject("parcel");
+  if (objectReference.includes("重箱") || objectReference.includes("箱子")) return findObject("heavy_box");
+  if (objectReference.includes("障碍") || objectReference.includes("椅子")) return findObject("chair");
+  if (objectReference.includes("红色") || objectReference.includes("红杯")) return findObject("red_cup");
+  if (objectReference.includes("蓝色") || objectReference.includes("蓝杯")) return findObject("blue_cup");
   return null;
 }
 
 function inferDestination(command, object) {
   const destinations = state.scenario.destinations;
+  const targetText = extractTargetPhrase(command);
+  const targetDestination = targetText ? matchDestinationText(targetText, destinations) : null;
+  if (targetDestination) return targetDestination;
+
   if (command.includes("厨房") || command.includes("台面")) return destinations.find((item) => item.id === "kitchen_counter");
   if (command.includes("门口")) return destinations.find((item) => item.id === "door");
   if (command.includes("老人") || command.includes("递给")) return destinations.find((item) => item.id === "elder_seat");
   if (command.includes("客厅")) return destinations.find((item) => item.id === "living_room");
+  if (/床头柜|床边|床头/.test(command)) return destinations.find((item) => item.id === "bedside_table");
+  if (/餐桌|桌边|桌旁/.test(command)) return destinations.find((item) => item.id === "dining_table");
   if (object?.id === "medicine_box") return destinations.find((item) => item.id === "elder_seat");
   if (object?.id === "parcel") return destinations.find((item) => item.id === "door");
   return destinations.find((item) => item.id === "kitchen_counter");
+}
+
+function extractTargetPhrase(command) {
+  const matches = [...command.matchAll(/(?:拿到|放到|送到|递到|搬到|挪到|带到|移动到|走到|前往|拿去|送去|放去|放在|递给|拿给|送给|交给)([^，。；,;]*)/g)];
+  if (!matches.length) return "";
+  return matches[matches.length - 1][1] || "";
+}
+
+function extractObjectReferencePhrase(command) {
+  const sourceMatches = [...command.matchAll(/(?:把|将)(.*?)(?:拿到|放到|送到|递到|搬到|挪到|带到|拿去|送去|放去|放在|递给|拿给|送给|交给)/g)];
+  if (sourceMatches.length) {
+    return (sourceMatches[sourceMatches.length - 1][1] || "").trim();
+  }
+  return command
+    .replace(/(?:拿到|放到|送到|递到|搬到|挪到|带到|移动到|走到|前往|拿去|送去|放去|放在|递给|拿给|送给|交给)([^，。；,;]*)/g, "")
+    .trim();
+}
+
+function matchDestinationText(text, destinations) {
+  if (/厨房|台面/.test(text)) return destinations.find((item) => item.id === "kitchen_counter");
+  if (/门口/.test(text)) return destinations.find((item) => item.id === "door");
+  if (/老人/.test(text)) return destinations.find((item) => item.id === "elder_seat");
+  if (/客厅|安全区/.test(text)) return destinations.find((item) => item.id === "living_room");
+  if (/餐桌|桌边|桌旁|桌上|桌面/.test(text)) return destinations.find((item) => item.id === "dining_table");
+  if (/床头柜|床边|床头/.test(text)) return destinations.find((item) => item.id === "bedside_table");
+  return null;
 }
 
 function inferAction(command, object) {
@@ -1317,9 +1374,9 @@ function extractConstraints(command) {
 }
 
 function isRobotNavigationCommand(command) {
-  const hasDestination = /厨房|台面|门口|客厅|老人座位|老人/.test(command);
+  const hasDestination = /厨房|台面|门口|客厅|老人座位|老人|床头柜|床边|床头|餐桌|桌边|桌旁/.test(command);
   const hasNavigationVerb = /移动到|走到|前往|去|到/.test(command);
-  const hasObjectMention = /把|将|拿|取|放|递|送|搬|挪|杯|药|快递|包裹|箱子|椅子|障碍|东西|物体|这个|那个/.test(command);
+  const hasObjectMention = /把|将|拿|取|放|递|送|搬|挪|杯|水|药|快递|包裹|箱子|椅子|障碍|东西|物体|这个|那个/.test(command);
   return hasDestination && hasNavigationVerb && !hasObjectMention;
 }
 
@@ -1480,8 +1537,14 @@ function executeTask(task, plan = buildPlan(task), trace = [], options = {}) {
       }
       moveRobot(step.x, step.y);
       if (step.label === "Place" && canCarryObject) {
-        object.x = destination.x;
-        object.y = destination.y;
+        const placePoint = {
+          x: step.placeX ?? destination.x,
+          y: step.placeY ?? destination.y,
+          zone: step.placeZone || destination.name
+        };
+        object.x = placePoint.x;
+        object.y = placePoint.y;
+        object.zone = placePoint.zone;
         state.carryingObjectId = null;
       }
       addTimeline(step.label, step.text);
@@ -1491,7 +1554,8 @@ function executeTask(task, plan = buildPlan(task), trace = [], options = {}) {
         routeProgressIndex: state.routeProgressIndex,
         routeSegmentId: step.routeSegmentId || null,
         taskObjectId: task.objectId,
-        destinationId: task.destinationId
+        destinationId: task.destinationId,
+        placePoint: step.label === "Place" ? { x: step.placeX ?? destination.x, y: step.placeY ?? destination.y } : null
       });
       if (step.label === "Carry" || step.label === "Navigate" || step.label === "Move") {
         addSpeechFeedback("progress", `我正在前往${destination.name}，并准备完成任务。`);
@@ -1534,22 +1598,24 @@ function buildExecutionSteps(task, object, destination, routeReport) {
     return [{ label: "Done", text: "任务缺少目标位置，已停止执行。", x: state.robot.x, y: state.robot.y, routeProgressIndex: 0 }];
   }
 
+  const destinationPoint = getDestinationInteractionPoint(destination);
+  const placementPoint = getObjectPlacementPoint(destination, object);
   const segments = routeReport?.segments || [];
   if (!segments.length) {
     if (task.intent === "navigate") {
       return [
-        { label: "Navigate", text: `前往 ${destination.name}。`, x: destination.x, y: destination.y, routeProgressIndex: 1 },
-        { label: "Arrive", text: `已到达 ${destination.name}。`, x: destination.x, y: destination.y, routeProgressIndex: 1 },
-        { label: "Done", text: "语音反馈：已到达目标区域。", x: destination.x, y: destination.y, routeProgressIndex: 1 }
+        { label: "Navigate", text: `前往 ${destination.name}。`, x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: 1 },
+        { label: "Arrive", text: `已到达 ${destination.name}。`, x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: 1 },
+        { label: "Done", text: "语音反馈：已到达目标区域。", x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: 1 }
       ];
     }
 
     return [
       { label: "Move", text: `移动到 ${object?.name || "目标对象"} 附近。`, x: object?.x || state.robot.x, y: object?.y || state.robot.y, routeProgressIndex: 1 },
       { label: "Pick", text: `${task.action}：${object?.name || "目标对象"}，已进入携带状态。`, x: object?.x || state.robot.x, y: object?.y || state.robot.y, routeProgressIndex: 1 },
-      { label: "Carry", text: `携带 ${object?.name || "目标对象"} 前往 ${destination.name}。`, x: destination.x, y: destination.y, routeProgressIndex: 2 },
-      { label: "Place", text: `在 ${destination.name} 放下 ${object?.name || "目标对象"}。`, x: destination.x, y: destination.y, routeProgressIndex: 2 },
-      { label: "Done", text: "语音反馈：任务已完成。", x: destination.x, y: destination.y, routeProgressIndex: 2 }
+      { label: "Carry", text: `携带 ${object?.name || "目标对象"} 前往 ${destination.name}。`, x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: 2 },
+      { label: "Place", text: `在 ${placementPoint.zone || destination.name} 放下 ${object?.name || "目标对象"}。`, x: destinationPoint.x, y: destinationPoint.y, placeX: placementPoint.x, placeY: placementPoint.y, placeZone: placementPoint.zone, routeProgressIndex: 2 },
+      { label: "Done", text: "语音反馈：任务已完成。", ...getPostPlaceStandbyPoint(destination), routeProgressIndex: 2 }
     ];
   }
 
@@ -1564,8 +1630,8 @@ function buildExecutionSteps(task, object, destination, routeReport) {
     }));
     return [
       ...navigationSteps,
-      { label: "Arrive", text: `已到达 ${destination.name}。`, x: destination.x, y: destination.y, routeProgressIndex: segments.length },
-      { label: "Done", text: "语音反馈：已到达目标区域。", x: destination.x, y: destination.y, routeProgressIndex: segments.length }
+      { label: "Arrive", text: `已到达 ${destination.name}。`, x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: segments.length },
+      { label: "Done", text: "语音反馈：已到达目标区域。", x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: segments.length }
     ];
   }
 
@@ -1580,7 +1646,7 @@ function buildExecutionSteps(task, object, destination, routeReport) {
     }));
     return [
       ...inspectSteps,
-      { label: "Done", text: "语音反馈：已完成观察并反馈结果。", x: destination.x, y: destination.y, routeProgressIndex: segments.length }
+      { label: "Done", text: "语音反馈：已完成观察并反馈结果。", x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: segments.length }
     ];
   }
 
@@ -1658,11 +1724,69 @@ function buildExecutionSteps(task, object, destination, routeReport) {
   }
 
   steps.push(
-    { label: "Place", text: `在 ${destination.name} 放下 ${objectName}。`, x: destination.x, y: destination.y, routeProgressIndex: segments.length },
-    { label: "Done", text: "语音反馈：任务已完成。", x: destination.x, y: destination.y, routeProgressIndex: segments.length }
+    { label: "Place", text: `在 ${placementPoint.zone || destination.name} 放下 ${objectName}。`, x: destinationPoint.x, y: destinationPoint.y, placeX: placementPoint.x, placeY: placementPoint.y, placeZone: placementPoint.zone, routeProgressIndex: segments.length },
+    { label: "Done", text: "语音反馈：任务已完成。", ...getPostPlaceStandbyPoint(destination), routeProgressIndex: segments.length }
   );
 
   return steps;
+}
+
+function getPostPlaceStandbyPoint(destination) {
+  if (!destination) return { x: state.robot.x, y: state.robot.y };
+  const standbyByDestination = {
+    dining_table: DINING_TABLE_ACCESS.standby,
+    elder_seat: { x: destination.x - 8, y: destination.y + 8 },
+    bedside_table: { x: destination.x - 8, y: destination.y + 10 },
+    door: { x: destination.x + 8, y: destination.y - 6 },
+    kitchen_counter: { x: destination.x + 8, y: destination.y + 8 }
+  };
+  const point = standbyByDestination[destination.id] || { x: destination.x + 6, y: destination.y + 6 };
+  return {
+    x: clampPosition(point.x),
+    y: clampPosition(point.y)
+  };
+}
+
+function clampPosition(value) {
+  return Math.max(4, Math.min(96, value));
+}
+
+function getDestinationInteractionPoint(destination) {
+  if (!destination) return { x: state.robot.x, y: state.robot.y, name: "当前位置" };
+  if (destination.id === "dining_table") {
+    return {
+      x: DINING_TABLE_ACCESS.stand.x,
+      y: DINING_TABLE_ACCESS.stand.y,
+      name: DINING_TABLE_ACCESS.stand.name
+    };
+  }
+  return {
+    x: destination.x,
+    y: destination.y,
+    name: destination.name
+  };
+}
+
+function getObjectPlacementPoint(destination, object) {
+  if (!destination) return { x: state.robot.x, y: state.robot.y, zone: "当前位置" };
+  if (destination.id !== "dining_table") {
+    return { x: destination.x, y: destination.y, zone: destination.name };
+  }
+
+  const otherCups = state.objects.filter((item) => (
+    item.id !== object?.id
+    && item.type === "cup"
+    && isPointOnDiningTable(item)
+  ));
+  const point = DINING_TABLE_ACCESS.placementCandidates.find((candidate) => (
+    otherCups.every((cup) => routeDistance(candidate, cup) >= DINING_TABLE_ACCESS.minCupGap)
+  )) || DINING_TABLE_ACCESS.placementCandidates[0];
+  return { ...point };
+}
+
+function isPointOnDiningTable(point) {
+  if (!point) return false;
+  return point.x >= 69 && point.x <= 91 && point.y >= 68 && point.y <= 89;
 }
 
 function releaseCarriedObject(nextObjectId = null) {
@@ -1738,7 +1862,7 @@ function classifyInterruption(command) {
   if (/我来|交给我|人工|接管/.test(command)) return "handoff";
   if (/绕开|避开|避障|别撞|绕一下/.test(command) && /椅子|障碍|路|路径|走/.test(command)) return "route_replan";
   if (/不是|换|改成|改为|别拿/.test(command) && /杯子|杯|箱子|药|快递|包裹/.test(command)) return "change_object";
-  if (/别放|别送|别拿到|不要放|不要送|改放|改到|改为|换到/.test(command) && /厨房|台面|门口|客厅|安全区|老人/.test(command)) return "change_destination";
+  if (/别放|别送|别拿到|不要放|不要送|改放|改到|改为|换到/.test(command) && /厨房|台面|门口|客厅|安全区|老人|餐桌|桌边|桌上|床头柜|床边/.test(command)) return "change_destination";
   return null;
 }
 
@@ -1828,6 +1952,8 @@ function inferInterruptDestination(command) {
   if (/客厅|安全区/.test(command)) return destinations.find((item) => item.id === "living_room");
   if (/厨房|台面/.test(command)) return destinations.find((item) => item.id === "kitchen_counter");
   if (/老人/.test(command)) return destinations.find((item) => item.id === "elder_seat");
+  if (/餐桌|桌边|桌上|桌面/.test(command)) return destinations.find((item) => item.id === "dining_table");
+  if (/床头柜|床边|床头/.test(command)) return destinations.find((item) => item.id === "bedside_table");
   return null;
 }
 
@@ -2815,7 +2941,7 @@ function scoreRoutePlan({ task, object, destination, routeMode, waypoints, segme
 function directRouteDistance(task, object, destination) {
   const points = [{ x: state.robot.x, y: state.robot.y }];
   if (task.intent !== "navigate" && object) points.push(object);
-  if (destination) points.push(destination);
+  if (destination) points.push(pointFromDestination(destination, "destination"));
   return points.slice(1).reduce((sum, point, index) => sum + routeDistance(points[index], point), 0);
 }
 
@@ -2919,12 +3045,13 @@ function pointFromObject(object, role) {
 
 function pointFromDestination(destination, role) {
   if (!destination) return null;
+  const point = getDestinationInteractionPoint(destination);
   return {
     id: destination.id,
-    name: destination.name,
+    name: point.name || destination.name,
     role,
-    x: destination.x,
-    y: destination.y
+    x: point.x,
+    y: point.y
   };
 }
 
@@ -3174,9 +3301,9 @@ function renderRoutePreview(report) {
 
 function buildFallbackGroundingReport(command, object, destination, action, flags = {}) {
   const signals = [];
-  if (/杯子|杯|箱子|药|药盒|快递|包裹|障碍|椅子|东西|物体/.test(command)) signals.push("对象类型");
+  if (/水|水杯|杯子|杯|箱子|药|药盒|快递|包裹|障碍|椅子|东西|物体/.test(command)) signals.push("对象类型");
   if (/红色|蓝色|红|蓝/.test(command)) signals.push("颜色属性");
-  if (/桌上|桌面|门口|厨房|客厅|老人|边桌/.test(command)) signals.push("场景区域");
+  if (/床头柜|床边|床头|餐桌|桌边|桌上|桌面|门口|厨房|客厅|老人|边桌/.test(command)) signals.push("场景区域");
   if (/左边|右边|旁边|附近|边上/.test(command)) signals.push("空间关系");
   if (/这个|那个|这边|那边/.test(command)) signals.push("指代上下文");
   if (/移动到|走到|前往|去|到/.test(command)) signals.push("导航目标");
@@ -4061,7 +4188,7 @@ function renderTaskQueue() {
   if (!nodes.taskQueue) return;
   const items = state.taskQueue.items || [];
   if (!items.length) {
-    nodes.taskQueue.innerHTML = '<p class="muted">暂无队列。可以输入“先把红色杯子拿到厨房，再请你移动到客厅”。</p>';
+    nodes.taskQueue.innerHTML = '<p class="muted">暂无队列。可以输入“先把床头柜水杯拿到餐桌右侧，再请你移动到客厅”。</p>';
     return;
   }
 
@@ -4286,7 +4413,7 @@ function runVoicePmDemo() {
     { delay: 2300, step: 1, text: "红色的", followUp: true },
     { delay: 9800, step: 2, text: "把重箱子搬到门口", followUp: false },
     { delay: 11600, step: 2, text: "确认", followUp: true },
-    { delay: 17600, step: 3, text: "把红色杯子拿到厨房台面", followUp: false },
+    { delay: 17600, step: 3, text: "把餐桌水杯拿到厨房台面", followUp: false },
     { delay: 19800, step: 3, text: "别放厨房了，放门口", followUp: true },
     { delay: 27600, step: 4, text: "把重箱子搬到门口，绕开椅子走", followUp: false },
     { delay: 29400, step: 4, text: "确认", followUp: true },

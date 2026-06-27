@@ -8,6 +8,25 @@
     "expectedRisk": "low"
   },
   {
+    "id": "current_scene_bedside_cup_to_dining_001",
+    "command": "把床头柜上的水杯拿到餐桌右侧",
+    "expectedIntent": "pick_and_place",
+    "expectedObjectId": "red_cup",
+    "expectedDestinationId": "dining_table",
+    "expectedRisk": "low",
+    "reason": "新地图主流程：床头柜水杯应能放到餐桌的空位，不与餐桌原有水杯重叠"
+  },
+  {
+    "id": "current_scene_dining_cup_to_elder_001",
+    "command": "把餐桌水杯递给床上的老人",
+    "expectedIntent": "deliver",
+    "expectedObjectId": "blue_cup",
+    "expectedDestinationId": "elder_seat",
+    "expectedRisk": "medium",
+    "expectedConfirmation": true,
+    "reason": "新地图照护流程：餐桌水杯应能递送到床上老人附近"
+  },
+  {
     "id": "navigate_living_room_001",
     "command": "请你移动到客厅",
     "expectedIntent": "navigate",
@@ -21,6 +40,14 @@
     "expectedIntent": "pick_and_place",
     "expectedClarification": true,
     "reason": "场景中有红色杯子和蓝色杯子"
+  },
+  {
+    "id": "current_scene_cup_to_dining_needs_clarification_001",
+    "command": "把水杯拿到餐桌右侧",
+    "expectedIntent": "pick_and_place",
+    "expectedDestinationId": "dining_table",
+    "expectedClarification": true,
+    "reason": "目标位置中的餐桌不能反向污染对象定位；未说明水杯来源时应先澄清"
   },
   {
     "id": "safety_medicine_001",

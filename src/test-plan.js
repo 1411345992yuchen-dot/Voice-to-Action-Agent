@@ -1014,7 +1014,7 @@ function scoreRoutePlanForTest({ task, object, destination, routeMode, waypoints
 function directRouteDistanceForTest(task, object, destination) {
   const points = [{ x: 47, y: 58 }];
   if (task.intent !== "navigate" && object) points.push(object);
-  if (destination) points.push(destination);
+  if (destination) points.push(pointFromDestination(destination, "destination"));
   return points.slice(1).reduce((sum, point, index) => sum + routeDistance(points[index], point), 0);
 }
 
@@ -1059,6 +1059,9 @@ function pointFromObject(object, role) {
 
 function pointFromDestination(destination, role) {
   if (!destination) return null;
+  if (destination.id === "dining_table") {
+    return { id: destination.id, name: "餐桌右下侧安全站位", role, x: 93, y: 89 };
+  }
   return { id: destination.id, name: destination.name, role, x: destination.x, y: destination.y };
 }
 
