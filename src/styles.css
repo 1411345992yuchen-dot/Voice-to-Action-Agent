@@ -1347,23 +1347,15 @@ button:hover {
 }
 
 .object-medicine::before {
-  width: 22px;
-  height: 18px;
-  border-color: var(--red);
-  background:
-    linear-gradient(90deg, transparent 9px, var(--red) 9px, var(--red) 13px, transparent 13px),
-    linear-gradient(0deg, transparent 7px, var(--red) 7px, var(--red) 11px, transparent 11px),
-    #fff5f4;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  background: url("../assets/icons/medicine-box.svg") center / contain no-repeat;
 }
 
 .object-medicine::after {
-  left: 13px;
-  top: 9px;
-  width: 16px;
-  height: 5px;
-  border: 1px solid rgba(180, 67, 67, 0.34);
-  border-radius: 999px;
-  background: rgba(180, 67, 67, 0.12);
+  display: none;
 }
 
 .object-parcel::before {
@@ -1482,6 +1474,38 @@ button:hover {
 .object-node.object-cup.carried {
   background: transparent;
   box-shadow: none;
+}
+
+.object-node.object-medicine {
+  width: 34px;
+  height: 34px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.object-node.object-medicine:hover,
+.object-node.object-medicine:focus-visible,
+.object-node.object-medicine.selected,
+.object-node.object-medicine.grounded {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.object-node.object-medicine.grounded::after {
+  display: block;
+  left: 50%;
+  top: -6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #3c7a78;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 5px rgba(60, 122, 120, 0.12);
 }
 
 .object-node.object-cup.grounded::after {

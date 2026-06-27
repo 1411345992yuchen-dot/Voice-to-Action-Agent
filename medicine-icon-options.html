@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>药盒图标候选 - Voice-to-Action Agent</title>
+    <style>
+      :root {
+        --bg: #f6f3ed;
+        --surface: #fff;
+        --ink: #17231d;
+        --muted: #627068;
+        --line: #d9dfd9;
+        --green: #237a57;
+        --green-soft: #e5f3ec;
+        --red: #bd4a4a;
+        --blue: #2f68b7;
+        --amber: #b16b15;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      }
+
+      main {
+        width: min(1240px, calc(100vw - 48px));
+        margin: 0 auto;
+        padding: 30px 0 40px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      .eyebrow {
+        margin-bottom: 7px;
+        color: var(--green);
+        font-size: 12px;
+        font-weight: 850;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      header p {
+        max-width: 520px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        min-height: 360px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 16px 36px rgba(28, 35, 31, 0.08);
+      }
+
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .letter {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-weight: 900;
+      }
+
+      h2 {
+        font-size: 16px;
+      }
+
+      .preview-row {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 12px;
+        margin-bottom: 13px;
+      }
+
+      .large-preview,
+      .map-preview {
+        display: grid;
+        place-items: center;
+        min-height: 150px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(90deg, rgba(27, 37, 31, 0.035) 1px, transparent 1px),
+          linear-gradient(rgba(27, 37, 31, 0.035) 1px, transparent 1px),
+          #fbfaf6;
+        background-size: 24px 24px;
+      }
+
+      .large-preview svg {
+        width: 94px;
+        height: 94px;
+      }
+
+      .map-preview {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .bed-edge {
+        position: absolute;
+        inset: 24px 18px auto auto;
+        width: 66px;
+        height: 44px;
+        border: 2px solid #1c211d;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .nightstand {
+        position: absolute;
+        right: 88px;
+        top: 33px;
+        width: 34px;
+        height: 34px;
+        border: 2px solid #1c211d;
+        border-radius: 3px;
+        background: #fbfaf7;
+      }
+
+      .map-icon {
+        position: absolute;
+        right: 92px;
+        top: 24px;
+        width: 28px;
+        height: 28px;
+      }
+
+      .note {
+        min-height: 68px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .score {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .score span {
+        padding: 7px 9px;
+        border: 1px solid #e1e7e1;
+        border-radius: 8px;
+        background: #f8faf8;
+        color: #3a4840;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .source {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .source a {
+        color: var(--green);
+        text-decoration: none;
+      }
+
+      .source a:hover {
+        text-decoration: underline;
+      }
+
+      svg {
+        overflow: visible;
+      }
+
+      .stroke-icon * {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .filled-icon * {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .red {
+        color: var(--red);
+      }
+
+      .green {
+        color: var(--green);
+      }
+
+      .blue {
+        color: var(--blue);
+      }
+
+      .ink {
+        color: #1d211e;
+      }
+
+      @media (max-width: 980px) {
+        header {
+          display: block;
+        }
+
+        header p {
+          margin-top: 10px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Voice-to-Action Agent</p>
+          <h1>药盒图标候选</h1>
+        </div>
+        <p>选一个编号即可。下一步我会把选中的图标放回主场景，并补上“药盒递给床上老人”的安全确认闭环。</p>
+      </header>
+
+      <section class="grid">
+        <article class="card">
+          <div class="card-head">
+            <span class="letter">A</span>
+            <h2>线框急救箱</h2>
+          </div>
+          <div class="preview-row">
+            <div class="large-preview">
+              <svg class="stroke-icon red" viewBox="0 0 64 64" aria-label="line first aid kit">
+                <rect x="12" y="20" width="40" height="30" rx="5"></rect>
+                <path d="M24 20v-5c0-3 2-5 5-5h6c3 0 5 2 5 5v5"></path>
+                <path d="M32 29v12"></path>
+                <path d="M26 35h12"></path>
+                <path d="M12 30h40"></path>
+              </svg>
+            </div>
+            <div class="map-preview">
+              <span class="bed-edge"></span>
+              <span class="nightstand"></span>
+              <svg class="map-icon stroke-icon red" viewBox="0 0 64 64">
+                <rect x="12" y="20" width="40" height="30" rx="5"></rect>
+                <path d="M24 20v-5c0-3 2-5 5-5h6c3 0 5 2 5 5v5"></path>
+                <path d="M32 29v12"></path>
+                <path d="M26 35h12"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="note">识别度最高，一眼能看出是医疗/药品相关。和当前黑白线框房间也比较统一。</p>
+          <div class="score">
+            <span>推荐：高</span>
+            <span>专业感：强</span>
+          </div>
+          <p class="source">参考方向：<a href="https://tabler.io/icons" target="_blank">Tabler first-aid-kit</a> / <a href="https://remixicon.com/" target="_blank">Remix first-aid-kit</a></p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="letter">B</span>
+            <h2>扁平药盒</h2>
+          </div>
+          <div class="preview-row">
+            <div class="large-preview">
+              <svg class="filled-icon" viewBox="0 0 64 64" aria-label="flat medicine box">
+                <rect x="12" y="20" width="40" height="30" rx="6" fill="#fff8f8" stroke="#1d211e" stroke-width="2.6"></rect>
+                <path d="M18 28h28" stroke="#1d211e" stroke-width="2.4"></path>
+                <rect x="18" y="32" width="28" height="12" rx="3" fill="#f0dcdc" stroke="#bd4a4a" stroke-width="2.2"></rect>
+                <path d="M32 34v8M28 38h8" stroke="#bd4a4a" stroke-width="2.3"></path>
+                <path d="M23 20v-3c0-3 2-5 5-5h8c3 0 5 2 5 5v3" fill="none" stroke="#1d211e" stroke-width="2.4"></path>
+              </svg>
+            </div>
+            <div class="map-preview">
+              <span class="bed-edge"></span>
+              <span class="nightstand"></span>
+              <svg class="map-icon filled-icon" viewBox="0 0 64 64">
+                <rect x="12" y="20" width="40" height="30" rx="6" fill="#fff8f8" stroke="#1d211e" stroke-width="2.8"></rect>
+                <rect x="18" y="32" width="28" height="12" rx="3" fill="#f0dcdc" stroke="#bd4a4a" stroke-width="2.2"></rect>
+                <path d="M32 34v8M28 38h8" stroke="#bd4a4a" stroke-width="2.4"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="note">比 A 更像“药盒”而不是急救箱，缩小后仍然能读出来，适合床头柜小物件。</p>
+          <div class="score">
+            <span>推荐：最高</span>
+            <span>场景适配：强</span>
+          </div>
+          <p class="source">参考方向：医疗箱 + 药盒自定义合成，方便后续保持项目本地 SVG。</p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="letter">C</span>
+            <h2>药瓶</h2>
+          </div>
+          <div class="preview-row">
+            <div class="large-preview">
+              <svg class="stroke-icon blue" viewBox="0 0 64 64" aria-label="pill bottle">
+                <rect x="22" y="9" width="20" height="10" rx="2"></rect>
+                <rect x="18" y="19" width="28" height="36" rx="7"></rect>
+                <path d="M23 29h18"></path>
+                <path d="M26 39h12"></path>
+                <path d="M32 35v12"></path>
+                <path d="M26 41h12"></path>
+              </svg>
+            </div>
+            <div class="map-preview">
+              <span class="bed-edge"></span>
+              <span class="nightstand"></span>
+              <svg class="map-icon stroke-icon blue" viewBox="0 0 64 64">
+                <rect x="22" y="9" width="20" height="10" rx="2"></rect>
+                <rect x="18" y="19" width="28" height="36" rx="7"></rect>
+                <path d="M23 29h18"></path>
+                <path d="M32 35v12"></path>
+                <path d="M26 41h12"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="note">药品语义非常明确，但它更像药瓶，不像“药盒”。如果你后面想做服药提醒，这个会很好。</p>
+          <div class="score">
+            <span>推荐：中</span>
+            <span>药品语义：强</span>
+          </div>
+          <p class="source">参考方向：<a href="https://lucide.dev/icons/pill-bottle" target="_blank">Lucide pill-bottle</a></p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="letter">D</span>
+            <h2>胶囊药片</h2>
+          </div>
+          <div class="preview-row">
+            <div class="large-preview">
+              <svg class="stroke-icon green" viewBox="0 0 64 64" aria-label="pill">
+                <path d="M22 42 42 22c5-5 13 3 8 8L30 50c-5 5-13-3-8-8Z"></path>
+                <path d="M32 32 40 40"></path>
+                <circle cx="19" cy="23" r="5"></circle>
+                <circle cx="47" cy="47" r="3"></circle>
+              </svg>
+            </div>
+            <div class="map-preview">
+              <span class="bed-edge"></span>
+              <span class="nightstand"></span>
+              <svg class="map-icon stroke-icon green" viewBox="0 0 64 64">
+                <path d="M22 42 42 22c5-5 13 3 8 8L30 50c-5 5-13-3-8-8Z"></path>
+                <path d="M32 32 40 40"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="note">符号很轻，适合做“药物”而不是“药盒”。缩小后有时像胶囊，不太像可搬运物体。</p>
+          <div class="score">
+            <span>推荐：低</span>
+            <span>简洁度：强</span>
+          </div>
+          <p class="source">参考方向：<a href="https://lucide.dev/icons/pill" target="_blank">Lucide pill</a></p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="letter">E</span>
+            <h2>药片板</h2>
+          </div>
+          <div class="preview-row">
+            <div class="large-preview">
+              <svg class="stroke-icon ink" viewBox="0 0 64 64" aria-label="blister pack">
+                <rect x="17" y="11" width="30" height="42" rx="5"></rect>
+                <path d="M25 11v42M39 11v42M17 25h30M17 39h30"></path>
+                <circle cx="25" cy="18" r="3"></circle>
+                <circle cx="39" cy="18" r="3"></circle>
+                <circle cx="25" cy="32" r="3"></circle>
+                <circle cx="39" cy="32" r="3"></circle>
+                <circle cx="25" cy="46" r="3"></circle>
+                <circle cx="39" cy="46" r="3"></circle>
+              </svg>
+            </div>
+            <div class="map-preview">
+              <span class="bed-edge"></span>
+              <span class="nightstand"></span>
+              <svg class="map-icon stroke-icon ink" viewBox="0 0 64 64">
+                <rect x="17" y="11" width="30" height="42" rx="5"></rect>
+                <path d="M25 11v42M39 11v42M17 25h30M17 39h30"></path>
+                <circle cx="25" cy="18" r="3"></circle>
+                <circle cx="39" cy="32" r="3"></circle>
+                <circle cx="25" cy="46" r="3"></circle>
+              </svg>
+            </div>
+          </div>
+          <p class="note">最接近真实“药片包装”，但缩小到地图里线条会有点密，可能影响简洁感。</p>
+          <div class="score">
+            <span>推荐：中</span>
+            <span>真实感：强</span>
+          </div>
+          <p class="source">参考方向：health/medication icon 系列的 blister pack 语义。</p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="letter">F</span>
+            <h2>药盒</h2>
+          </div>
+          <div class="preview-row">
+            <div class="large-preview">
+              <svg class="filled-icon" viewBox="0 0 64 64" aria-label="medicine box">
+                <rect x="12" y="22" width="40" height="28" rx="5" fill="#fff" stroke="#1d211e" stroke-width="2.8"></rect>
+                <path d="M21 22v-4c0-3 2-5 5-5h12c3 0 5 2 5 5v4" fill="none" stroke="#1d211e" stroke-width="2.6"></path>
+                <path d="M32 30v12M26 36h12" stroke="#bd4a4a" stroke-width="3.4"></path>
+              </svg>
+            </div>
+            <div class="map-preview">
+              <span class="bed-edge"></span>
+              <span class="nightstand"></span>
+              <svg class="map-icon filled-icon" viewBox="0 0 64 64">
+                <rect x="12" y="22" width="40" height="28" rx="5" fill="#fff" stroke="#1d211e" stroke-width="2.8"></rect>
+                <path d="M21 22v-4c0-3 2-5 5-5h12c3 0 5 2 5 5v4" fill="none" stroke="#1d211e" stroke-width="2.6"></path>
+                <path d="M32 30v12M26 36h12" stroke="#bd4a4a" stroke-width="3.4"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="note">按你的选择，去掉胶囊后只保留药盒本体。它比 B 更硬朗，适合放进主场景做高风险照护对象。</p>
+          <div class="score">
+            <span>已选择</span>
+            <span>安全语义：强</span>
+          </div>
+          <p class="source">参考方向：急救箱轮廓简化，已本地化为纯药盒 SVG。</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

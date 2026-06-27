@@ -44,11 +44,11 @@
       "name": "药盒",
       "type": "medicine",
       "color": "red",
-      "zone": "边桌",
-      "semanticZone": "elder_side_table",
-      "aliases": ["药盒", "药", "老人旁边的东西", "边桌物品"],
-      "x": 78,
-      "y": 78,
+      "zone": "床头柜下层",
+      "semanticZone": "bedside_table",
+      "aliases": ["药盒", "药", "床头柜药盒", "床边药盒", "床头药盒", "老人旁边的东西", "床边物品"],
+      "x": 64.6,
+      "y": 18,
       "risk": "high"
     },
     {

@@ -374,6 +374,7 @@ const VoiceToActionAgents = (() => {
     }
 
     if (/药|药盒/.test(objectReference)) return findById(objects, "medicine_box");
+    if (/老人旁边|老人边上|床边物品|床边那个东西|床头柜.*东西|床边.*东西|边桌/.test(objectReference)) return findById(objects, "medicine_box");
     if (/快递|包裹/.test(objectReference)) return findById(objects, "parcel");
     if (/箱子|重箱/.test(objectReference)) return findById(objects, "heavy_box");
     if (/障碍|椅子/.test(objectReference)) return findById(objects, "chair");
@@ -624,7 +625,7 @@ const VoiceToActionAgents = (() => {
       if (/床头柜|床边|床头/.test(command) && candidate.object.semanticZone === "bedside_table") addScore(candidate, 4, "区域匹配：床头柜");
       if (/餐桌|桌边|桌上|桌面|桌/.test(command) && ["dining_table", "table"].includes(candidate.object.semanticZone)) addScore(candidate, 3, "区域匹配：餐桌");
       if (/门口/.test(command) && candidate.object.semanticZone === "door") addScore(candidate, 3, "区域匹配：门口");
-      if (/老人旁边|老人边上|边桌/.test(command) && candidate.object.semanticZone === "elder_side_table") addScore(candidate, 4, "区域匹配：老人旁边");
+      if (/老人旁边|老人边上|边桌/.test(command) && (candidate.object.semanticZone === "elder_side_table" || candidate.object.id === "medicine_box")) addScore(candidate, 4, "区域匹配：老人旁边");
       if (/客厅左侧|客厅左边/.test(command) && candidate.object.semanticZone === "living_left") addScore(candidate, 4, "区域匹配：客厅左侧");
       return candidate;
     });

@@ -16,7 +16,7 @@ const fallbackScenario = {
   objects: [
     { id: "red_cup", name: "床头柜水杯", type: "cup", color: "red", zone: "床头柜", semanticZone: "bedside_table", aliases: ["床头柜水杯", "床头柜上的水", "床边水杯", "床边那杯水", "床边的水", "红色杯子", "红杯", "红色物体", "桌上红色物体"], x: 64.5, y: 12.5, risk: "low" },
     { id: "blue_cup", name: "餐桌水杯", type: "cup", color: "blue", zone: "餐桌左上角", semanticZone: "dining_table", aliases: ["餐桌水杯", "餐桌边水杯", "餐桌左上角水杯", "餐桌左上角那杯水", "餐桌边那杯水", "餐桌上的水", "餐桌那杯水", "蓝色杯子", "蓝杯", "蓝色物体", "右边杯子"], x: 72.5, y: 71.5, risk: "low" },
-    { id: "medicine_box", name: "药盒", type: "medicine", color: "red", zone: "边桌", semanticZone: "elder_side_table", aliases: ["药盒", "药", "老人旁边的东西", "边桌物品"], x: 78, y: 78, risk: "high" },
+    { id: "medicine_box", name: "药盒", type: "medicine", color: "red", zone: "床头柜下层", semanticZone: "bedside_table", aliases: ["药盒", "药", "床头柜药盒", "床边药盒", "床头药盒", "老人旁边的东西", "床边物品"], x: 64.6, y: 18, risk: "high" },
     { id: "parcel", name: "快递", type: "parcel", color: "blue", zone: "门口", semanticZone: "door", aliases: ["快递", "包裹", "门口包裹"], x: 14, y: 69, risk: "medium" },
     { id: "chair", name: "椅子障碍", type: "obstacle", color: "blue", zone: "客厅", semanticZone: "living_room", aliases: ["椅子", "障碍", "椅子障碍"], x: 63, y: 55, risk: "medium" },
     { id: "heavy_box", name: "重箱子", type: "box", color: "red", zone: "客厅左侧", semanticZone: "living_left", aliases: ["箱子", "重箱子", "左边箱子", "客厅左侧箱子"], x: 18, y: 82, risk: "high" }
@@ -121,7 +121,7 @@ const state = {
 
 const RUN_LOG_STORAGE_KEY = "voiceToActionAgent.runLogs.v1";
 const MAX_RUN_LOGS = 160;
-const CLEAN_SCENE_VISIBLE_OBJECT_IDS = new Set(["red_cup", "blue_cup"]);
+const CLEAN_SCENE_VISIBLE_OBJECT_IDS = new Set(["red_cup", "blue_cup", "medicine_box"]);
 const DINING_TABLE_ACCESS = {
   stand: { x: 93, y: 89, name: "餐桌右下侧安全站位" },
   standby: { x: 93, y: 90 },
@@ -1268,7 +1268,7 @@ function inferObject(command) {
   const objectReference = extractObjectReferencePhrase(command);
   if (/床头柜|床边|床头/.test(objectReference) && /水|杯/.test(objectReference)) return findObject("red_cup");
   if (/餐桌|桌边|桌上|桌面/.test(objectReference) && /水|杯/.test(objectReference)) return findObject("blue_cup");
-  if (/老人旁边|老人边上|边桌/.test(objectReference)) return findObject("medicine_box");
+  if (/老人旁边|老人边上|床边物品|床边那个东西|床头柜.*东西|床边.*东西|边桌/.test(objectReference)) return findObject("medicine_box");
   if (/桌上|桌面|桌/.test(objectReference) && /东西|物体/.test(objectReference)) return findObject("red_cup");
   if (/门口/.test(objectReference) && /东西|包裹|快递/.test(objectReference)) return findObject("parcel");
   if (/客厅左侧|客厅左边|左边/.test(objectReference) && /箱子|东西|物体/.test(objectReference)) return findObject("heavy_box");
@@ -1760,6 +1760,13 @@ function getDestinationInteractionPoint(destination) {
       name: DINING_TABLE_ACCESS.stand.name
     };
   }
+  if (destination.id === "elder_seat") {
+    return {
+      x: destination.x - 10,
+      y: destination.y + 8,
+      name: "床边递送站位"
+    };
+  }
   return {
     x: destination.x,
     y: destination.y,
@@ -1769,6 +1776,13 @@ function getDestinationInteractionPoint(destination) {
 
 function getObjectPlacementPoint(destination, object) {
   if (!destination) return { x: state.robot.x, y: state.robot.y, zone: "当前位置" };
+  if (destination.id === "elder_seat") {
+    return {
+      x: destination.x - 4,
+      y: destination.y + 6,
+      zone: object?.type === "medicine" ? "床上老人手边" : destination.name
+    };
+  }
   if (destination.id !== "dining_table") {
     return { x: destination.x, y: destination.y, zone: destination.name };
   }
