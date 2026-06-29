@@ -5,7 +5,7 @@ const VoiceToActionAgents = (() => {
     const grounding = groundingAgent(context, intent);
     const safety = safetyAgent(context, intent, grounding);
     const recovery = recoveryAgent(context, intent, grounding, safety);
-    const routePreference = inferRoutePreference(command);
+    const routePreference = resolveRoutePreference(command, grounding.object, grounding.destination);
     const plan = plannerAgent(context, intent, grounding, safety, recovery);
     const evaluation = evaluatorAgent(context, intent, grounding, safety, recovery, plan);
 
@@ -17,7 +17,7 @@ const VoiceToActionAgents = (() => {
       objectId: grounding.object ? grounding.object.id : null,
       destination: grounding.destination.name,
       destinationId: grounding.destination.id,
-      constraints: safety.constraints,
+      constraints: mergeUnique([...safety.constraints, ...(routePreference.mode === "avoid_chair" ? ["主动绕开椅子障碍", "低速通过障碍附近"] : [])]),
       routeMode: routePreference.mode,
       routeConstraint: routePreference.constraint,
       riskLevel: safety.riskLevel,
@@ -283,7 +283,7 @@ const VoiceToActionAgents = (() => {
   function plannerAgent(context, intent, grounding, safety, recovery) {
     const objectName = grounding.object ? grounding.object.name : "待确认对象";
     const destinationName = grounding.destination ? grounding.destination.name : "待确认位置";
-    const routePreference = inferRoutePreference(context.command);
+    const routePreference = resolveRoutePreference(context.command, grounding.object, grounding.destination);
     const routeStep = routePreference.mode === "avoid_chair"
       ? "路径策略：加入椅子绕行点，低速通过障碍附近。"
       : "路径策略：默认路径规划，执行中持续监测障碍。";
@@ -374,7 +374,7 @@ const VoiceToActionAgents = (() => {
     }
 
     if (/药|药盒/.test(objectReference)) return findById(objects, "medicine_box");
-    if (/老人旁边|老人边上|床边物品|床边那个东西|床头柜.*东西|床边.*东西|边桌/.test(objectReference)) return findById(objects, "medicine_box");
+    if (/餐桌|桌子|桌边|桌上|桌面/.test(objectReference) && /右上角|右上|上右|东西|物体|那个/.test(objectReference)) return findById(objects, "medicine_box");
     if (/快递|包裹/.test(objectReference)) return findById(objects, "parcel");
     if (/箱子|重箱/.test(objectReference)) return findById(objects, "heavy_box");
     if (/障碍|椅子/.test(objectReference)) return findById(objects, "chair");
@@ -525,6 +525,18 @@ const VoiceToActionAgents = (() => {
     };
   }
 
+  function resolveRoutePreference(command, object, destination) {
+    const preference = inferRoutePreference(command);
+    if (preference.mode !== "direct") return preference;
+    if (object?.id === "medicine_box" && destination?.id === "elder_seat") {
+      return {
+        mode: "avoid_chair",
+        constraint: "药品递送自动绕开椅子障碍"
+      };
+    }
+    return preference;
+  }
+
   function inferDestination(command, object, destinations) {
     const targetText = extractTargetPhrase(command);
     const targetDestination = targetText ? matchDestinationText(targetText, destinations) : null;
@@ -625,7 +637,8 @@ const VoiceToActionAgents = (() => {
       if (/床头柜|床边|床头/.test(command) && candidate.object.semanticZone === "bedside_table") addScore(candidate, 4, "区域匹配：床头柜");
       if (/餐桌|桌边|桌上|桌面|桌/.test(command) && ["dining_table", "table"].includes(candidate.object.semanticZone)) addScore(candidate, 3, "区域匹配：餐桌");
       if (/门口/.test(command) && candidate.object.semanticZone === "door") addScore(candidate, 3, "区域匹配：门口");
-      if (/老人旁边|老人边上|边桌/.test(command) && (candidate.object.semanticZone === "elder_side_table" || candidate.object.id === "medicine_box")) addScore(candidate, 4, "区域匹配：老人旁边");
+      if (/餐桌右上角|桌子右上角|桌上右上|右上角/.test(command) && candidate.object.id === "medicine_box") addScore(candidate, 4, "区域匹配：餐桌右上角");
+      if (/老人旁边|老人边上|边桌/.test(command) && candidate.object.semanticZone === "elder_side_table") addScore(candidate, 4, "区域匹配：老人旁边");
       if (/客厅左侧|客厅左边/.test(command) && candidate.object.semanticZone === "living_left") addScore(candidate, 4, "区域匹配：客厅左侧");
       return candidate;
     });
@@ -697,7 +710,7 @@ const VoiceToActionAgents = (() => {
 
   function extractConstraints(command, object, intent) {
     const constraints = [];
-    const routePreference = inferRoutePreference(command);
+    const routePreference = resolveRoutePreference(command, object, null);
     if (/小心/.test(command)) constraints.push("避障/低速执行");
     if (/先确认/.test(command)) constraints.push("执行前二次确认");
     if (/老人/.test(command)) constraints.push("靠近老人时降低速度并语音反馈");

@@ -4,7 +4,7 @@ const fallbackScenario = {
     "把餐桌水杯递给床上的老人",
     "请你移动到客厅",
     "把餐桌左上角那杯水递给老人",
-    "把老人旁边那个东西递给老人",
+    "把餐桌右上角的药盒递给老人",
     "把这个拿到餐桌右侧",
     "把重箱子搬到门口",
     "把重箱子搬到门口，绕开椅子走",
@@ -16,7 +16,7 @@ const fallbackScenario = {
   objects: [
     { id: "red_cup", name: "床头柜水杯", type: "cup", color: "red", zone: "床头柜", semanticZone: "bedside_table", aliases: ["床头柜水杯", "床头柜上的水", "床边水杯", "床边那杯水", "床边的水", "红色杯子", "红杯", "红色物体", "桌上红色物体"], x: 64.5, y: 12.5, risk: "low" },
     { id: "blue_cup", name: "餐桌水杯", type: "cup", color: "blue", zone: "餐桌左上角", semanticZone: "dining_table", aliases: ["餐桌水杯", "餐桌边水杯", "餐桌左上角水杯", "餐桌左上角那杯水", "餐桌边那杯水", "餐桌上的水", "餐桌那杯水", "蓝色杯子", "蓝杯", "蓝色物体", "右边杯子"], x: 72.5, y: 71.5, risk: "low" },
-    { id: "medicine_box", name: "药盒", type: "medicine", color: "red", zone: "床头柜下层", semanticZone: "bedside_table", aliases: ["药盒", "药", "床头柜药盒", "床边药盒", "床头药盒", "老人旁边的东西", "床边物品"], x: 64.6, y: 18, risk: "high" },
+    { id: "medicine_box", name: "药盒", type: "medicine", color: "red", zone: "餐桌右上角", semanticZone: "dining_table", aliases: ["药盒", "药", "餐桌药盒", "餐桌右上角药盒", "桌子右上角药盒", "桌上药盒", "右上角药盒", "餐桌右上角那个东西"], x: 87.5, y: 70.8, risk: "high" },
     { id: "parcel", name: "快递", type: "parcel", color: "blue", zone: "门口", semanticZone: "door", aliases: ["快递", "包裹", "门口包裹"], x: 14, y: 69, risk: "medium" },
     { id: "chair", name: "椅子障碍", type: "obstacle", color: "blue", zone: "客厅", semanticZone: "living_room", aliases: ["椅子", "障碍", "椅子障碍"], x: 63, y: 55, risk: "medium" },
     { id: "heavy_box", name: "重箱子", type: "box", color: "red", zone: "客厅左侧", semanticZone: "living_left", aliases: ["箱子", "重箱子", "左边箱子", "客厅左侧箱子"], x: 18, y: 82, risk: "high" }
@@ -943,9 +943,9 @@ function simulateTargetMoved(activeTask) {
     };
   }
 
-  object.x = object.id === "medicine_box" ? 31 : 58;
-  object.y = object.id === "medicine_box" ? 72 : 31;
-  object.zone = object.id === "medicine_box" ? "老人座位旁" : "餐桌旁";
+  object.x = object.id === "medicine_box" ? 87.5 : 58;
+  object.y = object.id === "medicine_box" ? 70.8 : 31;
+  object.zone = object.id === "medicine_box" ? "餐桌右上角" : "餐桌旁";
 
   if (activeTask?.objectId === object.id) {
     state.activeRouteReport = buildRouteReport(activeTask);
@@ -1207,12 +1207,12 @@ function parseCommand(command, overrides = {}) {
   }
 
   const normalized = command.toLowerCase();
-  const routePreference = inferRoutePreference(command);
   const objectReference = extractObjectReferencePhrase(normalized);
   const object = overrides.objectId
     ? state.objects.find((item) => item.id === overrides.objectId)
     : inferObject(normalized);
   const destination = inferDestination(normalized, object);
+  const routePreference = resolveRoutePreference(command, object, destination);
   const action = inferAction(normalized, object);
   const riskLevel = inferRisk(command, object, action);
 
@@ -1232,7 +1232,7 @@ function parseCommand(command, overrides = {}) {
     objectId: object ? object.id : null,
     destination: destination.name,
     destinationId: destination.id,
-    constraints: extractConstraints(command),
+    constraints: mergeUnique([...extractConstraints(command), ...(routePreference.mode === "avoid_chair" ? ["主动绕开椅子障碍", "低速通过障碍附近"] : [])]),
     routeMode: routePreference.mode,
     routeConstraint: routePreference.constraint,
     riskLevel,
@@ -1268,8 +1268,8 @@ function inferObject(command) {
   const objectReference = extractObjectReferencePhrase(command);
   if (/床头柜|床边|床头/.test(objectReference) && /水|杯/.test(objectReference)) return findObject("red_cup");
   if (/餐桌|桌边|桌上|桌面/.test(objectReference) && /水|杯/.test(objectReference)) return findObject("blue_cup");
-  if (/老人旁边|老人边上|床边物品|床边那个东西|床头柜.*东西|床边.*东西|边桌/.test(objectReference)) return findObject("medicine_box");
-  if (/桌上|桌面|桌/.test(objectReference) && /东西|物体/.test(objectReference)) return findObject("red_cup");
+  if (/餐桌|桌子|桌边|桌上|桌面/.test(objectReference) && /右上角|右上|上右|药|药盒|东西|物体|那个/.test(objectReference)) return findObject("medicine_box");
+  if (/桌上|桌面|桌/.test(objectReference) && /东西|物体/.test(objectReference)) return null;
   if (/门口/.test(objectReference) && /东西|包裹|快递/.test(objectReference)) return findObject("parcel");
   if (/客厅左侧|客厅左边|左边/.test(objectReference) && /箱子|东西|物体/.test(objectReference)) return findObject("heavy_box");
   if (objectReference.includes("药")) return findObject("medicine_box");
@@ -1354,6 +1354,18 @@ function inferRoutePreference(command) {
     mode: "direct",
     constraint: "默认路径规划"
   };
+}
+
+function resolveRoutePreference(command, object, destination) {
+  const preference = inferRoutePreference(command);
+  if (preference.mode !== "direct") return preference;
+  if (object?.id === "medicine_box" && destination?.id === "elder_seat") {
+    return {
+      mode: "avoid_chair",
+      constraint: "药品递送自动绕开椅子障碍"
+    };
+  }
+  return preference;
 }
 
 function mergeUnique(items) {
@@ -1599,6 +1611,7 @@ function buildExecutionSteps(task, object, destination, routeReport) {
   }
 
   const destinationPoint = getDestinationInteractionPoint(destination);
+  const objectPoint = getObjectInteractionPoint(object);
   const placementPoint = getObjectPlacementPoint(destination, object);
   const segments = routeReport?.segments || [];
   if (!segments.length) {
@@ -1611,8 +1624,8 @@ function buildExecutionSteps(task, object, destination, routeReport) {
     }
 
     return [
-      { label: "Move", text: `移动到 ${object?.name || "目标对象"} 附近。`, x: object?.x || state.robot.x, y: object?.y || state.robot.y, routeProgressIndex: 1 },
-      { label: "Pick", text: `${task.action}：${object?.name || "目标对象"}，已进入携带状态。`, x: object?.x || state.robot.x, y: object?.y || state.robot.y, routeProgressIndex: 1 },
+      { label: "Move", text: `移动到 ${object?.name || "目标对象"} 附近。`, x: objectPoint?.x || state.robot.x, y: objectPoint?.y || state.robot.y, routeProgressIndex: 1 },
+      { label: "Pick", text: `${task.action}：${object?.name || "目标对象"}，已进入携带状态。`, x: objectPoint?.x || state.robot.x, y: objectPoint?.y || state.robot.y, routeProgressIndex: 1 },
       { label: "Carry", text: `携带 ${object?.name || "目标对象"} 前往 ${destination.name}。`, x: destinationPoint.x, y: destinationPoint.y, routeProgressIndex: 2 },
       { label: "Place", text: `在 ${placementPoint.zone || destination.name} 放下 ${object?.name || "目标对象"}。`, x: destinationPoint.x, y: destinationPoint.y, placeX: placementPoint.x, placeY: placementPoint.y, placeZone: placementPoint.zone, routeProgressIndex: 2 },
       { label: "Done", text: "语音反馈：任务已完成。", ...getPostPlaceStandbyPoint(destination), routeProgressIndex: 2 }
@@ -1654,7 +1667,8 @@ function buildExecutionSteps(task, object, destination, routeReport) {
   let picked = false;
   const objectName = object?.name || "目标对象";
   const startPoint = routeReport?.waypoints?.[0] || { x: state.robot.x, y: state.robot.y };
-  const objectAtStart = object && (routeDistance(startPoint, object) < 2.5 || routeDistance(state.robot, object) < 2.5);
+  const pickupPoint = getObjectInteractionPoint(object);
+  const objectAtStart = pickupPoint && (routeDistance(startPoint, pickupPoint) < 2.5 || routeDistance(state.robot, pickupPoint) < 2.5);
 
   if (objectAtStart && segments[0]?.to?.role !== "pickup") {
     steps.push({
@@ -1717,8 +1731,8 @@ function buildExecutionSteps(task, object, destination, routeReport) {
     steps.push({
       label: "Pick",
       text: `${task.action}：${objectName}，已进入携带状态。`,
-      x: object.x,
-      y: object.y,
+      x: pickupPoint?.x || object.x,
+      y: pickupPoint?.y || object.y,
       routeProgressIndex: 0
     });
   }
@@ -1749,6 +1763,23 @@ function getPostPlaceStandbyPoint(destination) {
 
 function clampPosition(value) {
   return Math.max(4, Math.min(96, value));
+}
+
+function getObjectInteractionPoint(object) {
+  if (!object) return null;
+  if (object.semanticZone === "dining_table") {
+    const fromRight = object.x >= 80;
+    return {
+      x: fromRight ? 93 : 67,
+      y: Math.max(69, Math.min(87, object.y + 2)),
+      name: fromRight ? "餐桌右侧取物站位" : "餐桌左侧取物站位"
+    };
+  }
+  return {
+    x: object.x,
+    y: object.y,
+    name: object.name
+  };
 }
 
 function getDestinationInteractionPoint(destination) {
@@ -1787,13 +1818,13 @@ function getObjectPlacementPoint(destination, object) {
     return { x: destination.x, y: destination.y, zone: destination.name };
   }
 
-  const otherCups = state.objects.filter((item) => (
+  const occupiedObjects = state.objects.filter((item) => (
     item.id !== object?.id
-    && item.type === "cup"
+    && ["cup", "medicine"].includes(item.type)
     && isPointOnDiningTable(item)
   ));
   const point = DINING_TABLE_ACCESS.placementCandidates.find((candidate) => (
-    otherCups.every((cup) => routeDistance(candidate, cup) >= DINING_TABLE_ACCESS.minCupGap)
+    occupiedObjects.every((item) => routeDistance(candidate, item) >= DINING_TABLE_ACCESS.minCupGap)
   )) || DINING_TABLE_ACCESS.placementCandidates[0];
   return { ...point };
 }
@@ -2798,7 +2829,7 @@ function buildRouteReport(task, options = {}) {
   const destination = state.scenario.destinations.find((item) => item.id === task.destinationId);
   const object = findObject(task.objectId);
   if (!destination && !object) return null;
-  const routePreference = inferRoutePreference(task.userCommand || "");
+  const routePreference = resolveRoutePreference(task.userCommand || "", object, destination);
   const routeMode = options.routeMode || task.routeMode || routePreference.mode;
   const routeConstraint = task.routeConstraint || routePreference.constraint;
   const routedTask = { ...task, routeMode };
@@ -2922,11 +2953,17 @@ function scoreRoutePlan({ task, object, destination, routeMode, waypoints, segme
   const lowRisks = riskMarkers.filter((marker) => marker.level === "low").length;
   const hasDetour = waypoints.some((waypoint) => waypoint.role === "detour");
   const missingPhysicalTarget = !destination && task.intent !== "inspect";
-  const efficiency = clampScore(100 - totalDistance * 0.55 - Math.max(0, segments.length - 2) * 4);
+  const directDistance = directRouteDistance(task, object, destination);
+  const routeOverhead = Math.max(0, totalDistance - directDistance);
+  const segmentComplexity = Math.max(0, segments.length - 2);
+  const detourPenaltyRate = routeMode === "avoid_chair" && hasDetour ? 0.18 : 0.45;
+  const unavoidableDistanceCost = Math.min(28, directDistance * 0.12);
+  const efficiency = clampScore(100 - unavoidableDistanceCost - routeOverhead * detourPenaltyRate - segmentComplexity * 3);
   const safety = clampScore(100 - highRisks * 28 - mediumRisks * 14 - lowRisks * 2 + (hasDetour ? 8 : 0));
   const feasibility = clampScore(100 - (missingPhysicalTarget ? 35 : 0) - (!segments.length ? 35 : 0) - (object?.risk === "high" ? 8 : 0));
   const total = Math.round(safety * 0.45 + efficiency * 0.3 + feasibility * 0.25);
-  const grade = total >= 85 ? "A" : total >= 72 ? "B" : total >= 60 ? "C" : "D";
+  const rawGrade = total >= 85 ? "A" : total >= 72 ? "B" : total >= 60 ? "C" : "D";
+  const grade = highRisks > 0 && rawGrade !== "D" ? "C" : rawGrade;
   const recommendation = buildRouteRecommendation({
     task,
     routeMode,
@@ -2947,14 +2984,14 @@ function scoreRoutePlan({ task, object, destination, routeMode, waypoints, segme
     efficiency: Math.round(efficiency),
     feasibility: Math.round(feasibility),
     riskExposure: highRisks * 3 + mediumRisks * 2 + lowRisks,
-    detourCost: Math.max(0, Math.round(totalDistance - directRouteDistance(task, object, destination))),
+    detourCost: Math.round(routeOverhead),
     recommendation
   };
 }
 
 function directRouteDistance(task, object, destination) {
   const points = [{ x: state.robot.x, y: state.robot.y }];
-  if (task.intent !== "navigate" && object) points.push(object);
+  if (task.intent !== "navigate" && object) points.push(getObjectInteractionPoint(object) || object);
   if (destination) points.push(pointFromDestination(destination, "destination"));
   return points.slice(1).reduce((sum, point, index) => sum + routeDistance(points[index], point), 0);
 }
@@ -3048,12 +3085,13 @@ function makeDetourPoint(from, to, index) {
 
 function pointFromObject(object, role) {
   if (!object) return null;
+  const point = getObjectInteractionPoint(object);
   return {
     id: object.id,
-    name: object.name,
+    name: point?.name || object.name,
     role,
-    x: object.x,
-    y: object.y
+    x: point?.x ?? object.x,
+    y: point?.y ?? object.y
   };
 }
 

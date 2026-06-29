@@ -111,22 +111,22 @@
     "expectedRisk": "low"
   },
   {
-    "id": "near_elder_001",
-    "command": "把老人旁边那个东西递给老人",
+    "id": "dining_table_medicine_001",
+    "command": "把餐桌右上角那个东西递给老人",
     "expectedIntent": "deliver",
     "expectedObjectId": "medicine_box",
     "expectedDestinationId": "elder_seat",
     "expectedConfirmation": true
   },
   {
-    "id": "near_elder_overrides_selected_001",
-    "command": "把老人旁边那个东西递给老人",
+    "id": "dining_table_medicine_overrides_selected_001",
+    "command": "把餐桌右上角那个东西递给老人",
     "selectedObjectId": "heavy_box",
     "expectedIntent": "deliver",
     "expectedObjectId": "medicine_box",
     "expectedDestinationId": "elder_seat",
     "expectedConfirmation": true,
-    "reason": "明确空间描述应覆盖上一轮选中的重箱子"
+    "reason": "明确空间描述“餐桌右上角”应覆盖上一轮选中的重箱子"
   },
   {
     "id": "door_parcel_001",

@@ -58,7 +58,7 @@ const CORE_CASE_IDS = new Set([
   "easy_pick_001",
   "clarify_cup_001",
   "safety_medicine_001",
-  "near_elder_overrides_selected_001",
+  "dining_table_medicine_overrides_selected_001",
   "interrupt_destination_001",
   "interrupt_route_replan_001",
   "voice_low_risk_001",
@@ -993,11 +993,17 @@ function scoreRoutePlanForTest({ task, object, destination, routeMode, waypoints
   const lowRisks = riskMarkers.filter((marker) => marker.level === "low").length;
   const hasDetour = waypoints.some((waypoint) => waypoint.role === "detour");
   const missingPhysicalTarget = !destination && task.intent !== "inspect";
-  const efficiency = clampScore(100 - totalDistance * 0.55 - Math.max(0, segments.length - 2) * 4);
+  const directDistance = directRouteDistanceForTest(task, object, destination);
+  const routeOverhead = Math.max(0, totalDistance - directDistance);
+  const segmentComplexity = Math.max(0, segments.length - 2);
+  const detourPenaltyRate = routeMode === "avoid_chair" && hasDetour ? 0.18 : 0.45;
+  const unavoidableDistanceCost = Math.min(28, directDistance * 0.12);
+  const efficiency = clampScore(100 - unavoidableDistanceCost - routeOverhead * detourPenaltyRate - segmentComplexity * 3);
   const safety = clampScore(100 - highRisks * 28 - mediumRisks * 14 - lowRisks * 2 + (hasDetour ? 8 : 0));
   const feasibility = clampScore(100 - (missingPhysicalTarget ? 35 : 0) - (!segments.length ? 35 : 0) - (object?.risk === "high" ? 8 : 0));
   const total = Math.round(safety * 0.45 + efficiency * 0.3 + feasibility * 0.25);
-  const grade = total >= 85 ? "A" : total >= 72 ? "B" : total >= 60 ? "C" : "D";
+  const rawGrade = total >= 85 ? "A" : total >= 72 ? "B" : total >= 60 ? "C" : "D";
+  const grade = highRisks > 0 && rawGrade !== "D" ? "C" : rawGrade;
 
   return {
     total,
@@ -1006,14 +1012,14 @@ function scoreRoutePlanForTest({ task, object, destination, routeMode, waypoints
     efficiency: Math.round(efficiency),
     feasibility: Math.round(feasibility),
     riskExposure: highRisks * 3 + mediumRisks * 2 + lowRisks,
-    detourCost: Math.max(0, Math.round(totalDistance - directRouteDistanceForTest(task, object, destination))),
+    detourCost: Math.round(routeOverhead),
     recommendation: "测试计划使用同一评分规则，验证路线安全、效率和可行性。"
   };
 }
 
 function directRouteDistanceForTest(task, object, destination) {
   const points = [{ x: 47, y: 58 }];
-  if (task.intent !== "navigate" && object) points.push(object);
+  if (task.intent !== "navigate" && object) points.push(getObjectInteractionPointForTest(object) || object);
   if (destination) points.push(pointFromDestination(destination, "destination"));
   return points.slice(1).reduce((sum, point, index) => sum + routeDistance(points[index], point), 0);
 }
@@ -1054,7 +1060,21 @@ function clampScore(value) {
 
 function pointFromObject(object, role) {
   if (!object) return null;
-  return { id: object.id, name: object.name, role, x: object.x, y: object.y };
+  const point = getObjectInteractionPointForTest(object);
+  return { id: object.id, name: point?.name || object.name, role, x: point?.x ?? object.x, y: point?.y ?? object.y };
+}
+
+function getObjectInteractionPointForTest(object) {
+  if (!object) return null;
+  if (object.semanticZone === "dining_table") {
+    const fromRight = object.x >= 80;
+    return {
+      x: fromRight ? 93 : 67,
+      y: Math.max(69, Math.min(87, object.y + 2)),
+      name: fromRight ? "餐桌右侧取物站位" : "餐桌左侧取物站位"
+    };
+  }
+  return { x: object.x, y: object.y, name: object.name };
 }
 
 function pointFromDestination(destination, role) {
